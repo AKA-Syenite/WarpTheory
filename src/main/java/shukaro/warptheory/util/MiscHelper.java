@@ -4,9 +4,11 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
+import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.WarpHandler;
 
 import java.util.ArrayList;
@@ -22,6 +24,27 @@ public class MiscHelper
                 return serverPlayer;
         }
         return null;
+    }
+
+    public static boolean hasTag(EntityPlayer player, String tagName) {
+        if (!player.getEntityData().hasKey(WarpTheory.modID)) {
+            player.getEntityData().setTag(WarpTheory.modID, new NBTTagCompound());
+            return false; //Can't have tag, didn't even have the compound.
+        }
+        return player.getEntityData().getCompoundTag(WarpTheory.modID).hasKey(tagName);
+    }
+    public static int getTag(EntityPlayer player, String tagName) {
+        if (!(hasTag(player, tagName))) { return 0; } //Tag DNE
+        return player.getEntityData().getCompoundTag(WarpTheory.modID).getInteger(tagName);
+    }
+    public static void setTag(EntityPlayer player, String tagName, int value) {
+        if (!(hasTag(player, tagName))) {
+            //Tag DNE, create and set value
+            player.getEntityData().getCompoundTag(WarpTheory.modID).setInteger(tagName, value);
+        } else {
+            //Tag exists, add to current value
+            player.getEntityData().getCompoundTag(WarpTheory.modID).setInteger(tagName, value + getTag(player, tagName));
+        }
     }
 
     public static boolean hasNonSolidNeighbor(World world, BlockCoord coord)
