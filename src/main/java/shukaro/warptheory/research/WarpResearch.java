@@ -11,6 +11,7 @@ import thaumcraft.api.research.ResearchPage;
 public class WarpResearch
 {
     public static ResearchItem researchCleanser;
+    public static ResearchItem researchAmulet;
 
     public static void initResearch()
     {
@@ -19,5 +20,11 @@ public class WarpResearch
                         new ResearchPage(StatCollector.translateToLocal("warptheory.warpcleanser.research"))
                 }).setParents("ELDRITCHMAJOR");
         researchCleanser.registerResearchItem();
+
+        researchAmulet = new ResearchItem("WARPAMULET", "ELDRITCH", new AspectList().add(Aspect.ELDRITCH, 6).add(Aspect.EXCHANGE, 3).add(Aspect.MAGIC, 3), -3, 4, 3, new ItemStack(WarpItems.itemAmulet))
+                .setPages(new ResearchPage[]{
+                        new ResearchPage(StatCollector.translateToLocal("warptheory.warpamulet.research"))
+                }).setParents("WARPCLEANSER");
+        researchAmulet.registerResearchItem();
     }
 }

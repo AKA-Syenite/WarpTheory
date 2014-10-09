@@ -66,8 +66,7 @@ public class WarpTheory
     @Mod.EventHandler
     public void init(FMLInitializationEvent evt)
     {
-        WarpRecipes recipes = new WarpRecipes();
-        recipes.initRecipes();
+        WarpRecipes.initRecipes();
         WarpHandler.initEvents();
         proxy.init();
     }
