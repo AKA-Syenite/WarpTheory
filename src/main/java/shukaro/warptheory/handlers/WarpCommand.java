@@ -22,7 +22,7 @@ public class WarpCommand implements ICommand
     @Override
     public String getCommandUsage(ICommandSender sender)
     {
-        return "warptheory <event> [<player>]";
+        return "/warptheory <event> [player]";
     }
 
     @Override
