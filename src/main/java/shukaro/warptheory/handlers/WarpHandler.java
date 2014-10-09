@@ -16,8 +16,10 @@ import java.util.Set;
 
 public class WarpHandler
 {
-    private static Map<String, Integer> warp;
-    private static Map<String, Integer> warpTemp;
+    public static Map<String, Integer> warp;
+    public static Map<String, Integer> warpTemp;
+    public static boolean wuss = false;
+    public static int potionWarpWardID = -1;
 
     public static ArrayList<IWarpEvent> warpEvents = new ArrayList<IWarpEvent>();
 
@@ -82,7 +84,7 @@ public class WarpHandler
     }
 
     @SuppressWarnings("unchecked")
-    private static boolean tcReflect()
+    public static boolean tcReflect()
     {
         try
         {
@@ -91,6 +93,8 @@ public class WarpHandler
             Class proxyClass = proxy.getClass();
             warp = (Map<String, Integer>)proxyClass.getField("warp").get(proxy);
             warpTemp = (Map<String, Integer>)proxyClass.getField("warpTemp").get(proxy);
+            wuss = Class.forName("thaumcraft.common.config.Config").getField("wuss").getBoolean(null);
+            potionWarpWardID = Class.forName("thaumcraft.common.config.Config").getField("potionWarpWardID").getInt(null);
         }
         catch (Exception e)
         {
@@ -146,6 +150,18 @@ public class WarpHandler
                 event = warpEvents.get(world.rand.nextInt(warpEvents.size()));
             if (event.doEvent(world, player))
                 w -= event.getCost();
+        }
+    }
+
+    public static void doOneWarp(World world, EntityPlayer player, int maxAmount)
+    {
+        boolean repeat = true;
+        IWarpEvent event = warpEvents.get(world.rand.nextInt(warpEvents.size()));
+        while (repeat)
+        {
+            while (event.getCost() > maxAmount)
+                event = warpEvents.get(world.rand.nextInt(warpEvents.size()));
+            repeat = !event.doEvent(world, player);
         }
     }
 

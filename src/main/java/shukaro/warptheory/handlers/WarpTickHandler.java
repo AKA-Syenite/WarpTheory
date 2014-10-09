@@ -92,7 +92,7 @@ public class WarpTickHandler
                 }
             }
 
-            /*// Growing swamp
+            // Growing swamp
             if (player.getEntityData().getCompoundTag(WarpTheory.modID).getInteger("biomeSwamp") > 0)
             {
                 int biomeSwamp = player.getEntityData().getCompoundTag(WarpTheory.modID).getInteger("biomeSwamp");
@@ -179,7 +179,7 @@ public class WarpTickHandler
                         ChatHelper.sendToPlayer(Minecraft.getMinecraft().thePlayer, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.swampend"));
                     }
                 }
-            }*/
+            }
 
             // Blinking
             if (player.getEntityData().getCompoundTag(WarpTheory.modID).getInteger("blink") > 0 && e.world.getTotalWorldTime() % 20 == 0)

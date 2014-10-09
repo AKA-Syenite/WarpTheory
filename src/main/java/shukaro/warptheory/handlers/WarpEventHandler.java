@@ -10,6 +10,7 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.util.ChatHelper;
 import shukaro.warptheory.util.FormatCodes;
@@ -58,6 +59,17 @@ public class WarpEventHandler
                 player.getEntityData().getCompoundTag(WarpTheory.modID).removeTag("ears");
                 ChatHelper.sendToPlayer(Minecraft.getMinecraft().thePlayer, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.earsend"));
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void livingUpdate(LivingEvent.LivingUpdateEvent e)
+    {
+        if (e.entity instanceof EntityPlayer)
+        {
+            EntityPlayer player = (EntityPlayer) e.entity;
+            if (player.ticksExisted % 1200 == 0 && WarpHandler.getWarp(player) > 0 && player.worldObj.rand.nextBoolean() && !player.capabilities.isCreativeMode && !WarpHandler.wuss && !player.isPotionActive(WarpHandler.potionWarpWardID))
+                WarpHandler.doOneWarp(player.worldObj, player, WarpHandler.getWarp(player));
         }
     }
 }
