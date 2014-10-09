@@ -37,7 +37,7 @@ public class WarpSwamp implements IWarpEvent
         return true;
     }
 
-    public static void onTick(World world, EntityPlayer player) {
+    public void onTick(World world, EntityPlayer player) {
         /*// Growing swamp
             if (player.getEntityData().getCompoundTag(WarpTheory.modID).getInteger("biomeSwamp") > 0)
             {

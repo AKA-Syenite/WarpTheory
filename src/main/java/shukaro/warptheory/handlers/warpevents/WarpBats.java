@@ -1,5 +1,7 @@
 package shukaro.warptheory.handlers.warpevents;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,12 +10,16 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.IWarpEvent;
+import shukaro.warptheory.handlers.WarpTickHandler;
 import shukaro.warptheory.util.ChatHelper;
 import shukaro.warptheory.util.FormatCodes;
 import shukaro.warptheory.util.MiscHelper;
 
 public class WarpBats implements IWarpEvent
 {
+    public WarpBats() {
+        WarpTickHandler.register(this);
+    }
     @Override
     public String getName()
     {
@@ -43,7 +49,7 @@ public class WarpBats implements IWarpEvent
     //Do actual effect here.
     //World is world the event fired in.
     //Player is the player it's affecting.
-    public static void onTick(World world, EntityPlayer player) {
+    public void onTick(World world, EntityPlayer player) {
 
         //Spawning bats
         if (MiscHelper.getTag(player, "bats") > 0) {
