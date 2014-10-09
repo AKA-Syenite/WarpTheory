@@ -12,6 +12,7 @@ public class WarpResearch
 {
     public static ResearchItem researchCleanser;
     public static ResearchItem researchAmulet;
+    public static ResearchItem researchSomething;
 
     public static void initResearch()
     {
@@ -26,5 +27,11 @@ public class WarpResearch
                         new ResearchPage(StatCollector.translateToLocal("warptheory.warpamulet.research"))
                 }).setParents("WARPCLEANSER");
         researchAmulet.registerResearchItem();
+
+        researchSomething = new ResearchItem("WARPSOMETHING", "ALCHEMY", new AspectList().add(Aspect.ELDRITCH, 3), -2, -5, 2, new ItemStack(WarpItems.itemSomething))
+                .setPages(new ResearchPage[]{
+                        new ResearchPage(StatCollector.translateToLocal("warptheory.warpsomething.research"))
+                }).setHidden().setAspectTriggers(Aspect.ELDRITCH);
+        researchSomething.registerResearchItem();
     }
 }
