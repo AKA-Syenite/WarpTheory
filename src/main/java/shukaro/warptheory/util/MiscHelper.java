@@ -24,6 +24,26 @@ public class MiscHelper
         return null;
     }
 
+    public static EntityPlayer getPlayerByName(String name)
+    {
+        for (EntityPlayer serverPlayer : (ArrayList<EntityPlayer>) MinecraftServer.getServer().getConfigurationManager().playerEntityList)
+        {
+            if (serverPlayer.getCommandSenderName().equals(name))
+                return serverPlayer;
+        }
+        return null;
+    }
+
+    public static boolean isOp(String name)
+    {
+        for (String n : MinecraftServer.getServer().getConfigurationManager().func_152606_n())
+        {
+            if (n.equals(name))
+                return true;
+        }
+        return false;
+    }
+
     public static boolean hasNonSolidNeighbor(World world, BlockCoord coord)
     {
         for (BlockCoord n : coord.getNearby())

@@ -6,12 +6,14 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Logger;
 import shukaro.warptheory.gui.WarpTab;
+import shukaro.warptheory.handlers.WarpCommand;
 import shukaro.warptheory.handlers.WarpEventHandler;
 import shukaro.warptheory.handlers.WarpHandler;
 import shukaro.warptheory.handlers.WarpTickHandler;
@@ -43,6 +45,12 @@ public class WarpTheory
 
     @Mod.Instance(modID)
     public static WarpTheory instance;
+
+    @Mod.EventHandler
+    public void serverStarting(FMLServerStartingEvent evt)
+    {
+        evt.registerServerCommand(new WarpCommand());
+    }
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent evt)
