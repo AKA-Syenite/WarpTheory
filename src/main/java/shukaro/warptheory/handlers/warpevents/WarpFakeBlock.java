@@ -1,10 +1,8 @@
 package shukaro.warptheory.handlers.warpevents;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
+
 import shukaro.warptheory.handlers.IWarpEvent;
 
 /**
@@ -30,6 +28,7 @@ public class WarpFakeBlock implements IWarpEvent {
         return false;
     }
 
+    //Not called per-tick, stubbed out.
     public void onTick(World w, EntityPlayer p) {}
 
 }

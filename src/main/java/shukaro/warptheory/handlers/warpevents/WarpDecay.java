@@ -38,7 +38,7 @@ public class WarpDecay implements IWarpEvent
         return true;
     }
 
-    public static void onTick(World world, EntityPlayer player) {
+    public void onTick(World world, EntityPlayer player) {
         if (MiscHelper.getTag(player, "biomeDecay") > 0)
         {
             int decay = MiscHelper.getTag(player, "biomeDecay");

@@ -9,6 +9,7 @@ import shukaro.warptheory.handlers.IWarpEvent;
 import shukaro.warptheory.handlers.WarpEventHandler;
 import shukaro.warptheory.util.ChatHelper;
 import shukaro.warptheory.util.FormatCodes;
+import shukaro.warptheory.util.MiscHelper;
 
 public class WarpTongue implements IWarpEvent
 {
@@ -28,12 +29,11 @@ public class WarpTongue implements IWarpEvent
     public boolean doEvent(World world, EntityPlayer player)
     {
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.tonguestart"));
-        if (!player.getEntityData().hasKey(WarpTheory.modID))
-            player.getEntityData().setTag(WarpTheory.modID, new NBTTagCompound());
-        if (player.getEntityData().getCompoundTag(WarpTheory.modID).hasKey("tongues"))
-            player.getEntityData().getCompoundTag(WarpTheory.modID).setInteger("tongues", player.getEntityData().getCompoundTag(WarpTheory.modID).getInteger("tongues") + 10 + world.rand.nextInt(15));
-        else
-            player.getEntityData().getCompoundTag(WarpTheory.modID).setInteger("tongues", 10 + world.rand.nextInt(15));
+
+        MiscHelper.addToTag(player, "toungues", 10 + world.rand.nextInt(15));
         return true;
     }
+
+    //Not operating per-tick, stub out and don't reigster.
+    public void onTick(World w, EntityPlayer p) {}
 }
