@@ -1,0 +1,22 @@
+[
+{
+  "modid": "WarpTheory",
+  "name": "WarpTheory",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authors": [
+    "Shukaro"
+  ],
+  "credits": "All the contributors",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent": "",
+  "dependencies": [
+    "MinecraftForge","Thaumcraft"
+  ]
+}
+]
