@@ -63,7 +63,7 @@ public class ChatHelper
             for (int i=0; i<word.length(); i++)
             {
                 String c;
-                if (word.charAt(i) == '§')
+                if (word.charAt(i) == '\u00A7')
                 {
                     c = String.valueOf(word.charAt(i) + String.valueOf(word.charAt(i + 1)));
                     i++;
