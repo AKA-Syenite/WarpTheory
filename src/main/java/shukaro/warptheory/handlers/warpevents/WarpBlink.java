@@ -43,9 +43,11 @@ public class WarpBlink implements IWarpEvent
     @SubscribeEvent
     public void onTick(TickEvent.WorldTickEvent e)
     {
+        if (e.phase != TickEvent.Phase.END || e.world.getTotalWorldTime() % 20 != 0)
+            return;
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
-            if (MiscHelper.getTag(player, "blink") > 0 && e.world.getTotalWorldTime() % 20 == 0)
+            if (MiscHelper.getTag(player, "blink") > 0)
             {
                 int blink = MiscHelper.getTag(player, "blink");
                 for (int i = 0; i < 8; i++)

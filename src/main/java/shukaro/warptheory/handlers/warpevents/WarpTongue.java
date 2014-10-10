@@ -39,7 +39,6 @@ public class WarpTongue implements IWarpEvent
     @SubscribeEvent
     public void onMessageReceived(ServerChatEvent e)
     {
-        // Warp tongue
         if (MiscHelper.getTag(e.player, "tongues") > 0)
         {
             int tongues = MiscHelper.getTag(e.player, "tongues");

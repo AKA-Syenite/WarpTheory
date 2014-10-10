@@ -36,7 +36,7 @@ public class WarpDecay implements IWarpEvent
     @Override
     public boolean doEvent(World world, EntityPlayer player)
     {
-        if (!WarpHandler.canDoBiomeEvent(player, getName()))
+        if (!MiscHelper.canDoBiomeEvent(player, getName()))
             return false;
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.decaystart"));
         MiscHelper.modTag(player, getName(), 256 * 2 + world.rand.nextInt(256));
@@ -46,7 +46,8 @@ public class WarpDecay implements IWarpEvent
     @SubscribeEvent
     public void onTick(TickEvent.WorldTickEvent e)
     {
-        // Decay terrain
+        if (e.phase != TickEvent.Phase.END || e.world.getTotalWorldTime() % 2 != 0)
+            return;
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
             if (MiscHelper.getTag(player, "biomeDecay") > 0)

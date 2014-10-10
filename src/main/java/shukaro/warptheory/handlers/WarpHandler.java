@@ -170,20 +170,4 @@ public class WarpHandler
             repeat = !event.doEvent(world, player);
         }
     }
-
-    public static boolean canDoBiomeEvent(EntityPlayer player, String biomeEvent)
-    {
-        NBTTagCompound tag = player.getEntityData().getCompoundTag(WarpTheory.modID);
-        String currentBiome = "";
-        for (String key : (Set<String>)tag.func_150296_c())
-        {
-            if (key.contains("biome"))
-                currentBiome = key;
-        }
-        if (currentBiome.length() == 0)
-            return true;
-        if (!currentBiome.equals(biomeEvent))
-            return false;
-        return true;
-    }
 }
