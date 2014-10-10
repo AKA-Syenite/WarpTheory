@@ -1,18 +1,30 @@
 package shukaro.warptheory.handlers.warpevents;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import net.minecraft.block.BlockSapling;
+import net.minecraft.block.IGrowable;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Facing;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import shukaro.warptheory.WarpTheory;
+import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.util.ForgeDirection;
 import shukaro.warptheory.handlers.IWarpEvent;
 import shukaro.warptheory.handlers.WarpHandler;
-import shukaro.warptheory.util.ChatHelper;
-import shukaro.warptheory.util.FormatCodes;
-import shukaro.warptheory.util.MiscHelper;
+import shukaro.warptheory.util.*;
+
+import java.util.ArrayList;
 
 public class WarpSwamp implements IWarpEvent
 {
+    public WarpSwamp() { FMLCommonHandler.instance().bus().register(this); }
+
     @Override
     public String getName()
     {
@@ -28,20 +40,24 @@ public class WarpSwamp implements IWarpEvent
     @Override
     public boolean doEvent(World world, EntityPlayer player)
     {
-        if (!WarpHandler.canDoBiomeEvent(player, getName())) {
+        if (!WarpHandler.canDoBiomeEvent(player, getName()))
+        {
             return false;
         }
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.swampstart"));
-
-        MiscHelper.addToTag(player, "biomeSwamp", 256 + world.rand.nextInt(256));
+        MiscHelper.modTag(player, "biomeSwamp", 256 + world.rand.nextInt(256));
         return true;
     }
 
-    public void onTick(World world, EntityPlayer player) {
-        /*// Growing swamp
-            if (player.getEntityData().getCompoundTag(WarpTheory.modID).getInteger("biomeSwamp") > 0)
+    @SubscribeEvent
+    public void onTick(TickEvent.WorldTickEvent e)
+    {
+        // Growing swamp
+        for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
+        {
+            if (MiscHelper.getTag(player, "biomeSwamp") > 0)
             {
-                int biomeSwamp = player.getEntityData().getCompoundTag(WarpTheory.modID).getInteger("biomeSwamp");
+                int biomeSwamp = MiscHelper.getTag(player, "biomeSwamp");
                 int targetX = (int)player.posX + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
                 int targetY = (int)player.posY + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
                 int targetZ = (int)player.posZ + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
@@ -62,7 +78,7 @@ public class WarpSwamp implements IWarpEvent
                 }
                 else if (target.getBlock(e.world).getMaterial() == Material.leaves || target.getBlock(e.world) == Blocks.log || target.getBlock(e.world) == Blocks.log2)
                 {
-                    for (int j=0; j<6; j++)
+                    for (int j = 0; j < 6; j++)
                     {
                         int side = 2 + e.world.rand.nextInt(4);
                         if (Blocks.vine.canPlaceBlockOnSide(e.world, target.x, target.y, target.z, side) && target.offset(side).isAir(e.world))
@@ -118,13 +134,14 @@ public class WarpSwamp implements IWarpEvent
                 }
                 if (grown)
                 {
-                    player.getEntityData().getCompoundTag(WarpTheory.modID).setInteger("biomeSwamp", --biomeSwamp);
+                    MiscHelper.modTag(player, "biomeSwamp", -1);
                     if (biomeSwamp <= 0)
                     {
-                        player.getEntityData().getCompoundTag(WarpTheory.modID).removeTag("biomeSwamp");
+                        MiscHelper.removeTag(player, "biomeSwamp");
                         ChatHelper.sendToPlayer(Minecraft.getMinecraft().thePlayer, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.swampend"));
                     }
                 }
-            }*/
+            }
+        }
     }
 }

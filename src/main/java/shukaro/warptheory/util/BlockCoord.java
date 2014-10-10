@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -64,7 +63,7 @@ public class BlockCoord implements Comparable
     {
         if (!(o instanceof BlockCoord))
             return false;
-        BlockCoord t = (BlockCoord) o;
+        BlockCoord t = (BlockCoord)o;
         return (this.x == t.x) && (this.y == t.y) && (this.z == t.z);
     }
 
@@ -95,15 +94,15 @@ public class BlockCoord implements Comparable
     @Override
     public int compareTo(Object o)
     {
-        if(o instanceof BlockCoord)
+        if (o instanceof BlockCoord)
         {
             BlockCoord other = (BlockCoord)o;
-            if(this.x < other.x) { return -1; }
-            else if(this.x > other.x) { return 1; }
-            else if(this.y < other.y) { return -1; }
-            else if(this.y > other.y) { return 1; }
-            else if(this.z < other.z) { return -1; }
-            else if(this.z > other.z) { return 1; }
+            if (this.x < other.x) { return -1; }
+            else if (this.x > other.x) { return 1; }
+            else if (this.y < other.y) { return -1; }
+            else if (this.y > other.y) { return 1; }
+            else if (this.z < other.z) { return -1; }
+            else if (this.z > other.z) { return 1; }
             else { return 0; }
         }
         return 0;
@@ -111,16 +110,17 @@ public class BlockCoord implements Comparable
 
     public int compareTo(int xCoord, int yCoord, int zCoord)
     {
-        if(this.x < xCoord) { return -1; }
-        else if(this.x > xCoord) { return 1; }
-        else if(this.y < yCoord) { return -1; }
-        else if(this.y > yCoord) { return 1; }
-        else if(this.z < zCoord) { return -1; }
-        else if(this.z > zCoord) { return 1; }
+        if (this.x < xCoord) { return -1; }
+        else if (this.x > xCoord) { return 1; }
+        else if (this.y < yCoord) { return -1; }
+        else if (this.y > yCoord) { return 1; }
+        else if (this.z < zCoord) { return -1; }
+        else if (this.z > zCoord) { return 1; }
         else { return 0; }
     }
 
     public int getChunkX() { return x >> 4; }
+
     public int getChunkZ() { return z >> 4; }
 
     public boolean isZero()
@@ -195,18 +195,18 @@ public class BlockCoord implements Comparable
         }
         return adjacent;
     }
-// This causes a crash because ???
-//    {
-//        return new BlockCoord[]
-//        {
-//            new BlockCoord(x + 1, y, z),
-//            new BlockCoord(x - 1, y, z),
-//            new BlockCoord(x, y + 1, z),
-//            new BlockCoord(x, y - 1, z),
-//            new BlockCoord(x, y, z + 1),
-//            new BlockCoord(x, y, z - 1)
-//        };
-//    }
+    // This causes a crash because ???
+    //    {
+    //        return new BlockCoord[]
+    //        {
+    //            new BlockCoord(x + 1, y, z),
+    //            new BlockCoord(x - 1, y, z),
+    //            new BlockCoord(x, y + 1, z),
+    //            new BlockCoord(x, y - 1, z),
+    //            new BlockCoord(x, y, z + 1),
+    //            new BlockCoord(x, y, z - 1)
+    //        };
+    //    }
 
     public List<BlockCoord> getNearby()
     {
@@ -352,7 +352,7 @@ public class BlockCoord implements Comparable
 
     public float getDistance(int x, int y, int z)
     {
-        return (float) Math.sqrt(Math.pow(this.x - x, 2) + Math.pow(this.y - y, 2) + Math.pow(this.z - z, 2));
+        return (float)Math.sqrt(Math.pow(this.x - x, 2) + Math.pow(this.y - y, 2) + Math.pow(this.z - z, 2));
     }
 
     public int getMeta(World world)

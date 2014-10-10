@@ -14,9 +14,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import shukaro.warptheory.WarpTheory;
-import shukaro.warptheory.handlers.WarpHandler;
 import shukaro.warptheory.util.FormatCodes;
-import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.ThaumcraftApiHelper;
 
 import java.util.List;

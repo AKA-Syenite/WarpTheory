@@ -1,5 +1,8 @@
 package shukaro.warptheory.handlers.warpevents;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -12,8 +15,12 @@ import shukaro.warptheory.handlers.IWarpEvent;
 import shukaro.warptheory.handlers.WarpHandler;
 import shukaro.warptheory.util.*;
 
+import java.util.ArrayList;
+
 public class WarpDecay implements IWarpEvent
 {
+    public WarpDecay() { FMLCommonHandler.instance().bus().register(this); }
+
     @Override
     public String getName()
     {
@@ -29,40 +36,44 @@ public class WarpDecay implements IWarpEvent
     @Override
     public boolean doEvent(World world, EntityPlayer player)
     {
-        if (!WarpHandler.canDoBiomeEvent(player, getName())) {
+        if (!WarpHandler.canDoBiomeEvent(player, getName()))
             return false;
-        }
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.decaystart"));
-        MiscHelper.addToTag(player, getName(), 256*2 + world.rand.nextInt(256));
-
+        MiscHelper.modTag(player, getName(), 256 * 2 + world.rand.nextInt(256));
         return true;
     }
 
-    public void onTick(World world, EntityPlayer player) {
-        if (MiscHelper.getTag(player, "biomeDecay") > 0)
+    @SubscribeEvent
+    public void onTick(TickEvent.WorldTickEvent e)
+    {
+        // Decay terrain
+        for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
-            int decay = MiscHelper.getTag(player, "biomeDecay");
-            int targetX = (int)player.posX + world.rand.nextInt(8) - world.rand.nextInt(8);
-            int targetY = (int)player.posY + world.rand.nextInt(8) - world.rand.nextInt(8);
-            int targetZ = (int)player.posZ + world.rand.nextInt(8) - world.rand.nextInt(8);
-            BlockCoord target = new BlockCoord(targetX, targetY, targetZ);
-            NameMetaPair pair = new NameMetaPair(target.getBlock(world), target.getMeta(world));
-            if (!MiscHelper.hasNonSolidNeighbor(world, target))
-                return;
-            if (WarpHandler.decayMappings.containsKey(pair) || pair.getBlock() instanceof IPlantable || pair.getBlock().getMaterial() == Material.leaves)
+            if (MiscHelper.getTag(player, "biomeDecay") > 0)
             {
-                NameMetaPair decayed = WarpHandler.decayMappings.get(pair);
-                if (decayed == null)
-                    decayed = new NameMetaPair(Blocks.air, 0);
-                if (world.setBlock(target.x, target.y, target.z, decayed.getBlock(), decayed.getMetadata(), 3))
+                int decay = MiscHelper.getTag(player, "biomeDecay");
+                int targetX = (int)player.posX + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
+                int targetY = (int)player.posY + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
+                int targetZ = (int)player.posZ + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
+                BlockCoord target = new BlockCoord(targetX, targetY, targetZ);
+                NameMetaPair pair = new NameMetaPair(target.getBlock(e.world), target.getMeta(e.world));
+                if (!MiscHelper.hasNonSolidNeighbor(e.world, target))
+                    return;
+                if (WarpHandler.decayMappings.containsKey(pair) || pair.getBlock() instanceof IPlantable || pair.getBlock().getMaterial() == Material.leaves)
                 {
-                    if (target.isAir(world))
-                        world.playAuxSFXAtEntity(null, 2001, target.x, target.y, target.z, Block.getIdFromBlock(pair.getBlock()) + (pair.getMetadata() << 12));
-                    MiscHelper.subFromTag(player, "biomeDecay", 1);
-                    if (decay <= 0)
+                    NameMetaPair decayed = WarpHandler.decayMappings.get(pair);
+                    if (decayed == null)
+                        decayed = new NameMetaPair(Blocks.air, 0);
+                    if (e.world.setBlock(target.x, target.y, target.z, decayed.getBlock(), decayed.getMetadata(), 3))
                     {
-                        MiscHelper.removeTag(player, "biomeDecay");
-                        ChatHelper.sendToPlayer(Minecraft.getMinecraft().thePlayer, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.decayend"));
+                        if (target.isAir(e.world))
+                            e.world.playAuxSFXAtEntity(null, 2001, target.x, target.y, target.z, Block.getIdFromBlock(pair.getBlock()) + (pair.getMetadata() << 12));
+                        MiscHelper.modTag(player, "biomeDecay", -1);
+                        if (decay <= 0)
+                        {
+                            MiscHelper.removeTag(player, "biomeDecay");
+                            ChatHelper.sendToPlayer(Minecraft.getMinecraft().thePlayer, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.decayend"));
+                        }
                     }
                 }
             }

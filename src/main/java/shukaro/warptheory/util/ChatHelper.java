@@ -60,7 +60,7 @@ public class ChatHelper
         for (String word : text.split("\\s+"))
         {
             String newWord = "";
-            for (int i=0; i<word.length(); i++)
+            for (int i = 0; i < word.length(); i++)
             {
                 String c;
                 if (word.charAt(i) == '\u00A7')

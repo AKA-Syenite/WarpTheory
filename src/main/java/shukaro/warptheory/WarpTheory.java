@@ -1,6 +1,5 @@
 package shukaro.warptheory;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -16,7 +15,6 @@ import shukaro.warptheory.gui.WarpTab;
 import shukaro.warptheory.handlers.WarpCommand;
 import shukaro.warptheory.handlers.WarpEventHandler;
 import shukaro.warptheory.handlers.WarpHandler;
-import shukaro.warptheory.handlers.WarpTickHandler;
 import shukaro.warptheory.items.WarpItems;
 import shukaro.warptheory.net.CommonProxy;
 import shukaro.warptheory.recipe.WarpRecipes;
@@ -68,7 +66,6 @@ public class WarpTheory
         }
         WarpItems.initItems();
         MinecraftForge.EVENT_BUS.register(new WarpEventHandler());
-        FMLCommonHandler.instance().bus().register(new WarpTickHandler());
     }
 
     @Mod.EventHandler

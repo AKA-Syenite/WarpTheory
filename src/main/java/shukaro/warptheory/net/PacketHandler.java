@@ -30,7 +30,7 @@ public class PacketHandler extends SimpleChannelInboundHandler<WarpPacket>
                 BlinkPacket blink = (BlinkPacket)msg;
                 World world = Minecraft.getMinecraft().thePlayer.worldObj;
                 for (int l = 0; l < 128; ++l)
-                    world.spawnParticle("portal", blink.x + world.rand.nextDouble() - world.rand.nextDouble(), blink.y + world.rand.nextDouble() - world.rand.nextDouble(), blink.z + world.rand.nextDouble() - world.rand.nextDouble(), (double) (world.rand.nextFloat() - 0.5F) * 0.2F, (double) (world.rand.nextFloat() - 0.5F) * 0.2F, (double) (world.rand.nextFloat() - 0.5F) * 0.2F);
+                    world.spawnParticle("portal", blink.x + world.rand.nextDouble() - world.rand.nextDouble(), blink.y + world.rand.nextDouble() - world.rand.nextDouble(), blink.z + world.rand.nextDouble() - world.rand.nextDouble(), (double)(world.rand.nextFloat() - 0.5F) * 0.2F, (double)(world.rand.nextFloat() - 0.5F) * 0.2F, (double)(world.rand.nextFloat() - 0.5F) * 0.2F);
             }
         }
     }

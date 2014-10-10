@@ -1,18 +1,21 @@
 package shukaro.warptheory.handlers.warpevents;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import shukaro.warptheory.WarpTheory;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ServerChatEvent;
 import shukaro.warptheory.handlers.IWarpEvent;
-import shukaro.warptheory.handlers.WarpEventHandler;
 import shukaro.warptheory.util.ChatHelper;
 import shukaro.warptheory.util.FormatCodes;
 import shukaro.warptheory.util.MiscHelper;
 
 public class WarpTongue implements IWarpEvent
 {
+    public WarpTongue() { MinecraftForge.EVENT_BUS.register(this); }
+
     @Override
     public String getName()
     {
@@ -29,11 +32,24 @@ public class WarpTongue implements IWarpEvent
     public boolean doEvent(World world, EntityPlayer player)
     {
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.tonguestart"));
-
-        MiscHelper.addToTag(player, "toungues", 10 + world.rand.nextInt(15));
+        MiscHelper.modTag(player, "toungues", 10 + world.rand.nextInt(15));
         return true;
     }
 
-    //Not operating per-tick, stub out and don't reigster.
-    public void onTick(World w, EntityPlayer p) {}
+    @SubscribeEvent
+    public void onMessageReceived(ServerChatEvent e)
+    {
+        // Warp tongue
+        if (MiscHelper.getTag(e.player, "tongues") > 0)
+        {
+            int tongues = MiscHelper.getTag(e.player, "tongues");
+            e.component = new ChatComponentTranslation(ChatHelper.getFormattedUsername(e.component) + " " + ChatHelper.garbleMessage(e.component));
+            MiscHelper.modTag(e.player, "tongues", -1);
+            if (tongues <= 0)
+            {
+                MiscHelper.removeTag(e.player, "tongues");
+                ChatHelper.sendToPlayer(e.player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.tongueend"));
+            }
+        }
+    }
 }

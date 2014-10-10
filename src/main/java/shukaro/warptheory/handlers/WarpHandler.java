@@ -43,6 +43,12 @@ public class WarpHandler
     public static void initEvents()
     {
         warpEvents.add(new WarpBats());
+        warpEvents.add(new WarpBlink());
+        // add WarpBuffs
+        warpEvents.add(new WarpDecay());
+        warpEvents.add(new WarpEars());
+        warpEvents.add(new WarpSwamp());
+        warpEvents.add(new WarpTongue());
 
         addDecayMapping(Blocks.grass, Blocks.dirt);
         addDecayMapping(Blocks.dirt, 0, Blocks.sand);
@@ -169,7 +175,7 @@ public class WarpHandler
     {
         NBTTagCompound tag = player.getEntityData().getCompoundTag(WarpTheory.modID);
         String currentBiome = "";
-        for (String key : (Set <String>)tag.func_150296_c())
+        for (String key : (Set<String>)tag.func_150296_c())
         {
             if (key.contains("biome"))
                 currentBiome = key;

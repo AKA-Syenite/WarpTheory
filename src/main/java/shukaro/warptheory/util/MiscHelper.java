@@ -1,6 +1,5 @@
 package shukaro.warptheory.util;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -18,7 +17,7 @@ public class MiscHelper
     public static EntityPlayer getServerSidePlayer()
     {
         int id = Minecraft.getMinecraft().thePlayer.getEntityId();
-        for (EntityPlayer serverPlayer : (ArrayList<EntityPlayer>) MinecraftServer.getServer().getConfigurationManager().playerEntityList)
+        for (EntityPlayer serverPlayer : (ArrayList<EntityPlayer>)MinecraftServer.getServer().getConfigurationManager().playerEntityList)
         {
             if (serverPlayer.getEntityId() == id)
                 return serverPlayer;
@@ -28,7 +27,7 @@ public class MiscHelper
 
     public static EntityPlayer getPlayerByName(String name)
     {
-        for (EntityPlayer serverPlayer : (ArrayList<EntityPlayer>) MinecraftServer.getServer().getConfigurationManager().playerEntityList)
+        for (EntityPlayer serverPlayer : (ArrayList<EntityPlayer>)MinecraftServer.getServer().getConfigurationManager().playerEntityList)
         {
             if (serverPlayer.getCommandSenderName().equals(name))
                 return serverPlayer;
@@ -51,47 +50,33 @@ public class MiscHelper
         if (!player.getEntityData().hasKey(WarpTheory.modID))
         {
             player.getEntityData().setTag(WarpTheory.modID, new NBTTagCompound());
-            return false; //Can't have tag, didn't even have the compound.
+            return false;
         }
         return player.getEntityData().getCompoundTag(WarpTheory.modID).hasKey(tagName);
     }
 
     public static int getTag(EntityPlayer player, String tagName)
     {
-        if (!(hasTag(player, tagName))) { return 0; } //Tag DNE
+        if (!(hasTag(player, tagName))) { return 0; }
         return player.getEntityData().getCompoundTag(WarpTheory.modID).getInteger(tagName);
     }
 
     public static void setTag(EntityPlayer player, String tagName, int value)
     {
-        //Right now hasTag enforces existence of the mod compound tag.
-        //So this hasTag check is needed even though both sides of the if-else are the same.
-        //TODO: re-write to not be stupid like this.
-        if (!(hasTag(player, tagName))) {
-            //Tag DNE, create and set value
-            player.getEntityData().getCompoundTag(WarpTheory.modID).setInteger(tagName, value);
-        } else {
-            //Tag exists, overwrite
-            player.getEntityData().getCompoundTag(WarpTheory.modID).setInteger(tagName, value);
-        }
+        if (!player.getEntityData().hasKey(WarpTheory.modID))
+            player.getEntityData().setTag(WarpTheory.modID, new NBTTagCompound());
+        player.getEntityData().getCompoundTag(WarpTheory.modID).setInteger(tagName, value);
     }
 
-    public static void addToTag(EntityPlayer player, String tagName, int value)
+    public static void modTag(EntityPlayer player, String tagName, int value)
     {
-        //max is to handle possibly negative tag values.
-        //clamp to zero.
-        setTag(player, tagName, Math.max(0,getTag(player, tagName) + value));
-    }
-    
-    public static void subFromTag(EntityPlayer player, String tagName, int value) {
-        addToTag(player, tagName, -value);
+        setTag(player, tagName, getTag(player, tagName) + value);
     }
 
     public static void removeTag(EntityPlayer player, String tagName)
     {
-        if (hasTag(player, tagName)) {
+        if (hasTag(player, tagName))
             player.getEntityData().getCompoundTag(WarpTheory.modID).removeTag(tagName);
-        }
     }
 
     public static boolean hasNonSolidNeighbor(World world, BlockCoord coord)
@@ -108,7 +93,7 @@ public class MiscHelper
     {
         NameMetaPair pair = new NameMetaPair(coord.getBlock(world), coord.getMeta(world));
         boolean contained = true;
-        for (int i=0; i<6; i++)
+        for (int i = 0; i < 6; i++)
         {
             if (i != 1 && (!coord.copy().offset(i).getBlock(world).isOpaqueCube() && coord.copy().offset(i).getBlock(world) != Blocks.water))
                 contained = false;
