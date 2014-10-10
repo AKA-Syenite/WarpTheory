@@ -96,9 +96,9 @@ public class WarpHandler
         {
             Class tc = Class.forName("thaumcraft.common.Thaumcraft");
             Object proxy = tc.getField("proxy").get(null);
-            Class proxyClass = proxy.getClass();
-            warp = (Map<String, Integer>)proxyClass.getField("warp").get(proxy);
-            warpTemp = (Map<String, Integer>)proxyClass.getField("warpTemp").get(proxy);
+            Object pK = proxy.getClass().getField("playerKnowledge").get(proxy);
+            warp = (Map<String, Integer>)pK.getClass().getDeclaredField("warp").get(pK);
+            warpTemp = (Map<String, Integer>)pK.getClass().getField("warpTemp").get(pK);
             wuss = Class.forName("thaumcraft.common.config.Config").getField("wuss").getBoolean(null);
             potionWarpWardID = Class.forName("thaumcraft.common.config.Config").getField("potionWarpWardID").getInt(null);
         }
