@@ -45,8 +45,7 @@ public class WarpBats implements IWarpEvent
     @SubscribeEvent
     public void onTick(TickEvent.WorldTickEvent e)
     {
-        if (e.phase != TickEvent.Phase.END || e.world.getTotalWorldTime() % 5 != 0)
-            return;
+        // Spawning bats
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
             if (MiscHelper.getTag(player, "bats") > 0)

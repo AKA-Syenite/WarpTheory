@@ -50,6 +50,7 @@ public class WarpEars implements IWarpEvent
         if (!player.getEntityData().hasKey(WarpTheory.modID))
             return;
 
+        // Warp ears
         if (MiscHelper.getTag(player, "ears") > 0)
         {
             int ears = MiscHelper.getTag(player, "ears");

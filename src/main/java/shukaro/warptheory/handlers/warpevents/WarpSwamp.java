@@ -40,7 +40,7 @@ public class WarpSwamp implements IWarpEvent
     @Override
     public boolean doEvent(World world, EntityPlayer player)
     {
-        if (!MiscHelper.canDoBiomeEvent(player, getName()))
+        if (!WarpHandler.canDoBiomeEvent(player, getName()))
         {
             return false;
         }
@@ -52,8 +52,7 @@ public class WarpSwamp implements IWarpEvent
     @SubscribeEvent
     public void onTick(TickEvent.WorldTickEvent e)
     {
-        if (e.phase != TickEvent.Phase.END || e.world.getTotalWorldTime() % 2 != 0)
-            return;
+        // Growing swamp
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
             if (MiscHelper.getTag(player, "biomeSwamp") > 0)

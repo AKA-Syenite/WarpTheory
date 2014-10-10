@@ -11,7 +11,6 @@ import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.WarpHandler;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public class MiscHelper
 {
@@ -101,21 +100,5 @@ public class MiscHelper
         }
         BlockCoord cover = coord.copy().offset(1);
         return contained && (coord.isAir(world) || WarpHandler.decayMappings.containsKey(pair)) && (cover.isAir(world) || cover.getBlock(world) == Blocks.log || cover.getBlock(world) == Blocks.log2 || cover.getBlock(world) instanceof IPlantable);
-    }
-
-    public static boolean canDoBiomeEvent(EntityPlayer player, String biomeEvent)
-    {
-        NBTTagCompound tag = player.getEntityData().getCompoundTag(WarpTheory.modID);
-        String currentBiome = "";
-        for (String key : (Set<String>)tag.func_150296_c())
-        {
-            if (key.contains("biome"))
-                currentBiome = key;
-        }
-        if (currentBiome.length() == 0)
-            return true;
-        if (!currentBiome.equals(biomeEvent))
-            return false;
-        return true;
     }
 }
