@@ -6,6 +6,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
@@ -56,11 +57,9 @@ public class WarpTheory
         logger = evt.getModLog();
         try
         {
-            ResourceLocation normalNameResource = new ResourceLocation(modID, "normalNames");
-            logger.info(normalNameResource);
-            normalNames = new NameGenerator("assets/warptheory/lang/normalNames_en_US.txt");
+            normalNames = new NameGenerator(WarpTheory.class.getResource("/assets/warptheory/names/normal.txt").getPath());
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
