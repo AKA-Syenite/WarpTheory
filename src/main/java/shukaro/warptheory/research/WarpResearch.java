@@ -22,7 +22,7 @@ public class WarpResearch
     {
         researchCleanser = new ResearchItem("WARPCLEANSER", "ELDRITCH", new AspectList().add(Aspect.ELDRITCH, 6).add(Aspect.EXCHANGE, 3), -2, 2, 2, new ItemStack(WarpItems.itemCleanser))
                 .setPages(new ResearchPage[]{
-                        new ResearchPage(StatCollector.translateToLocal("warptheory.warpcleanser.research")),
+                        new ResearchPage(StatCollector.translateToLocal("research.warptheory.warpcleanser")),
                         new ResearchPage(new InfusionRecipe("WARPCLEANSER", new ItemStack(WarpItems.itemCleanser), 5, new AspectList().add(Aspect.ELDRITCH, 15).add(Aspect.EXCHANGE, 15), new ItemStack(Items.ghast_tear),
                                 new ItemStack[]{new ItemStack(Items.quartz), ItemApi.getItem("itemResource", 14), new ItemStack(Items.quartz), ItemApi.getItem("itemResource", 14)}))
                 }).setParents("ELDRITCHMAJOR");
@@ -30,15 +30,15 @@ public class WarpResearch
 
         researchAmulet = new ResearchItem("WARPAMULET", "ELDRITCH", new AspectList().add(Aspect.ELDRITCH, 6).add(Aspect.EXCHANGE, 3).add(Aspect.MAGIC, 3), -3, 4, 3, new ItemStack(WarpItems.itemAmulet))
                 .setPages(new ResearchPage[]{
-                        new ResearchPage(StatCollector.translateToLocal("warptheory.warpamulet.research")),
-                        new ResearchPage(new InfusionRecipe("WARPAMULET", new ItemStack(WarpItems.itemAmulet), 10, new AspectList().add(Aspect.ELDRITCH, 15).add(Aspect.EXCHANGE, 15).add(Aspect.MAGIC, 30), new ItemStack(WarpItems.itemCleanser),
-                                new ItemStack[]{ItemApi.getItem("itemResource", 2), new ItemStack(Items.gold_ingot), ItemApi.getItem("itemResource", 2), new ItemStack(Items.gold_ingot), new ItemStack(Items.diamond), new ItemStack(Items.diamond), new ItemStack(Items.diamond), new ItemStack(Items.diamond)}))
+                        new ResearchPage(StatCollector.translateToLocal("research.warptheory.warpamulet")),
+                        new ResearchPage(new InfusionRecipe("WARPAMULET", new ItemStack(WarpItems.itemAmulet), 10, new AspectList().add(Aspect.ELDRITCH, 15).add(Aspect.EXCHANGE, 15).add(Aspect.MAGIC, 30), ItemApi.getItem("itemBaubleBlanks", 0),
+                                new ItemStack[]{new ItemStack(WarpItems.itemCleanser), new ItemStack(Items.diamond), new ItemStack(WarpItems.itemCleanser), new ItemStack(Items.emerald)}))
                 }).setParents("WARPCLEANSER");
         researchAmulet.registerResearchItem();
 
         researchSomething = new ResearchItem("WARPSOMETHING", "ALCHEMY", new AspectList().add(Aspect.ELDRITCH, 3), -2, -5, 2, new ItemStack(WarpItems.itemSomething))
                 .setPages(new ResearchPage[]{
-                        new ResearchPage(StatCollector.translateToLocal("warptheory.warpsomething.research")),
+                        new ResearchPage(StatCollector.translateToLocal("research.warptheory.warpsomething")),
                         new ResearchPage(new CrucibleRecipe("WARPSOMETHING", new ItemStack(WarpItems.itemSomething), new ItemStack(Items.beef), new AspectList().add(Aspect.ELDRITCH, 8)))
                 }).setHidden().setAspectTriggers(Aspect.ELDRITCH);
         researchSomething.registerResearchItem();

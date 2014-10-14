@@ -111,14 +111,15 @@ public class WarpHandler
         return true;
     }
 
-    public static void removeAllWarp(World world, EntityPlayer player)
+    public static void purgeWarp(World world, EntityPlayer player)
     {
+        doWarp(world, player, getWarp(player));
         removeWarp(world, player, getWarp(player));
     }
 
     public static void removeWarp(World world, EntityPlayer player, int amount)
     {
-        if (amount == 0)
+        if (amount <= 0)
             return;
         if ((warp != null && warpTemp != null) || tcReflect())
         {
@@ -135,7 +136,6 @@ public class WarpHandler
                 else
                     warp.put(name, 0);
             }
-            doWarp(world, player, amount);
         }
     }
 
@@ -159,7 +159,7 @@ public class WarpHandler
         }
     }
 
-    public static void doOneWarp(World world, EntityPlayer player, int maxAmount)
+    public static IWarpEvent doOneWarp(World world, EntityPlayer player, int maxAmount)
     {
         boolean repeat = true;
         IWarpEvent event = warpEvents.get(world.rand.nextInt(warpEvents.size()));
@@ -169,6 +169,7 @@ public class WarpHandler
                 event = warpEvents.get(world.rand.nextInt(warpEvents.size()));
             repeat = !event.doEvent(world, player);
         }
+        return event;
     }
 
     public static boolean canDoBiomeEvent(EntityPlayer player, String biomeEvent)

@@ -1,3 +1,20 @@
-item.warptheory.cleanser.name=Serket's Tear
+item.warptheory.cleanser.name=Pure Tear
+item.warptheory.amulet.name=Purification Talisman
+item.warptheory.something.name=Hunk of Something
 
-tooltip.warptheory.cleanser=Translucent
+tooltip.warptheory.cleanser=Crunchy
+tooltip.warptheory.amulet=Purges Warp
+tooltip.warptheory.something=Probably edible...
+
+tc.research_name.WARPSOMETHING=Hunk of Something
+tc.research_text.WARPSOMETHING=Definitely not something pleasant
+research.warptheory.warpsomething=By chance you realized that many simple meats could be transmuted into something else if they were exposed to eldritch energy. It's... probably not a good idea to look too closely at the result.
+
+tc.research_name.WARPCLEANSER=Pure Tear
+tc.research_text.WARPCLEANSER=Magical Medicine
+research.warptheory.warpcleanser=By combining the curative properties of a Ghast Tear, the magical energy of Salis Mundus, and the stabilizing properties of Quartz, you've discovered a means of purging negative magical energy from the body.<BR>The process is not without drawbacks, though, as all that energy has to go somewhere.
+
+tc.research_name.WARPAMULET=Purification Talisman
+tc.research_text.WARPAMULET=More than a simple good luck charm
+research.warptheory.warpamulet=You've discovered a process by which the purifying properties of Pure Tears can be channeled over time without the requisite indigestion they cause.<BR>By simply setting two opposing tears and into an amulet and imbuing it with certain magic, an accessory which continuously siphons off negative magical energy into the environment is produced.
+

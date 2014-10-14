@@ -86,8 +86,7 @@ public class ItemCleanser extends Item
         if (!world.isRemote)
         {
             world.playSoundAtEntity(player, "game.potion.smash", 1.0f, 1.0f);
-            WarpHandler.removeAllWarp(world, player);
-            WarpHandler.warpEvents.get(0).doEvent(world, player);
+            WarpHandler.purgeWarp(world, player);
         }
 
         if (!player.capabilities.isCreativeMode)
