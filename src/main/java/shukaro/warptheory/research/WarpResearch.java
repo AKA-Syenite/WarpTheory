@@ -3,7 +3,9 @@ package shukaro.warptheory.research;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
+import shukaro.warptheory.handlers.WarpHandler;
 import shukaro.warptheory.items.WarpItems;
+import shukaro.warptheory.recipe.WarpRecipes;
 import thaumcraft.api.ItemApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -32,15 +34,16 @@ public class WarpResearch
                 .setPages(new ResearchPage[]{
                         new ResearchPage(StatCollector.translateToLocal("research.warptheory.warpamulet")),
                         new ResearchPage(new InfusionRecipe("WARPAMULET", new ItemStack(WarpItems.itemAmulet), 10, new AspectList().add(Aspect.ELDRITCH, 15).add(Aspect.EXCHANGE, 15).add(Aspect.MAGIC, 30), ItemApi.getItem("itemBaubleBlanks", 0),
-                                new ItemStack[]{new ItemStack(WarpItems.itemCleanser), new ItemStack(Items.diamond), new ItemStack(WarpItems.itemCleanser), new ItemStack(Items.emerald)}))
+                                new ItemStack[]{new ItemStack(WarpItems.itemCleanser), new ItemStack(Items.gold_ingot), new ItemStack(WarpItems.itemCleanser), new ItemStack(Items.gold_ingot)}))
                 }).setParents("WARPCLEANSER");
         researchAmulet.registerResearchItem();
 
+        ResearchPage[] somethingPages = new ResearchPage[WarpRecipes.meats.size()+1];
+        somethingPages[0] = new ResearchPage(StatCollector.translateToLocal("research.warptheory.warpsomething"));
+        for (int i=0; i<WarpRecipes.meats.size(); i++)
+            somethingPages[i+1] = new ResearchPage(new CrucibleRecipe("WARPSOMETHING", new ItemStack(WarpItems.itemSomething), WarpRecipes.meats.get(i), new AspectList().add(Aspect.ELDRITCH, 8)));
         researchSomething = new ResearchItem("WARPSOMETHING", "ALCHEMY", new AspectList().add(Aspect.ELDRITCH, 3), -2, -5, 2, new ItemStack(WarpItems.itemSomething))
-                .setPages(new ResearchPage[]{
-                        new ResearchPage(StatCollector.translateToLocal("research.warptheory.warpsomething")),
-                        new ResearchPage(new CrucibleRecipe("WARPSOMETHING", new ItemStack(WarpItems.itemSomething), new ItemStack(Items.beef), new AspectList().add(Aspect.ELDRITCH, 8)))
-                }).setHidden().setAspectTriggers(Aspect.ELDRITCH);
+                .setPages(somethingPages).setHidden().setAspectTriggers(Aspect.ELDRITCH);
         researchSomething.registerResearchItem();
     }
 }
