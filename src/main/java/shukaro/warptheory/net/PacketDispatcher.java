@@ -1,4 +1,4 @@
-package shukaro.warptheory.net.packets;
+package shukaro.warptheory.net;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
@@ -9,6 +9,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import shukaro.warptheory.net.ClientProxy;
 import shukaro.warptheory.net.CommonProxy;
+import shukaro.warptheory.net.packets.BlinkPacket;
+import shukaro.warptheory.net.packets.WarpPacket;
+import shukaro.warptheory.net.packets.WindPacket;
 
 public class PacketDispatcher
 {
@@ -18,6 +21,18 @@ public class PacketDispatcher
         {
             int dim = world.provider.dimensionId;
             sendToAllAround(new BlinkPacket(x, y, z), dim, (int)x, (int)y, (int)z, 128);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static void sendWindEvent(EntityPlayer player, double x, double y, double z)
+    {
+        try
+        {
+            sendToPlayer(new WindPacket(x, y, z), player);
         }
         catch (Exception e)
         {

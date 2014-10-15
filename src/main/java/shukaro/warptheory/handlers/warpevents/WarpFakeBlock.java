@@ -1,5 +1,6 @@
 package shukaro.warptheory.handlers.warpevents;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import shukaro.warptheory.handlers.IWarpEvent;
