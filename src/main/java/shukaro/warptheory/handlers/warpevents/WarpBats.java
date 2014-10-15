@@ -63,11 +63,11 @@ public class WarpBats implements IWarpEvent
                         bat.setLocationAndAngles((double)targetX + e.world.rand.nextDouble(), (double)targetY + e.world.rand.nextDouble(), (double)targetZ + e.world.rand.nextDouble(), e.world.rand.nextFloat(), e.world.rand.nextFloat());
                         if (e.world.spawnEntityInWorld(bat))
                         {
-                            MiscHelper.modTag(player, "bats", -1);
+                            MiscHelper.setTag(player, "bats", --bats);
                             if (bats <= 0)
                             {
                                 MiscHelper.removeTag(player, "bats");
-                                ChatHelper.sendToPlayer(Minecraft.getMinecraft().thePlayer, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.batsend"));
+                                ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.batsend"));
                             }
                             break;
                         }

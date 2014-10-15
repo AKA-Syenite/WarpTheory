@@ -44,7 +44,7 @@ public class WarpTongue implements IWarpEvent
         {
             int tongues = MiscHelper.getTag(e.player, "tongues");
             e.component = new ChatComponentTranslation(ChatHelper.getFormattedUsername(e.component) + " " + ChatHelper.garbleMessage(e.component));
-            MiscHelper.modTag(e.player, "tongues", -1);
+            MiscHelper.setTag(e.player, "tongues", --tongues);
             if (tongues <= 0)
             {
                 MiscHelper.removeTag(e.player, "tongues");

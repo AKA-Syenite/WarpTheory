@@ -38,8 +38,8 @@ public class WarpCommand implements ICommand
         {
             String events = "";
             for (IWarpEvent event : WarpHandler.warpEvents)
-                events += event.getName();
-            sender.addChatMessage(new ChatComponentText("Invalid Syntax, available events are: " + FormatCodes.Italic.code + events));
+                events += event.getName() + " ";
+            sender.addChatMessage(new ChatComponentText("Invalid Syntax, available events are: " + events));
         }
         else if (args.length == 1)
         {

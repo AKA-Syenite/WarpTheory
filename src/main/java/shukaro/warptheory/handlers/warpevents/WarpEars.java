@@ -55,11 +55,11 @@ public class WarpEars implements IWarpEvent
         {
             int ears = MiscHelper.getTag(player, "ears");
             e.message = new ChatComponentText(ChatHelper.getFormattedUsername(e.message) + " " + ChatHelper.garbleMessage(e.message));
-            MiscHelper.modTag(player, "ears", -1);
+            MiscHelper.setTag(player, "ears", --ears);
             if (ears <= 0)
             {
                 MiscHelper.removeTag(player, "ears");
-                ChatHelper.sendToPlayer(Minecraft.getMinecraft().thePlayer, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.earsend"));
+                ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.earsend"));
             }
         }
     }

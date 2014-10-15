@@ -68,11 +68,11 @@ public class WarpDecay implements IWarpEvent
                     {
                         if (target.isAir(e.world))
                             e.world.playAuxSFXAtEntity(null, 2001, target.x, target.y, target.z, Block.getIdFromBlock(pair.getBlock()) + (pair.getMetadata() << 12));
-                        MiscHelper.modTag(player, "biomeDecay", -1);
+                        MiscHelper.setTag(player, "biomeDecay", --decay);
                         if (decay <= 0)
                         {
                             MiscHelper.removeTag(player, "biomeDecay");
-                            ChatHelper.sendToPlayer(Minecraft.getMinecraft().thePlayer, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.decayend"));
+                            ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.decayend"));
                         }
                     }
                 }

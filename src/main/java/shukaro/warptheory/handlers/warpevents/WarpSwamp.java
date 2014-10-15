@@ -134,11 +134,11 @@ public class WarpSwamp implements IWarpEvent
                 }
                 if (grown)
                 {
-                    MiscHelper.modTag(player, "biomeSwamp", -1);
+                    MiscHelper.setTag(player, "biomeSwamp", --biomeSwamp);
                     if (biomeSwamp <= 0)
                     {
                         MiscHelper.removeTag(player, "biomeSwamp");
-                        ChatHelper.sendToPlayer(Minecraft.getMinecraft().thePlayer, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.swampend"));
+                        ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.swampend"));
                     }
                 }
             }

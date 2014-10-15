@@ -64,11 +64,11 @@ public class WarpBlink implements IWarpEvent
                         player.setPositionAndUpdate(dX, dY, dZ);
                         PacketDispatcher.sendBlinkEvent(e.world, dX, dY, dZ);
                         e.world.playSoundEffect(dX, dY, dZ, "mob.endermen.portal", 1.0F, 1.0F);
-                        MiscHelper.modTag(player, "blink", -1);
+                        MiscHelper.setTag(player, "blink", --blink);
                         if (blink <= 0)
                         {
                             MiscHelper.removeTag(player, "blink");
-                            ChatHelper.sendToPlayer(Minecraft.getMinecraft().thePlayer, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.blinkend"));
+                            ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.blinkend"));
                         }
                         break;
                     }
