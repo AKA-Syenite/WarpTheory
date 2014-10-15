@@ -50,7 +50,7 @@ public class WarpHandler
         warpEvents.add(new WarpBlink());
         warpEvents.add(new WarpBuff("poison", 1, new PotionEffect(Potion.poison.id, 15*20, 4)));
         warpEvents.add(new WarpBuff("nausea", 1, new PotionEffect(Potion.confusion.id, 15*20)));
-        warpEvents.add(new WarpBuff("jump", 1, new PotionEffect(Potion.jump.id, 15*20, 40)));
+        warpEvents.add(new WarpBuff("jump", 2, new PotionEffect(Potion.jump.id, 15*20, 40)));
         warpEvents.add(new WarpBuff("blind", 1, new PotionEffect(Potion.blindness.id, 15*20)));
         warpEvents.add(new WarpDecay());
         warpEvents.add(new WarpEars());
@@ -59,6 +59,7 @@ public class WarpHandler
         warpEvents.add(new WarpFriend());
         warpEvents.add(new WarpLivestockRain());
         warpEvents.add(new WarpWind());
+        warpEvents.add(new WarpChests());
 
         addDecayMapping(Blocks.grass, Blocks.dirt);
         addDecayMapping(Blocks.dirt, 0, Blocks.sand);

@@ -3,6 +3,7 @@ package shukaro.warptheory.handlers.warpevents;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.player.EntityPlayer;
@@ -45,6 +46,8 @@ public class WarpBats implements IWarpEvent
     @SubscribeEvent
     public void onTick(TickEvent.WorldTickEvent e)
     {
+        if (e.phase != TickEvent.Phase.END || e.side != Side.SERVER)
+            return;
         // Spawning bats
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {

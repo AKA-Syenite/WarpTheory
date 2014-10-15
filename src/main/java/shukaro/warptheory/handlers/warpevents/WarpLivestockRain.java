@@ -3,6 +3,7 @@ package shukaro.warptheory.handlers.warpevents;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +30,7 @@ public class WarpLivestockRain implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 2;
+        return 4;
     }
 
     @Override
@@ -43,6 +44,8 @@ public class WarpLivestockRain implements IWarpEvent
     @SubscribeEvent
     public void onTick(TickEvent.WorldTickEvent e)
     {
+        if (e.phase != TickEvent.Phase.END || e.side != Side.SERVER)
+            return;
         // Spawning livestock
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {

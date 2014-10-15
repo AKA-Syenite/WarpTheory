@@ -3,6 +3,7 @@ package shukaro.warptheory.handlers.warpevents;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -30,7 +31,7 @@ public class WarpDecay implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 5;
+        return 8;
     }
 
     @Override
@@ -46,6 +47,8 @@ public class WarpDecay implements IWarpEvent
     @SubscribeEvent
     public void onTick(TickEvent.WorldTickEvent e)
     {
+        if (e.phase != TickEvent.Phase.END || e.side != Side.SERVER)
+            return;
         // Decay terrain
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {

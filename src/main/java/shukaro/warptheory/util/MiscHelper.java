@@ -3,8 +3,10 @@ package shukaro.warptheory.util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import shukaro.warptheory.WarpTheory;
@@ -100,5 +102,18 @@ public class MiscHelper
         }
         BlockCoord cover = coord.copy().offset(1);
         return contained && (coord.isAir(world) || WarpHandler.decayMappings.containsKey(pair)) && (cover.isAir(world) || cover.getBlock(world) == Blocks.log || cover.getBlock(world) == Blocks.log2 || cover.getBlock(world) instanceof IPlantable);
+    }
+
+    public static ArrayList<IInventory> getNearbyTileInventories(EntityPlayer player, int range)
+    {
+        ArrayList<IInventory> nearby = new ArrayList<IInventory>();
+        for (TileEntity te : (ArrayList<TileEntity>)player.worldObj.loadedTileEntityList)
+        {
+            BlockCoord teCoord = new BlockCoord(te.xCoord, te.yCoord, te.zCoord);
+            BlockCoord playerCoord = new BlockCoord((int)player.posX, (int)player.posY, (int)player.posZ);
+            if (te instanceof IInventory && teCoord.getDistance(playerCoord) <= range)
+                nearby.add((IInventory)te);
+        }
+        return nearby;
     }
 }

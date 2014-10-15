@@ -3,6 +3,7 @@ package shukaro.warptheory.handlers.warpevents;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.passive.EntityBat;
@@ -34,7 +35,7 @@ public class WarpFriend implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 2;
+        return 4;
     }
 
     @Override
@@ -48,6 +49,8 @@ public class WarpFriend implements IWarpEvent
     @SubscribeEvent
     public void onTick(TickEvent.WorldTickEvent e)
     {
+        if (e.phase != TickEvent.Phase.END || e.side != Side.SERVER)
+            return;
         // Spawning friend
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {

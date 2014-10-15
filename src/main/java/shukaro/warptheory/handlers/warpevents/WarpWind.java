@@ -3,6 +3,7 @@ package shukaro.warptheory.handlers.warpevents;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -27,7 +28,7 @@ public class WarpWind implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 2;
+        return 5;
     }
 
     @Override
@@ -41,6 +42,8 @@ public class WarpWind implements IWarpEvent
     @SubscribeEvent
     public void onTick(TickEvent.WorldTickEvent e)
     {
+        if (e.phase != TickEvent.Phase.END || e.side != Side.SERVER)
+            return;
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
             if (MiscHelper.getTag(player, "wind") > 0 && e.world.rand.nextBoolean() && e.world.getTotalWorldTime() % 20 == 0)

@@ -29,7 +29,7 @@ public class WarpEars implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 2;
+        return 3;
     }
 
     @Override
