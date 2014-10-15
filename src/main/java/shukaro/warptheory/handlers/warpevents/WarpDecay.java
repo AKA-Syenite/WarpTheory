@@ -30,7 +30,7 @@ public class WarpDecay implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 10;
+        return 5;
     }
 
     @Override

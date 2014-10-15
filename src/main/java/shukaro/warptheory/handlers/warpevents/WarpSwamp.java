@@ -34,7 +34,7 @@ public class WarpSwamp implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 15;
+        return 5;
     }
 
     @Override

@@ -57,6 +57,7 @@ public class WarpHandler
         warpEvents.add(new WarpSwamp());
         warpEvents.add(new WarpTongue());
         warpEvents.add(new WarpFriend());
+        warpEvents.add(new WarpLivestockRain());
 
         addDecayMapping(Blocks.grass, Blocks.dirt);
         addDecayMapping(Blocks.dirt, 0, Blocks.sand);

@@ -34,7 +34,7 @@ public class WarpFriend implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 5;
+        return 2;
     }
 
     @Override
