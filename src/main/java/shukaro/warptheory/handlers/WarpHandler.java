@@ -18,6 +18,8 @@ import java.util.Set;
 
 public class WarpHandler
 {
+    public static final int WARPMULT = 5;
+
     public static Map<String, Integer> warp;
     public static Map<String, Integer> warpTemp;
     public static boolean wuss = false;
@@ -48,9 +50,7 @@ public class WarpHandler
         warpEvents.add(new WarpBlink());
         warpEvents.add(new WarpBuff("poison", 1, new PotionEffect(Potion.poison.id, 15*20, 4)));
         warpEvents.add(new WarpBuff("nausea", 1, new PotionEffect(Potion.confusion.id, 15*20)));
-        warpEvents.add(new WarpBuff("speed", 1, new PotionEffect(Potion.moveSpeed.id, 15*20, 4)));
         warpEvents.add(new WarpBuff("jump", 1, new PotionEffect(Potion.jump.id, 15*20, 40)));
-        warpEvents.add(new WarpBuff("invisibility", 1, new PotionEffect(Potion.invisibility.id, 15*20)));
         warpEvents.add(new WarpBuff("blind", 1, new PotionEffect(Potion.blindness.id, 15*20)));
         warpEvents.add(new WarpDecay());
         warpEvents.add(new WarpEars());
@@ -162,7 +162,7 @@ public class WarpHandler
         while (w > 0)
         {
             IWarpEvent event = warpEvents.get(world.rand.nextInt(warpEvents.size()));
-            while (event.getCost() > w)
+            while (event.getCost()*WARPMULT > w)
                 event = warpEvents.get(world.rand.nextInt(warpEvents.size()));
             if (event.doEvent(world, player))
                 w -= event.getCost();
@@ -175,7 +175,7 @@ public class WarpHandler
         IWarpEvent event = warpEvents.get(world.rand.nextInt(warpEvents.size()));
         while (repeat)
         {
-            while (event.getCost() > maxAmount)
+            while (event.getCost()*WARPMULT > maxAmount)
                 event = warpEvents.get(world.rand.nextInt(warpEvents.size()));
             repeat = !event.doEvent(world, player);
         }
