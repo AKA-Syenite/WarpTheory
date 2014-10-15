@@ -2,13 +2,13 @@ package shukaro.warptheory.net.packets;
 
 import io.netty.buffer.ByteBuf;
 
-public class ChestPacket implements WarpPacket
+public class BloodPacket implements WarpPacket
 {
     public int x, y, z;
 
-    public ChestPacket() {}
+    public BloodPacket() {}
 
-    public ChestPacket(int x, int y, int z)
+    public BloodPacket(int x, int y, int z)
     {
         this.x = x;
         this.y = y;

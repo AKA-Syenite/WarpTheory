@@ -7,13 +7,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import shukaro.warptheory.WarpTheory;
-import shukaro.warptheory.net.ClientProxy;
-import shukaro.warptheory.net.CommonProxy;
-import shukaro.warptheory.net.packets.BlinkPacket;
-import shukaro.warptheory.net.packets.ChestPacket;
-import shukaro.warptheory.net.packets.WarpPacket;
-import shukaro.warptheory.net.packets.WindPacket;
+import shukaro.warptheory.net.packets.*;
 
 public class PacketDispatcher
 {
@@ -32,7 +26,6 @@ public class PacketDispatcher
 
     public static void sendWindEvent(EntityPlayer player, double x, double y, double z)
     {
-        WarpTheory.logger.info("sent wind");
         try
         {
             sendToPlayer(new WindPacket(x, y, z), player);
@@ -43,12 +36,23 @@ public class PacketDispatcher
         }
     }
 
-    public static void sendChestEvent(World world, int x, int y, int z)
+    public static void sendBloodEvent(EntityPlayer player, int x, int y, int z)
     {
-        WarpTheory.logger.info("sent chest");
         try
         {
-            sendToAllAround(new ChestPacket(x, y, z), world.provider.dimensionId, x, y, z, 128);
+            sendToPlayer(new BloodPacket(x, y, z), player);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static void sendBloodClearEvent(EntityPlayer player)
+    {
+        try
+        {
+            sendToPlayer(new ClearPacket(0), player);
         }
         catch (Exception e)
         {

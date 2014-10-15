@@ -11,10 +11,15 @@ import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.world.World;
 import shukaro.warptheory.WarpTheory;
-import shukaro.warptheory.net.packets.BlinkPacket;
-import shukaro.warptheory.net.packets.ChestPacket;
-import shukaro.warptheory.net.packets.WarpPacket;
-import shukaro.warptheory.net.packets.WindPacket;
+import shukaro.warptheory.handlers.WarpHandler;
+import shukaro.warptheory.handlers.warpevents.WarpBlink;
+import shukaro.warptheory.handlers.warpevents.WarpBlood;
+import shukaro.warptheory.net.packets.*;
+import shukaro.warptheory.util.BlockCoord;
+import shukaro.warptheory.util.MiscHelper;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @ChannelHandler.Sharable
 public class PacketHandler extends SimpleChannelInboundHandler<WarpPacket>
@@ -23,13 +28,12 @@ public class PacketHandler extends SimpleChannelInboundHandler<WarpPacket>
     protected void channelRead0(ChannelHandlerContext ctx, WarpPacket msg) throws Exception
     {
         INetHandler handler = ctx.channel().attr(NetworkRegistry.NET_HANDLER).get();
-        WarpTheory.logger.info("got packet");
+
         if (handler instanceof NetHandlerPlayServer)
         {
         }
         else if (handler instanceof NetHandlerPlayClient)
         {
-            WarpTheory.logger.info("for client");
             if (msg instanceof BlinkPacket)
             {
                 BlinkPacket blink = (BlinkPacket)msg;
@@ -39,17 +43,22 @@ public class PacketHandler extends SimpleChannelInboundHandler<WarpPacket>
             }
             else if (msg instanceof WindPacket)
             {
-                WarpTheory.logger.info("for wind");
                 WindPacket wind = (WindPacket)msg;
                 Minecraft.getMinecraft().thePlayer.addVelocity(wind.x, wind.y, wind.z);
             }
-            else if (msg instanceof ChestPacket)
+            else if (msg instanceof BloodPacket)
             {
-                WarpTheory.logger.info("for chest");
-                ChestPacket chest = (ChestPacket)msg;
                 World world = Minecraft.getMinecraft().theWorld;
-                TileEntityChest tec = (TileEntityChest)world.getTileEntity(chest.x, chest.y, chest.z);
-                tec.closeInventory();
+                BloodPacket blood = (BloodPacket)msg;
+                if (WarpBlood.bloody.get(world.provider.dimensionId) == null)
+                    WarpBlood.bloody.put(world.provider.dimensionId, new ArrayList<BlockCoord>());
+                WarpBlood.bloody.get(world.provider.dimensionId).add(new BlockCoord(blood.x, blood.y, blood.z));
+            }
+            else if (msg instanceof ClearPacket)
+            {
+                ClearPacket clear = (ClearPacket)msg;
+                if (clear.id == 0)
+                    WarpBlood.bloody = new HashMap<Integer, ArrayList<BlockCoord>>();
             }
         }
     }

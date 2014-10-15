@@ -1,6 +1,10 @@
 package shukaro.warptheory.util;
 
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
@@ -9,7 +13,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.util.ForgeDirection;
 import shukaro.warptheory.WarpTheory;
+import shukaro.warptheory.entity.EntityDropParticleFX;
 import shukaro.warptheory.handlers.WarpHandler;
 
 import java.util.ArrayList;
@@ -115,5 +121,18 @@ public class MiscHelper
                 nearby.add((IInventory)te);
         }
         return nearby;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void spawnDripParticle(World world, int x, int y, int z, float r, float g, float b)
+    {
+        if (world.isAirBlock(x, y-2, z) && !world.isAirBlock(x, y-1, z) && world.getBlock(x, y-1, z).getMaterial().blocksMovement())
+        {
+            double px = x + world.rand.nextFloat();
+            double py = y - 1.05D;
+            double pz = z + world.rand.nextFloat();
+            EntityFX fx = new EntityDropParticleFX(world, px, py, pz, r, g, b);
+            FMLClientHandler.instance().getClient().effectRenderer.addEffect(fx);
+        }
     }
 }
