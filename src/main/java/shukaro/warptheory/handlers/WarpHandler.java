@@ -5,6 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.warpevents.*;
@@ -44,7 +46,12 @@ public class WarpHandler
     {
         warpEvents.add(new WarpBats());
         warpEvents.add(new WarpBlink());
-        // add WarpBuffs
+        warpEvents.add(new WarpBuff("poison", 1, new PotionEffect(Potion.poison.id, 15*20, 4)));
+        warpEvents.add(new WarpBuff("nausea", 1, new PotionEffect(Potion.confusion.id, 15*20)));
+        warpEvents.add(new WarpBuff("speed", 1, new PotionEffect(Potion.moveSpeed.id, 15*20, 4)));
+        warpEvents.add(new WarpBuff("jump", 1, new PotionEffect(Potion.jump.id, 15*20, 40)));
+        warpEvents.add(new WarpBuff("invisibility", 1, new PotionEffect(Potion.invisibility.id, 15*20)));
+        warpEvents.add(new WarpBuff("blind", 1, new PotionEffect(Potion.blindness.id, 15*20)));
         warpEvents.add(new WarpDecay());
         warpEvents.add(new WarpEars());
         warpEvents.add(new WarpSwamp());
