@@ -31,7 +31,7 @@ public class WarpTongue implements IWarpEvent
     @Override
     public boolean doEvent(World world, EntityPlayer player)
     {
-        ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.tonguestart"));
+        ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.tongue"));
         MiscHelper.modTag(player, "toungues", 10 + world.rand.nextInt(15));
         return true;
     }
@@ -46,10 +46,7 @@ public class WarpTongue implements IWarpEvent
             e.component = new ChatComponentTranslation(ChatHelper.getFormattedUsername(e.component) + " " + ChatHelper.garbleMessage(e.component));
             MiscHelper.setTag(e.player, "tongues", --tongues);
             if (tongues <= 0)
-            {
                 MiscHelper.removeTag(e.player, "tongues");
-                ChatHelper.sendToPlayer(e.player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.tongueend"));
-            }
         }
     }
 }

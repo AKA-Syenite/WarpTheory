@@ -33,7 +33,7 @@ public class WarpWind implements IWarpEvent
     @Override
     public boolean doEvent(World world, EntityPlayer player)
     {
-        ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.windstart"));
+        ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.wind"));
         MiscHelper.modTag(player, "wind", 5 + world.rand.nextInt(10));
         return true;
     }
@@ -49,10 +49,7 @@ public class WarpWind implements IWarpEvent
                 PacketDispatcher.sendWindEvent(player, e.world.rand.nextDouble() - e.world.rand.nextDouble(), e.world.rand.nextDouble(), e.world.rand.nextDouble() - e.world.rand.nextDouble());
                 MiscHelper.setTag(player, "wind", --wind);
                 if (wind <= 0)
-                {
                     MiscHelper.removeTag(player, "wind");
-                    ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.windend"));
-                }
             }
         }
     }

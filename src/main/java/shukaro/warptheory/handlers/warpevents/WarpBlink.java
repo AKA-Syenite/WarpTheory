@@ -34,7 +34,7 @@ public class WarpBlink implements IWarpEvent
     @Override
     public boolean doEvent(World world, EntityPlayer player)
     {
-        ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.blinkstart"));
+        ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.blink"));
         MiscHelper.modTag(player, "blink", 10 + world.rand.nextInt(20));
         return true;
     }
@@ -65,10 +65,7 @@ public class WarpBlink implements IWarpEvent
                         e.world.playSoundEffect(dX, dY, dZ, "mob.endermen.portal", 1.0F, 1.0F);
                         MiscHelper.setTag(player, "blink", --blink);
                         if (blink <= 0)
-                        {
                             MiscHelper.removeTag(player, "blink");
-                            ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.blinkend"));
-                        }
                         break;
                     }
                 }

@@ -38,7 +38,7 @@ public class WarpDecay implements IWarpEvent
     {
         if (!WarpHandler.canDoBiomeEvent(player, getName()))
             return false;
-        ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.decaystart"));
+        ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.decay"));
         MiscHelper.modTag(player, getName(), 256 * 2 + world.rand.nextInt(256));
         return true;
     }
@@ -70,10 +70,7 @@ public class WarpDecay implements IWarpEvent
                             e.world.playAuxSFXAtEntity(null, 2001, target.x, target.y, target.z, Block.getIdFromBlock(pair.getBlock()) + (pair.getMetadata() << 12));
                         MiscHelper.setTag(player, "biomeDecay", --decay);
                         if (decay <= 0)
-                        {
                             MiscHelper.removeTag(player, "biomeDecay");
-                            ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.decayend"));
-                        }
                     }
                 }
             }

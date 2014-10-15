@@ -37,7 +37,7 @@ public class WarpBats implements IWarpEvent
     @Override
     public boolean doEvent(World world, EntityPlayer player)
     {
-        ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.batsstart"));
+        ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.bats"));
         MiscHelper.modTag(player, "bats", 15 + world.rand.nextInt(30));
         return true;
     }
@@ -65,10 +65,7 @@ public class WarpBats implements IWarpEvent
                         {
                             MiscHelper.setTag(player, "bats", --bats);
                             if (bats <= 0)
-                            {
                                 MiscHelper.removeTag(player, "bats");
-                                ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.batsend"));
-                            }
                             break;
                         }
                     }

@@ -35,7 +35,7 @@ public class WarpLivestockRain implements IWarpEvent
     @Override
     public boolean doEvent(World world, EntityPlayer player)
     {
-        ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.livestockstart"));
+        ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.livestock"));
         MiscHelper.modTag(player, getName(), 5 + world.rand.nextInt(10));
         return true;
     }
@@ -90,10 +90,7 @@ public class WarpLivestockRain implements IWarpEvent
                         {
                             MiscHelper.setTag(player, "livestock", --livestock);
                             if (livestock <= 0)
-                            {
                                 MiscHelper.removeTag(player, "livestock");
-                                ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.livestockend"));
-                            }
                             break;
                         }
                     }

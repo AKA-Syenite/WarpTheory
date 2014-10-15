@@ -44,7 +44,7 @@ public class WarpSwamp implements IWarpEvent
         {
             return false;
         }
-        ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.swampstart"));
+        ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.swamp"));
         MiscHelper.modTag(player, "biomeSwamp", 256 + world.rand.nextInt(256));
         return true;
     }
@@ -136,10 +136,7 @@ public class WarpSwamp implements IWarpEvent
                 {
                     MiscHelper.setTag(player, "biomeSwamp", --biomeSwamp);
                     if (biomeSwamp <= 0)
-                    {
                         MiscHelper.removeTag(player, "biomeSwamp");
-                        ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.swampend"));
-                    }
                 }
             }
         }
