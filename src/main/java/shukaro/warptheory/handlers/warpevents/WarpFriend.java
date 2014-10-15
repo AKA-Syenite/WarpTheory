@@ -51,7 +51,6 @@ public class WarpFriend implements IWarpEvent
         // Spawning friend
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
-            WarpTheory.logger.info(player.getEntityData().getCompoundTag(WarpTheory.modID));
             if (MiscHelper.getTag(player, "friend") > 0)
             {
                 int friend = MiscHelper.getTag(player, "friend");
