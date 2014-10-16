@@ -7,12 +7,14 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Logger;
+import shukaro.warptheory.block.WarpBlocks;
 import shukaro.warptheory.entity.EntityPassiveCreeper;
 import shukaro.warptheory.gui.WarpTab;
 import shukaro.warptheory.handlers.WarpCommand;
@@ -22,6 +24,7 @@ import shukaro.warptheory.items.WarpItems;
 import shukaro.warptheory.net.CommonProxy;
 import shukaro.warptheory.recipe.WarpRecipes;
 import shukaro.warptheory.research.WarpResearch;
+import shukaro.warptheory.tile.TileEntityVanish;
 import shukaro.warptheory.util.NameGenerator;
 
 import java.io.IOException;
@@ -65,6 +68,7 @@ public class WarpTheory
         {
             e.printStackTrace();
         }
+        WarpBlocks.initBlocks();
         WarpItems.initItems();
         MinecraftForge.EVENT_BUS.register(new WarpEventHandler());
     }
@@ -74,7 +78,7 @@ public class WarpTheory
     {
         WarpRecipes.initRecipes();
         WarpHandler.initEvents();
-        EntityRegistry.registerModEntity(EntityPassiveCreeper.class, "PassiveCreeper", 0, this, 160, 4, true);
+        EntityRegistry.registerModEntity(EntityPassiveCreeper.class, "creeperPassive", 0, this, 160, 4, true);
         proxy.init();
     }
 
