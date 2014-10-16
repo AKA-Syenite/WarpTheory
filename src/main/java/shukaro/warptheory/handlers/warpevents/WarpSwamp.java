@@ -35,16 +35,14 @@ public class WarpSwamp implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 8;
+        return 13;
     }
 
     @Override
     public boolean doEvent(World world, EntityPlayer player)
     {
-        if (!WarpHandler.canDoBiomeEvent(player, getName()))
-        {
+        if (!MiscHelper.canDoBiomeEvent(player, getName()))
             return false;
-        }
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.swamp"));
         MiscHelper.modTag(player, "biomeSwamp", 256 + world.rand.nextInt(256));
         return true;

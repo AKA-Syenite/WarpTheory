@@ -45,6 +45,8 @@ public class WarpBuff implements IWarpEvent
     @Override
     public boolean doEvent(World world, EntityPlayer player)
     {
+        if (world.isRemote)
+            return true;
         PotionEffect effect = null;
         if (player.isPotionActive(id))
         {

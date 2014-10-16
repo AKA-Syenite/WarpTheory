@@ -40,7 +40,7 @@ public class WarpChests implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 6;
+        return 11;
     }
 
     @Override

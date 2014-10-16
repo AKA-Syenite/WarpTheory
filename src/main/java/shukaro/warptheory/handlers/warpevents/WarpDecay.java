@@ -32,13 +32,13 @@ public class WarpDecay implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 8;
+        return 13;
     }
 
     @Override
     public boolean doEvent(World world, EntityPlayer player)
     {
-        if (!WarpHandler.canDoBiomeEvent(player, getName()))
+        if (!MiscHelper.canDoBiomeEvent(player, getName()))
             return false;
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.decay"));
         MiscHelper.modTag(player, getName(), 256 * 2 + world.rand.nextInt(256));

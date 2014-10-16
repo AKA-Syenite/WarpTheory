@@ -30,7 +30,7 @@ public class WarpLivestockRain implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 4;
+        return 9;
     }
 
     @Override

@@ -38,7 +38,7 @@ public class WarpBlood implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 3;
+        return 8;
     }
 
     @Override

@@ -31,5 +31,7 @@ public class WarpRecipes
                 new ItemStack[]{new ItemStack(WarpItems.itemCleanser), new ItemStack(Items.gold_ingot), new ItemStack(WarpItems.itemCleanser), new ItemStack(Items.gold_ingot)});
         for (ItemStack meat : meats)
             ThaumcraftApi.addCrucibleRecipe("WARPSOMETHING", new ItemStack(WarpItems.itemSomething), meat, new AspectList().add(Aspect.ELDRITCH, 8));
+        ThaumcraftApi.addShapelessArcaneCraftingRecipe("WARPPAPER", new ItemStack(WarpItems.itemPaper), new AspectList().add(Aspect.WATER, 4),
+                new ItemStack(Items.paper), ItemApi.getItem("itemResource", 14));
     }
 }

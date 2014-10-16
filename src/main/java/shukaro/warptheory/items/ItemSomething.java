@@ -87,7 +87,7 @@ public class ItemSomething extends Item
         if (!world.isRemote)
         {
             player.addChatMessage(new ChatComponentText(FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.addwarp")));
-            ThaumcraftApiHelper.addWarpToPlayer(player, 15 + world.rand.nextInt(50), false);
+            ThaumcraftApiHelper.addWarpToPlayer(player, 10 + world.rand.nextInt(11), false);
         }
 
         if (!player.capabilities.isCreativeMode)

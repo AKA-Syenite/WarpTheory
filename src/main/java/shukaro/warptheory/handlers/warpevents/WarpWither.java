@@ -34,7 +34,7 @@ public class WarpWither implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 10;
+        return 18;
     }
 
     @Override

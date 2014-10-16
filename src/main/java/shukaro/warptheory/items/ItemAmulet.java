@@ -81,23 +81,19 @@ public class ItemAmulet extends Item implements IBauble
         if (player instanceof EntityPlayer)
         {
             EntityPlayer p = (EntityPlayer)player;
-            if (p.worldObj.getTotalWorldTime() % 600 == 0)
-                WarpHandler.removeWarp(p.worldObj, p, WarpHandler.doOneWarp(p.worldObj, p, WarpHandler.getWarp(p)).getCost());
+            if (!p.worldObj.isRemote && p.worldObj.getTotalWorldTime() % 600 == 0 && WarpHandler.getWarp(p) > 0)
+                WarpHandler.removeWarp(p, WarpHandler.doOneWarp(p, WarpHandler.getWarp(p)).getCost());
         }
     }
 
     @Override
     public void onEquipped(ItemStack itemstack, EntityLivingBase player)
     {
-        if (player instanceof EntityPlayer)
-            ((EntityPlayer)player).addChatMessage(new ChatComponentText(FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.amuletstart")));
     }
 
     @Override
     public void onUnequipped(ItemStack itemstack, EntityLivingBase player)
     {
-        if (player instanceof EntityPlayer)
-            ((EntityPlayer)player).addChatMessage(new ChatComponentText(FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.amuletend")));
     }
 
     @Override

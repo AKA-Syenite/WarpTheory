@@ -11,6 +11,7 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.CrucibleRecipe;
 import thaumcraft.api.crafting.InfusionRecipe;
+import thaumcraft.api.crafting.ShapelessArcaneRecipe;
 import thaumcraft.api.research.ResearchItem;
 import thaumcraft.api.research.ResearchPage;
 
@@ -19,6 +20,7 @@ public class WarpResearch
     public static ResearchItem researchCleanser;
     public static ResearchItem researchAmulet;
     public static ResearchItem researchSomething;
+    public static ResearchItem researchPaper;
 
     public static void initResearch()
     {
@@ -42,8 +44,16 @@ public class WarpResearch
         somethingPages[0] = new ResearchPage(StatCollector.translateToLocal("research.warptheory.warpsomething"));
         for (int i=0; i<WarpRecipes.meats.size(); i++)
             somethingPages[i+1] = new ResearchPage(new CrucibleRecipe("WARPSOMETHING", new ItemStack(WarpItems.itemSomething), WarpRecipes.meats.get(i), new AspectList().add(Aspect.ELDRITCH, 8)));
-        researchSomething = new ResearchItem("WARPSOMETHING", "ALCHEMY", new AspectList().add(Aspect.ELDRITCH, 3), -2, -5, 2, new ItemStack(WarpItems.itemSomething))
-                .setPages(somethingPages).setHidden().setAspectTriggers(Aspect.ELDRITCH);
+        researchSomething = new ResearchItem("WARPSOMETHING", "ALCHEMY", new AspectList().add(Aspect.ELDRITCH, 3), -2, -5, 1, new ItemStack(WarpItems.itemSomething))
+                .setPages(somethingPages).setHidden().setAspectTriggers(Aspect.ELDRITCH, Aspect.FLESH, Aspect.EXCHANGE);
         researchSomething.registerResearchItem();
+
+        researchPaper = new ResearchItem("WARPPAPER", "ALCHEMY", new AspectList().add(Aspect.ELDRITCH, 3).add(Aspect.MAGIC, 3), 0, -5, 2, new ItemStack(WarpItems.itemPaper))
+                .setPages(new ResearchPage[]{
+                        new ResearchPage(StatCollector.translateToLocal("research.warptheory.warppaper")),
+                        new ResearchPage(new ShapelessArcaneRecipe("WARPPAPER", new ItemStack(WarpItems.itemPaper), new AspectList().add(Aspect.WATER, 4),
+                                new ItemStack(Items.paper), ItemApi.getItem("itemResource", 14)))
+                }).setHidden().setAspectTriggers(Aspect.ELDRITCH, Aspect.MAGIC, Aspect.SENSES);
+        researchPaper.registerResearchItem();
     }
 }

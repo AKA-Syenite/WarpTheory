@@ -9,28 +9,30 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.WarpHandler;
 import shukaro.warptheory.util.FormatCodes;
+import thaumcraft.api.ThaumcraftApiHelper;
 
 import java.util.List;
 import java.util.Locale;
 
-public class ItemCleanser extends Item
+public class ItemPaper extends Item
 {
     private IIcon icon;
 
-    public ItemCleanser()
+    public ItemPaper()
     {
         super();
         this.setHasSubtypes(true);
-        this.setMaxStackSize(1);
+        this.setMaxStackSize(64);
         this.setMaxDamage(0);
         this.setCreativeTab(WarpTheory.mainTab);
-        this.setUnlocalizedName("warptheory.cleanser");
+        this.setUnlocalizedName("warptheory.paper");
     }
 
     @Override
@@ -50,7 +52,7 @@ public class ItemCleanser extends Item
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg)
     {
-        this.icon = reg.registerIcon(WarpTheory.modID.toLowerCase(Locale.ENGLISH) + ":" + "itemCleanser");
+        this.icon = reg.registerIcon(WarpTheory.modID.toLowerCase(Locale.ENGLISH) + ":" + "itemPaper");
     }
 
     @Override
@@ -76,41 +78,36 @@ public class ItemCleanser extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
-        return stack;
-    }
-
-    @Override
-    public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
-    {
         if (!world.isRemote)
         {
-            world.playSoundAtEntity(player, "game.potion.smash", 1.0f, 1.0f);
-            WarpHandler.purgeWarp(player);
+            int totalWarp = WarpHandler.getWarp(player);
+            int[] totalWarps = WarpHandler.getWarps(player);
+            String severity;
+            if (totalWarp <= 10)
+                severity = StatCollector.translateToLocal("chat.warptheory.minorwarp");
+            else if (totalWarp <= 25)
+                severity = StatCollector.translateToLocal("chat.warptheory.averagewarp");
+            else if (totalWarp <= 50)
+                severity = StatCollector.translateToLocal("chat.warptheory.majorwarp");
+            else
+                severity = StatCollector.translateToLocal("chat.warptheory.deadlywarp");
+            player.addChatMessage(new ChatComponentText(FormatCodes.Purple.code + FormatCodes.Italic.code + severity));
+            player.addChatMessage(new ChatComponentText(
+                    " (" + totalWarps[0] + " " + StatCollector.translateToLocal("chat.warptheory.stickywarp") +
+                    ", " + totalWarps[1] + " " + StatCollector.translateToLocal("chat.warptheory.normalwarp") +
+                    ", " + totalWarps[2] + " " + StatCollector.translateToLocal("chat.warptheory.tempwarp") + ")"));
         }
 
-        if (!player.capabilities.isCreativeMode)
+        if (!player.capabilities.isCreativeMode && WarpHandler.getWarp(player) <= 10)
             stack.stackSize--;
 
         return stack.stackSize <= 0 ? null : stack;
     }
 
     @Override
-    public int getMaxItemUseDuration(ItemStack stack)
-    {
-        return 24;
-    }
-
-    @Override
-    public EnumAction getItemUseAction(ItemStack stack)
-    {
-        return EnumAction.eat;
-    }
-
-    @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List infoList, boolean advanced)
     {
-        infoList.add(FormatCodes.DarkGrey.code + FormatCodes.Italic.code + StatCollector.translateToLocal("tooltip.warptheory.cleanser"));
+        infoList.add(FormatCodes.DarkGrey.code + FormatCodes.Italic.code + StatCollector.translateToLocal("tooltip.warptheory.paper"));
     }
 }

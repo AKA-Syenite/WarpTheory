@@ -31,7 +31,7 @@ public class WarpLightning implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 8;
+        return 13;
     }
 
     @Override

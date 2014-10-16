@@ -10,18 +10,21 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.warpevents.*;
+import shukaro.warptheory.util.MiscHelper;
 import shukaro.warptheory.util.NameMetaPair;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
 public class WarpHandler
 {
-    public static final int WARPMULT = 5;
+    public static final int WARPMULT = 4;
 
     public static Map<String, Integer> warp;
     public static Map<String, Integer> warpTemp;
+    public static Map<String, Integer> warpSticky;
     public static boolean wuss = false;
     public static int potionWarpWardID = -1;
 
@@ -48,10 +51,10 @@ public class WarpHandler
     {
         warpEvents.add(new WarpBats());
         warpEvents.add(new WarpBlink());
-        warpEvents.add(new WarpBuff("poison", 1, new PotionEffect(Potion.poison.id, 20*20)));
-        warpEvents.add(new WarpBuff("nausea", 1, new PotionEffect(Potion.confusion.id, 20*20)));
-        warpEvents.add(new WarpBuff("jump", 2, new PotionEffect(Potion.jump.id, 20*20, 40)));
-        warpEvents.add(new WarpBuff("blind", 1, new PotionEffect(Potion.blindness.id, 20*20)));
+        warpEvents.add(new WarpBuff("poison", 5, new PotionEffect(Potion.poison.id, 20*20)));
+        warpEvents.add(new WarpBuff("nausea", 6, new PotionEffect(Potion.confusion.id, 20*20)));
+        warpEvents.add(new WarpBuff("jump", 6, new PotionEffect(Potion.jump.id, 20*20, 40)));
+        warpEvents.add(new WarpBuff("blind", 6, new PotionEffect(Potion.blindness.id, 20*20)));
         warpEvents.add(new WarpDecay());
         warpEvents.add(new WarpEars());
         warpEvents.add(new WarpSwamp());
@@ -116,6 +119,7 @@ public class WarpHandler
             Object pK = proxy.getClass().getField("playerKnowledge").get(proxy);
             warp = (Map<String, Integer>)pK.getClass().getDeclaredField("warp").get(pK);
             warpTemp = (Map<String, Integer>)pK.getClass().getField("warpTemp").get(pK);
+            warpSticky = (Map<String, Integer>)pK.getClass().getField("warpTemp").get(pK);
             wuss = Class.forName("thaumcraft.common.config.Config").getField("wuss").getBoolean(null);
             potionWarpWardID = Class.forName("thaumcraft.common.config.Config").getField("potionWarpWardID").getInt(null);
         }
@@ -128,30 +132,41 @@ public class WarpHandler
         return true;
     }
 
-    public static void purgeWarp(World world, EntityPlayer player)
+    public static void purgeWarp(EntityPlayer player)
     {
-        doWarp(world, player, getWarp(player));
-        removeWarp(world, player, getWarp(player));
+        doWarp(player, getWarp(player));
+        removeWarp(player, getWarp(player));
     }
 
-    public static void removeWarp(World world, EntityPlayer player, int amount)
+    public static void removeWarp(EntityPlayer player, int amount)
     {
         if (amount <= 0)
             return;
         if ((warp != null && warpTemp != null) || tcReflect())
         {
             String name = player.getDisplayName();
+            int ws = warpSticky != null ? warpSticky.get(name) : 0;
             int w = warp.get(name);
             int wt = warpTemp.get(name);
             if (amount <= wt)
                 warpTemp.put(name, wt - amount);
+            else if (amount <= (w + wt))
+            {
+                warpTemp.put(name, 0);
+                warp.put(name, w - (amount - wt));
+            }
+            else if (warpSticky != null && amount <= (ws + w + wt))
+            {
+                warpTemp.put(name, 0);
+                warp.put(name, 0);
+                warpSticky.put(name, ws - (amount - wt - w));
+            }
             else
             {
                 warpTemp.put(name, 0);
-                if (w - (amount - wt) >= 0)
-                    warp.put(name, w - (amount - wt));
-                else
-                    warp.put(name, 0);
+                warp.put(name, 0);
+                if (warpSticky != null)
+                    warpSticky.put(name, 0);
             }
         }
     }
@@ -159,49 +174,54 @@ public class WarpHandler
     public static int getWarp(EntityPlayer player)
     {
         if ((warp != null && warpTemp != null) || tcReflect())
-            return warp.get(player.getDisplayName()) + warpTemp.get(player.getDisplayName());
+            return  (warpSticky != null ? warpSticky.get(player.getDisplayName()) : 0) + warp.get(player.getDisplayName()) + warpTemp.get(player.getDisplayName());
         return 0;
     }
 
-    public static void doWarp(World world, EntityPlayer player, int amount)
+    public static int[] getWarps(EntityPlayer player)
     {
-        int w = amount;
-        while (w > 0)
+        int[] totals = new int[3];
+        if ((warp != null && warpTemp != null) || tcReflect())
         {
-            IWarpEvent event = warpEvents.get(world.rand.nextInt(warpEvents.size()));
-            while (event.getCost()*WARPMULT > w)
-                event = warpEvents.get(world.rand.nextInt(warpEvents.size()));
-            if (event.doEvent(world, player))
-                w -= event.getCost();
+            totals[0] = warpSticky != null ? warpSticky.get(player.getDisplayName()) : 0;
+            totals[1] = warp.get(player.getDisplayName());
+            totals[2] = warpTemp.get(player.getDisplayName());
         }
+        return totals;
     }
 
-    public static IWarpEvent doOneWarp(World world, EntityPlayer player, int maxAmount)
+    public static int doWarp(EntityPlayer player, int playerWarp)
     {
-        boolean repeat = true;
-        IWarpEvent event = warpEvents.get(world.rand.nextInt(warpEvents.size()));
-        while (repeat)
+        int w = playerWarp;
+        while (w > 0)
         {
-            while (event.getCost()*WARPMULT > maxAmount)
-                event = warpEvents.get(world.rand.nextInt(warpEvents.size()));
-            repeat = !event.doEvent(world, player);
+            IWarpEvent event = doOneWarp(player, playerWarp);
+            if (event == null)
+                return w;
+            w -= event.getCost();
         }
+        return w;
+    }
+
+    public static IWarpEvent doOneWarp(EntityPlayer player, int playerWarp)
+    {
+        IWarpEvent event = getAppropriateEvent(playerWarp, true);
+        if (event != null)
+            event.doEvent(player.worldObj, player);
         return event;
     }
 
-    public static boolean canDoBiomeEvent(EntityPlayer player, String biomeEvent)
+    private static IWarpEvent getAppropriateEvent(int maxCost, boolean mult)
     {
-        NBTTagCompound tag = player.getEntityData().getCompoundTag(WarpTheory.modID);
-        String currentBiome = "";
-        for (String key : (Set<String>)tag.func_150296_c())
+        ArrayList<IWarpEvent> shuffled = (ArrayList<IWarpEvent>)warpEvents.clone();
+        Collections.shuffle(shuffled);
+        for (IWarpEvent e : shuffled)
         {
-            if (key.contains("biome"))
-                currentBiome = key;
+            if (!mult && e.getCost() <= maxCost)
+                return e;
+            else if (mult && e.getCost()*WARPMULT <= maxCost)
+                return e;
         }
-        if (currentBiome.length() == 0)
-            return true;
-        if (!currentBiome.equals(biomeEvent))
-            return false;
-        return true;
+        return null;
     }
 }

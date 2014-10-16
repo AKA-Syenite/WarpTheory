@@ -13,7 +13,7 @@ public class WarpEventHandler
         {
             EntityPlayer player = (EntityPlayer)e.entity;
             if (player.ticksExisted % 1200 == 0 && WarpHandler.getWarp(player) > 0 && player.worldObj.rand.nextBoolean() && !player.capabilities.isCreativeMode && !WarpHandler.wuss && !player.isPotionActive(WarpHandler.potionWarpWardID))
-                WarpHandler.doOneWarp(player.worldObj, player, WarpHandler.getWarp(player));
+                WarpHandler.doOneWarp(player, WarpHandler.getWarp(player));
         }
     }
 }
