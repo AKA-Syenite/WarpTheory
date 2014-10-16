@@ -30,8 +30,7 @@ import shukaro.warptheory.util.NameGenerator;
 import java.io.IOException;
 
 @Mod(modid = WarpTheory.modID, name = WarpTheory.modName, version = WarpTheory.modVersion,
-        dependencies = "")
-//required-after:Thaumcraft
+        dependencies = "required-after:Thaumcraft")
 public class WarpTheory
 {
     @SidedProxy(clientSide = "shukaro.warptheory.net.ClientProxy", serverSide = "shukaro.warptheory.net.CommonProxy")
