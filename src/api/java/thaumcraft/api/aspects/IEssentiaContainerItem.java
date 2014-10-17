@@ -3,22 +3,22 @@ package thaumcraft.api.aspects;
 import net.minecraft.item.ItemStack;
 
 /**
- * 
  * @author azanor
- * 
- * Used by wispy essences and essentia phials to hold their aspects. 
- * Useful for similar item containers that store their aspect information in nbt form so TC
- * automatically picks up the aspects they contain
- *
+ *         <p/>
+ *         Used by wispy essences and essentia phials to hold their aspects.
+ *         Useful for similar item containers that store their aspect information in nbt form so TC
+ *         automatically picks up the aspects they contain
  */
-public interface IEssentiaContainerItem {
-	public AspectList getAspects(ItemStack itemstack);
-	public void setAspects(ItemStack itemstack, AspectList aspects);
+public interface IEssentiaContainerItem
+{
+    public AspectList getAspects(ItemStack itemstack);
+
+    public void setAspects(ItemStack itemstack, AspectList aspects);
 }
 
 //Example implementation
 /*  
-	@Override
+    @Override
 	public AspectList getAspects(ItemStack itemstack) {
 		if (itemstack.hasTagCompound()) {
 			AspectList aspects = new AspectList();

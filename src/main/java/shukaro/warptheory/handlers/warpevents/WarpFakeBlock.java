@@ -1,11 +1,10 @@
 package shukaro.warptheory.handlers.warpevents;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import shukaro.warptheory.handlers.IWarpEvent;
 
-public class WarpFakeBlock implements IWarpEvent
+public class WarpFakeBlock extends IWarpEvent
 {
     @Override
     public String getName()
@@ -14,7 +13,7 @@ public class WarpFakeBlock implements IWarpEvent
     }
 
     @Override
-    public int getCost()
+    public int getSeverity()
     {
         return 0;
     }

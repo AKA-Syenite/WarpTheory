@@ -19,7 +19,7 @@ import shukaro.warptheory.util.MiscHelper;
 
 import java.util.ArrayList;
 
-public class WarpLivestockRain implements IWarpEvent
+public class WarpLivestockRain extends IWarpEvent
 {
     public WarpLivestockRain() { FMLCommonHandler.instance().bus().register(this); }
 
@@ -30,9 +30,9 @@ public class WarpLivestockRain implements IWarpEvent
     }
 
     @Override
-    public int getCost()
+    public int getSeverity()
     {
-        return 13;
+        return 32;
     }
 
     @Override

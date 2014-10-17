@@ -18,7 +18,7 @@ import shukaro.warptheory.util.MiscHelper;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class WarpChests implements IWarpEvent
+public class WarpChests extends IWarpEvent
 {
     public WarpChests()
     {
@@ -32,9 +32,9 @@ public class WarpChests implements IWarpEvent
     }
 
     @Override
-    public int getCost()
+    public int getSeverity()
     {
-        return 20;
+        return 35;
     }
 
     @Override

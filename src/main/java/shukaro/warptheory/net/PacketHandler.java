@@ -8,15 +8,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.world.World;
-import shukaro.warptheory.WarpTheory;
-import shukaro.warptheory.handlers.WarpHandler;
-import shukaro.warptheory.handlers.warpevents.WarpBlink;
 import shukaro.warptheory.handlers.warpevents.WarpBlood;
 import shukaro.warptheory.net.packets.*;
 import shukaro.warptheory.util.BlockCoord;
-import shukaro.warptheory.util.MiscHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,16 +29,16 @@ public class PacketHandler extends SimpleChannelInboundHandler<WarpPacket>
         }
         else if (handler instanceof NetHandlerPlayClient)
         {
-            if (msg instanceof BlinkPacket)
+            if (msg instanceof EnderParticlesPacket)
             {
-                BlinkPacket blink = (BlinkPacket)msg;
+                EnderParticlesPacket blink = (EnderParticlesPacket)msg;
                 World world = Minecraft.getMinecraft().thePlayer.worldObj;
                 for (int l = 0; l < 128; ++l)
                     world.spawnParticle("portal", blink.x + world.rand.nextDouble() - world.rand.nextDouble(), blink.y + world.rand.nextDouble() - world.rand.nextDouble(), blink.z + world.rand.nextDouble() - world.rand.nextDouble(), (double)(world.rand.nextFloat() - 0.5F) * 0.2F, (double)(world.rand.nextFloat() - 0.5F) * 0.2F, (double)(world.rand.nextFloat() - 0.5F) * 0.2F);
             }
-            else if (msg instanceof WindPacket)
+            else if (msg instanceof VelocityPacket)
             {
-                WindPacket wind = (WindPacket)msg;
+                VelocityPacket wind = (VelocityPacket)msg;
                 Minecraft.getMinecraft().thePlayer.addVelocity(wind.x, wind.y, wind.z);
             }
             else if (msg instanceof BloodPacket)

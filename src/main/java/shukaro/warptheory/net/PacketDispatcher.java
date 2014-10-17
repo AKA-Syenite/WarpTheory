@@ -16,7 +16,7 @@ public class PacketDispatcher
         try
         {
             int dim = world.provider.dimensionId;
-            sendToAllAround(new BlinkPacket(x, y, z), dim, (int)x, (int)y, (int)z, 128);
+            sendToAllAround(new EnderParticlesPacket(x, y, z), dim, (int)x, (int)y, (int)z, 128);
         }
         catch (Exception e)
         {
@@ -28,7 +28,7 @@ public class PacketDispatcher
     {
         try
         {
-            sendToPlayer(new WindPacket(x, y, z), player);
+            sendToPlayer(new VelocityPacket(x, y, z), player);
         }
         catch (Exception e)
         {

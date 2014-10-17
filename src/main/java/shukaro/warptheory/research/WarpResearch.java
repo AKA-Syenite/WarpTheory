@@ -7,6 +7,7 @@ import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.items.WarpItems;
 import shukaro.warptheory.recipe.WarpRecipes;
 import thaumcraft.api.ItemApi;
+import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.CrucibleRecipe;
@@ -51,6 +52,7 @@ public class WarpResearch
             researchSomething = new ResearchItem("WARPSOMETHING", "ALCHEMY", new AspectList().add(Aspect.ELDRITCH, 3), -2, -5, 1, new ItemStack(WarpItems.itemSomething))
                     .setPages(somethingPages).setHidden().setAspectTriggers(Aspect.ELDRITCH, Aspect.FLESH, Aspect.EXCHANGE);
             researchSomething.registerResearchItem();
+            ThaumcraftApi.addWarpToResearch("WARPSOMETHING", 2);
 
             researchPaper = new ResearchItem("WARPPAPER", "ALCHEMY", new AspectList().add(Aspect.ELDRITCH, 3).add(Aspect.MAGIC, 3), 0, -5, 2, new ItemStack(WarpItems.itemPaper))
                     .setPages(new ResearchPage[]{
@@ -85,6 +87,7 @@ public class WarpResearch
             researchSomething = new ResearchItem("WARPSOMETHING", "ALCHEMY", new AspectList().add(Aspect.ELDRITCH, 3), -2, -5, 1, new ItemStack(WarpItems.itemSomething))
                     .setPages(somethingPages).setHidden().setAspectTriggers(Aspect.ELDRITCH, Aspect.FLESH, Aspect.EXCHANGE);
             researchSomething.registerResearchItem();
+            ThaumcraftApi.addWarpToResearch("WARPSOMETHING", 2);
 
             researchPaper = new ResearchItem("WARPPAPER", "ALCHEMY", new AspectList().add(Aspect.ELDRITCH, 3).add(Aspect.MAGIC, 3), 0, -5, 2, new ItemStack(WarpItems.itemPaper))
                     .setPages(new ResearchPage[]{

@@ -1,9 +1,5 @@
 package thaumcraft.api.crafting;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import thaumcraft.api.aspects.AspectList;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -12,17 +8,22 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import thaumcraft.api.ThaumcraftApiHelper;
+import thaumcraft.api.aspects.AspectList;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ShapelessArcaneRecipe implements IArcaneRecipe
 {
     private ItemStack output = null;
     private ArrayList input = new ArrayList();
-    
-    public AspectList aspects = null;
-    public String research; 
 
-    public ShapelessArcaneRecipe(String research, Block result, AspectList aspects, Object... recipe){ this(research,new ItemStack(result),aspects, recipe); }
-    public ShapelessArcaneRecipe(String research, Item  result, AspectList aspects, Object... recipe){ this(research,new ItemStack(result),aspects, recipe); }
+    public AspectList aspects = null;
+    public String research;
+
+    public ShapelessArcaneRecipe(String research, Block result, AspectList aspects, Object... recipe) { this(research, new ItemStack(result), aspects, recipe); }
+
+    public ShapelessArcaneRecipe(String research, Item result, AspectList aspects, Object... recipe) { this(research, new ItemStack(result), aspects, recipe); }
 
     public ShapelessArcaneRecipe(String research, ItemStack result, AspectList aspects, Object... recipe)
     {
@@ -50,7 +51,7 @@ public class ShapelessArcaneRecipe implements IArcaneRecipe
             else
             {
                 String ret = "Invalid shapeless ore recipe: ";
-                for (Object tmp :  recipe)
+                for (Object tmp : recipe)
                 {
                     ret += tmp + ", ";
                 }
@@ -61,23 +62,24 @@ public class ShapelessArcaneRecipe implements IArcaneRecipe
     }
 
     @Override
-    public int getRecipeSize(){ return input.size(); }
+    public int getRecipeSize() { return input.size(); }
 
     @Override
-    public ItemStack getRecipeOutput(){ return output; }
+    public ItemStack getRecipeOutput() { return output; }
 
     @Override
-    public ItemStack getCraftingResult(IInventory var1){ return output.copy(); }
+    public ItemStack getCraftingResult(IInventory var1) { return output.copy(); }
 
     @Override
     public boolean matches(IInventory var1, World world, EntityPlayer player)
     {
-    	if (research.length()>0 && !ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), research)) {
-    		return false;
-    	}
-    	
+        if (research.length() > 0 && !ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), research))
+        {
+            return false;
+        }
+
         ArrayList required = new ArrayList(input);
-        
+
         for (int x = 0; x < 9; x++)
         {
             ItemStack slot = var1.getStackInSlot(x);
@@ -119,39 +121,47 @@ public class ShapelessArcaneRecipe implements IArcaneRecipe
                 }
             }
         }
-        
+
         return required.isEmpty();
     }
 
     private boolean checkItemEquals(ItemStack target, ItemStack input)
     {
+        if (input == null && target != null || input != null && target == null)
+        {
+            return false;
+        }
         return (target.getItem() == input.getItem() &&
-        		(!target.hasTagCompound() || ItemStack.areItemStackTagsEqual(target, input)) &&
-        		(target.getItemDamage() == OreDictionary.WILDCARD_VALUE || target.getItemDamage() == input.getItemDamage()));
+                (!target.hasTagCompound() || ThaumcraftApiHelper.areItemStackTagsEqualForCrafting(input, target)) &&
+                (target.getItemDamage() == OreDictionary.WILDCARD_VALUE || target.getItemDamage() == input.getItemDamage()));
     }
 
     /**
      * Returns the input for this recipe, any mod accessing this value should never
      * manipulate the values in this array as it will effect the recipe itself.
+     *
      * @return The recipes input vales.
      */
     public ArrayList getInput()
     {
         return this.input;
     }
-    
-    @Override		
-	public AspectList getAspects() {
-		return aspects;
-	}
-    
-    @Override		
-	public AspectList getAspects(IInventory inv) {
-		return aspects;
-	}
-	
-	@Override
-	public String getResearch() {
-		return research;
-	}
+
+    @Override
+    public AspectList getAspects()
+    {
+        return aspects;
+    }
+
+    @Override
+    public AspectList getAspects(IInventory inv)
+    {
+        return aspects;
+    }
+
+    @Override
+    public String getResearch()
+    {
+        return research;
+    }
 }

@@ -2,13 +2,13 @@ package shukaro.warptheory.net.packets;
 
 import io.netty.buffer.ByteBuf;
 
-public class BlinkPacket implements WarpPacket
+public class VelocityPacket implements WarpPacket
 {
     public double x, y, z;
 
-    public BlinkPacket() {}
+    public VelocityPacket() {}
 
-    public BlinkPacket(double x, double y, double z)
+    public VelocityPacket(double x, double y, double z)
     {
         this.x = x;
         this.y = y;

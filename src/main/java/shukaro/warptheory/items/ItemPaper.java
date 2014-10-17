@@ -5,7 +5,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,7 +15,6 @@ import net.minecraft.world.World;
 import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.WarpHandler;
 import shukaro.warptheory.util.FormatCodes;
-import thaumcraft.api.ThaumcraftApiHelper;
 
 import java.util.List;
 import java.util.Locale;
@@ -80,8 +78,8 @@ public class ItemPaper extends Item
     {
         if (!world.isRemote)
         {
-            int totalWarp = WarpHandler.getWarp(player);
-            int[] totalWarps = WarpHandler.getWarps(player);
+            int totalWarp = WarpHandler.getTotalWarp(player);
+            int[] individualWarps = WarpHandler.getIndividualWarps(player);
             String severity;
             if (totalWarp <= 10)
                 severity = StatCollector.translateToLocal("chat.warptheory.minorwarp");
@@ -93,12 +91,12 @@ public class ItemPaper extends Item
                 severity = StatCollector.translateToLocal("chat.warptheory.deadlywarp");
             player.addChatMessage(new ChatComponentText(FormatCodes.Purple.code + FormatCodes.Italic.code + severity));
             player.addChatMessage(new ChatComponentText(
-                    " (" + totalWarps[0] + " " + StatCollector.translateToLocal("chat.warptheory.stickywarp") +
-                    ", " + totalWarps[1] + " " + StatCollector.translateToLocal("chat.warptheory.normalwarp") +
-                    ", " + totalWarps[2] + " " + StatCollector.translateToLocal("chat.warptheory.tempwarp") + ")"));
+                    " (" + individualWarps[0] + " " + StatCollector.translateToLocal("chat.warptheory.permanentwarp") +
+                            ", " + individualWarps[1] + " " + StatCollector.translateToLocal("chat.warptheory.normalwarp") +
+                            ", " + individualWarps[2] + " " + StatCollector.translateToLocal("chat.warptheory.tempwarp") + ")"));
         }
 
-        if (!player.capabilities.isCreativeMode && WarpHandler.getWarp(player) <= 10)
+        if (!player.capabilities.isCreativeMode && WarpHandler.getTotalWarp(player) <= 10)
             stack.stackSize--;
 
         return stack.stackSize <= 0 ? null : stack;

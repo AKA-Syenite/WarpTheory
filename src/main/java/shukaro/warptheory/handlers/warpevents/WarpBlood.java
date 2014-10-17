@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WarpBlood implements IWarpEvent
+public class WarpBlood extends IWarpEvent
 {
     @SideOnly(Side.CLIENT)
     public static Map<Integer, ArrayList<BlockCoord>> bloody = new HashMap<Integer, ArrayList<BlockCoord>>();
@@ -34,9 +34,9 @@ public class WarpBlood implements IWarpEvent
     }
 
     @Override
-    public int getCost()
+    public int getSeverity()
     {
-        return 12;
+        return 25;
     }
 
     @Override
@@ -62,9 +62,9 @@ public class WarpBlood implements IWarpEvent
                     int targetX = (int)player.posX + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
                     int targetY = (int)player.posY + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
                     int targetZ = (int)player.posZ + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
-                    if (e.world.isAirBlock(targetX, targetY-1, targetZ) && !e.world.isAirBlock(targetX, targetY, targetZ) && e.world.getBlock(targetX, targetY, targetZ).getMaterial().blocksMovement())
+                    if (e.world.isAirBlock(targetX, targetY - 1, targetZ) && !e.world.isAirBlock(targetX, targetY, targetZ) && e.world.getBlock(targetX, targetY, targetZ).getMaterial().blocksMovement())
                     {
-                        PacketDispatcher.sendBloodEvent(player, targetX, targetY+1, targetZ);
+                        PacketDispatcher.sendBloodEvent(player, targetX, targetY + 1, targetZ);
                         MiscHelper.setTag(player, "blood", --blood);
                         if (blood <= 0)
                         {
@@ -86,7 +86,7 @@ public class WarpBlood implements IWarpEvent
         if (world != null && world.getTotalWorldTime() % 5 == 0 && bloody.get(world.provider.dimensionId) != null)
         {
             for (BlockCoord c : bloody.get(world.provider.dimensionId))
-                MiscHelper.spawnDripParticle(world, c.x, c.y, c.z, world.rand.nextFloat()+0.2f, 0.0f, 0.0f);
+                MiscHelper.spawnDripParticle(world, c.x, c.y, c.z, world.rand.nextFloat() + 0.2f, 0.0f, 0.0f);
         }
     }
 }

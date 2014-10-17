@@ -12,7 +12,7 @@ import shukaro.warptheory.util.ChatHelper;
 import shukaro.warptheory.util.FormatCodes;
 import shukaro.warptheory.util.MiscHelper;
 
-public class WarpTongue implements IWarpEvent
+public class WarpTongue extends IWarpEvent
 {
     public WarpTongue() { MinecraftForge.EVENT_BUS.register(this); }
 
@@ -23,7 +23,7 @@ public class WarpTongue implements IWarpEvent
     }
 
     @Override
-    public int getCost()
+    public int getSeverity()
     {
         return 8;
     }

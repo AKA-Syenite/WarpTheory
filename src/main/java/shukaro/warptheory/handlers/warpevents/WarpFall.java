@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WarpFall implements IWarpEvent
+public class WarpFall extends IWarpEvent
 {
     private static Map<String, BlockCoord> originalPositions = new HashMap<String, BlockCoord>();
     private static Map<String, Long> returnTimes = new HashMap<String, Long>();
@@ -37,9 +37,9 @@ public class WarpFall implements IWarpEvent
     }
 
     @Override
-    public int getCost()
+    public int getSeverity()
     {
-        return 15;
+        return 36;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class WarpFall implements IWarpEvent
                 {
                     int fall = MiscHelper.getTag(player, "fall");
                     originalPositions.put(player.getCommandSenderName(), new BlockCoord((int)player.posX, (int)player.posY, (int)player.posZ));
-                    returnTimes.put(player.getCommandSenderName(), e.world.getTotalWorldTime() + fall*20);
+                    returnTimes.put(player.getCommandSenderName(), e.world.getTotalWorldTime() + fall * 20);
                     e.world.playSoundEffect(player.posX, player.posY, player.posZ, "mob.endermen.portal", 1.0F, 1.0F);
                     for (int i = (int)player.posX - 5; i < player.posX + 5; i++)
                     {

@@ -2,13 +2,13 @@ package shukaro.warptheory.net.packets;
 
 import io.netty.buffer.ByteBuf;
 
-public class WindPacket implements WarpPacket
+public class EnderParticlesPacket implements WarpPacket
 {
     public double x, y, z;
 
-    public WindPacket() {}
+    public EnderParticlesPacket() {}
 
-    public WindPacket(double x, double y, double z)
+    public EnderParticlesPacket(double x, double y, double z)
     {
         this.x = x;
         this.y = y;

@@ -21,7 +21,7 @@ import shukaro.warptheory.util.*;
 
 import java.util.ArrayList;
 
-public class WarpSwamp implements IWarpEvent
+public class WarpSwamp extends IWarpEvent
 {
     public WarpSwamp() { FMLCommonHandler.instance().bus().register(this); }
 
@@ -32,9 +32,9 @@ public class WarpSwamp implements IWarpEvent
     }
 
     @Override
-    public int getCost()
+    public int getSeverity()
     {
-        return 35;
+        return 50;
     }
 
     @Override

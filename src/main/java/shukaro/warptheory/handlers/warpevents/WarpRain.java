@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import shukaro.warptheory.handlers.IWarpEvent;
 
-public class WarpRain implements IWarpEvent
+public class WarpRain extends IWarpEvent
 {
     @Override
     public String getName()
@@ -13,9 +13,9 @@ public class WarpRain implements IWarpEvent
     }
 
     @Override
-    public int getCost()
+    public int getSeverity()
     {
-        return 10;
+        return 12;
     }
 
     @Override

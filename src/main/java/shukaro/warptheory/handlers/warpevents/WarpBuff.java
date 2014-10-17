@@ -10,18 +10,18 @@ import shukaro.warptheory.util.FormatCodes;
 
 import java.util.Collection;
 
-public class WarpBuff implements IWarpEvent
+public class WarpBuff extends IWarpEvent
 {
     private String name;
-    private int cost;
+    private int severity;
     private int id;
     private int duration;
     private int level;
 
-    public WarpBuff(String name, int cost, PotionEffect effect)
+    public WarpBuff(String name, int severity, PotionEffect effect)
     {
         this.name = name;
-        this.cost = cost;
+        this.severity = severity;
         this.id = effect.getPotionID();
         this.duration = effect.getDuration();
         this.level = effect.getAmplifier();
@@ -34,9 +34,9 @@ public class WarpBuff implements IWarpEvent
     }
 
     @Override
-    public int getCost()
+    public int getSeverity()
     {
-        return cost;
+        return severity;
     }
 
     @Override

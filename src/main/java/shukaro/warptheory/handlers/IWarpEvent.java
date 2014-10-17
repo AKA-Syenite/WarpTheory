@@ -3,11 +3,13 @@ package shukaro.warptheory.handlers;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public interface IWarpEvent
+public abstract class IWarpEvent
 {
-    public String getName();
+    public abstract String getName();
 
-    public int getCost();
+    public abstract int getSeverity();
 
-    public boolean doEvent(World world, EntityPlayer player);
+    public final int getCost() { return (int)Math.ceil(getSeverity() / 10); }
+
+    public abstract boolean doEvent(World world, EntityPlayer player);
 }

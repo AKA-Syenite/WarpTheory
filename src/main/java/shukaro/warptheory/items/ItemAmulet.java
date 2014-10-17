@@ -11,10 +11,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import shukaro.warptheory.WarpTheory;
+import shukaro.warptheory.handlers.IWarpEvent;
 import shukaro.warptheory.handlers.WarpHandler;
 import shukaro.warptheory.util.FormatCodes;
 
@@ -76,13 +76,18 @@ public class ItemAmulet extends Item implements IBauble
     }
 
     @Override
-    public void onWornTick(ItemStack itemstack, EntityLivingBase player)
+    public void onWornTick(ItemStack itemstack, EntityLivingBase entity)
     {
-        if (player instanceof EntityPlayer)
+        if (entity instanceof EntityPlayer)
         {
-            EntityPlayer p = (EntityPlayer)player;
-            if (!p.worldObj.isRemote && p.worldObj.getTotalWorldTime() % 600 == 0 && WarpHandler.getWarp(p) > 0)
-                WarpHandler.removeWarp(p, WarpHandler.doOneWarp(p, WarpHandler.getWarp(p)).getCost());
+            EntityPlayer player = (EntityPlayer)entity;
+            if (player.ticksExisted % 500 != 0 || WarpHandler.getTotalWarp(player) <= 0 || player.worldObj.isRemote)
+                return;
+            if (player.worldObj.rand.nextInt(100) <= Math.sqrt(WarpHandler.getTotalWarp(player)))
+            {
+                IWarpEvent event = WarpHandler.doOneEvent(player, WarpHandler.getTotalWarp(player));
+                WarpHandler.removeWarp(player, event.getCost());
+            }
         }
     }
 

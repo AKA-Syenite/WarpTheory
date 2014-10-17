@@ -15,7 +15,7 @@ import shukaro.warptheory.util.ChatHelper;
 import shukaro.warptheory.util.FormatCodes;
 import shukaro.warptheory.util.MiscHelper;
 
-public class WarpEars implements IWarpEvent
+public class WarpEars extends IWarpEvent
 {
     public WarpEars() { MinecraftForge.EVENT_BUS.register(this); }
 
@@ -26,9 +26,9 @@ public class WarpEars implements IWarpEvent
     }
 
     @Override
-    public int getCost()
+    public int getSeverity()
     {
-        return 10;
+        return 16;
     }
 
     @Override

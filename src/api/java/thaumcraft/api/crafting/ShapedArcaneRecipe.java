@@ -1,9 +1,5 @@
 package thaumcraft.api.crafting;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import thaumcraft.api.aspects.AspectList;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -12,6 +8,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import thaumcraft.api.ThaumcraftApiHelper;
+import thaumcraft.api.aspects.AspectList;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ShapedArcaneRecipe implements IArcaneRecipe
 {
@@ -20,30 +20,32 @@ public class ShapedArcaneRecipe implements IArcaneRecipe
     private static final int MAX_CRAFT_GRID_HEIGHT = 3;
 
     public ItemStack output = null;
-    public  Object[] input = null;
+    public Object[] input = null;
     public AspectList aspects = null;
-    public String research; 
+    public String research;
     public int width = 0;
     public int height = 0;
     private boolean mirrored = true;
 
-    public ShapedArcaneRecipe(String research, Block     result, AspectList aspects, Object... recipe){ this(research, new ItemStack(result), aspects, recipe); }
-    public ShapedArcaneRecipe(String research, Item      result, AspectList aspects, Object... recipe){ this(research, new ItemStack(result), aspects, recipe); }
+    public ShapedArcaneRecipe(String research, Block result, AspectList aspects, Object... recipe) { this(research, new ItemStack(result), aspects, recipe); }
+
+    public ShapedArcaneRecipe(String research, Item result, AspectList aspects, Object... recipe) { this(research, new ItemStack(result), aspects, recipe); }
+
     public ShapedArcaneRecipe(String research, ItemStack result, AspectList aspects, Object... recipe)
     {
         output = result.copy();
         this.research = research;
         this.aspects = aspects;
         String shape = "";
-        
+
         int idx = 0;
 
         if (recipe[idx] instanceof Boolean)
         {
             mirrored = (Boolean)recipe[idx];
-            if (recipe[idx+1] instanceof Object[])
+            if (recipe[idx + 1] instanceof Object[])
             {
-                recipe = (Object[])recipe[idx+1];
+                recipe = (Object[])recipe[idx + 1];
             }
             else
             {
@@ -77,7 +79,7 @@ public class ShapedArcaneRecipe implements IArcaneRecipe
         if (width * height != shape.length())
         {
             String ret = "Invalid shaped ore recipe: ";
-            for (Object tmp :  recipe)
+            for (Object tmp : recipe)
             {
                 ret += tmp + ", ";
             }
@@ -111,7 +113,7 @@ public class ShapedArcaneRecipe implements IArcaneRecipe
             else
             {
                 String ret = "Invalid shaped ore recipe: ";
-                for (Object tmp :  recipe)
+                for (Object tmp : recipe)
                 {
                     ret += tmp + ", ";
                 }
@@ -129,20 +131,21 @@ public class ShapedArcaneRecipe implements IArcaneRecipe
     }
 
     @Override
-    public ItemStack getCraftingResult(IInventory var1){ return output.copy(); }
+    public ItemStack getCraftingResult(IInventory var1) { return output.copy(); }
 
     @Override
-    public int getRecipeSize(){ return input.length; }
+    public int getRecipeSize() { return input.length; }
 
     @Override
-    public ItemStack getRecipeOutput(){ return output; }
+    public ItemStack getRecipeOutput() { return output; }
 
     @Override
     public boolean matches(IInventory inv, World world, EntityPlayer player)
     {
-    	if (research.length()>0 && !ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), research)) {
-    		return false;
-    	}
+        if (research.length() > 0 && !ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), research))
+        {
+            return false;
+        }
         for (int x = 0; x <= MAX_CRAFT_GRID_WIDTH - width; x++)
         {
             for (int y = 0; y <= MAX_CRAFT_GRID_HEIGHT - height; ++y)
@@ -223,9 +226,9 @@ public class ShapedArcaneRecipe implements IArcaneRecipe
         {
             return false;
         }
-        return (target.getItem() == input.getItem() && 
-        		(!target.hasTagCompound() || ItemStack.areItemStackTagsEqual(target, input)) &&
-        		(target.getItemDamage() == OreDictionary.WILDCARD_VALUE|| target.getItemDamage() == input.getItemDamage()));
+        return (target.getItem() == input.getItem() &&
+                (!target.hasTagCompound() || ThaumcraftApiHelper.areItemStackTagsEqualForCrafting(input, target)) &&
+                (target.getItemDamage() == OreDictionary.WILDCARD_VALUE || target.getItemDamage() == input.getItemDamage()));
     }
 
     public ShapedArcaneRecipe setMirrored(boolean mirror)
@@ -237,25 +240,29 @@ public class ShapedArcaneRecipe implements IArcaneRecipe
     /**
      * Returns the input for this recipe, any mod accessing this value should never
      * manipulate the values in this array as it will effect the recipe itself.
+     *
      * @return The recipes input vales.
      */
     public Object[] getInput()
     {
         return this.input;
     }
-    
-    @Override		
-	public AspectList getAspects() {
-		return aspects;
-	}
-    
-    @Override		
-	public AspectList getAspects(IInventory inv) {
-		return aspects;
-	}
-	
-	@Override
-	public String getResearch() {
-		return research;
-	}
+
+    @Override
+    public AspectList getAspects()
+    {
+        return aspects;
+    }
+
+    @Override
+    public AspectList getAspects(IInventory inv)
+    {
+        return aspects;
+    }
+
+    @Override
+    public String getResearch()
+    {
+        return research;
+    }
 }

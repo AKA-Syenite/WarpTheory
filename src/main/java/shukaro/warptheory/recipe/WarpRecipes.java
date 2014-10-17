@@ -38,6 +38,7 @@ public class WarpRecipes
 
             for (ItemStack meat : meats)
                 ThaumcraftApi.addCrucibleRecipe("WARPSOMETHING", new ItemStack(WarpItems.itemSomething), meat, new AspectList().add(Aspect.ELDRITCH, 16).add(Aspect.EXCHANGE, 8));
+            ThaumcraftApi.addWarpToItem(new ItemStack(WarpItems.itemSomething), 1);
 
             ThaumcraftApi.addShapelessArcaneCraftingRecipe("WARPPAPER", new ItemStack(WarpItems.itemPaper), new AspectList().add(Aspect.WATER, 8),
                     ItemApi.getItem("itemResource", 14), new ItemStack(Items.paper), ItemApi.getItem("itemResource", 14));
@@ -52,6 +53,7 @@ public class WarpRecipes
 
             for (ItemStack meat : meats)
                 ThaumcraftApi.addCrucibleRecipe("WARPSOMETHING", new ItemStack(WarpItems.itemSomething), meat, new AspectList().add(Aspect.ELDRITCH, 8));
+            ThaumcraftApi.addWarpToItem(new ItemStack(WarpItems.itemSomething), 1);
 
             ThaumcraftApi.addShapelessArcaneCraftingRecipe("WARPPAPER", new ItemStack(WarpItems.itemPaper), new AspectList().add(Aspect.WATER, 4),
                     new ItemStack(Items.paper), ItemApi.getItem("itemResource", 14));

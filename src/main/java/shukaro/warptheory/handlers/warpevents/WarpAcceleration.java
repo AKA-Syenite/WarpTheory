@@ -14,7 +14,7 @@ import shukaro.warptheory.util.MiscHelper;
 
 import java.util.ArrayList;
 
-public class WarpAcceleration implements IWarpEvent
+public class WarpAcceleration extends IWarpEvent
 {
     public WarpAcceleration() { FMLCommonHandler.instance().bus().register(this); }
 
@@ -25,9 +25,9 @@ public class WarpAcceleration implements IWarpEvent
     }
 
     @Override
-    public int getCost()
+    public int getSeverity()
     {
-        return 14;
+        return 27;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class WarpAcceleration implements IWarpEvent
             if (MiscHelper.getTag(player, "acceleration") > 0)
             {
                 int acceleration = MiscHelper.getTag(player, "acceleration");
-                e.world.setWorldTime(e.world.getWorldTime()+2);
+                e.world.setWorldTime(e.world.getWorldTime() + 2);
                 MiscHelper.setTag(player, "acceleration", --acceleration);
                 if (acceleration <= 0)
                     MiscHelper.removeTag(player, "acceleration");

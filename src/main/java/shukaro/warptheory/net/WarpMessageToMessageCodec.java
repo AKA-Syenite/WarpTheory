@@ -14,8 +14,8 @@ public class WarpMessageToMessageCodec extends FMLIndexedMessageToMessageCodec<W
 
     public WarpMessageToMessageCodec()
     {
-        addDiscriminator(BLINKEVENT, BlinkPacket.class);
-        addDiscriminator(WINDEVENT, WindPacket.class);
+        addDiscriminator(BLINKEVENT, EnderParticlesPacket.class);
+        addDiscriminator(WINDEVENT, VelocityPacket.class);
         addDiscriminator(BLOODEVENT, BloodPacket.class);
         addDiscriminator(CLEAREVENT, ClearPacket.class);
     }

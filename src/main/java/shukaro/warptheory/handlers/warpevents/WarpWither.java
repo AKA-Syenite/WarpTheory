@@ -16,7 +16,7 @@ import shukaro.warptheory.util.MiscHelper;
 
 import java.util.ArrayList;
 
-public class WarpWither implements IWarpEvent
+public class WarpWither extends IWarpEvent
 {
     public WarpWither()
     {
@@ -30,9 +30,9 @@ public class WarpWither implements IWarpEvent
     }
 
     @Override
-    public int getCost()
+    public int getSeverity()
     {
-        return 45;
+        return 70;
     }
 
     @Override

@@ -16,7 +16,7 @@ import shukaro.warptheory.util.MiscHelper;
 
 import java.util.ArrayList;
 
-public class WarpFriend implements IWarpEvent
+public class WarpFriend extends IWarpEvent
 {
     public WarpFriend()
     {
@@ -30,9 +30,9 @@ public class WarpFriend implements IWarpEvent
     }
 
     @Override
-    public int getCost()
+    public int getSeverity()
     {
-        return 20;
+        return 26;
     }
 
     @Override
@@ -59,10 +59,10 @@ public class WarpFriend implements IWarpEvent
                     int targetX = (int)player.posX + e.world.rand.nextInt(4) - e.world.rand.nextInt(4);
                     int targetY = (int)player.posY + e.world.rand.nextInt(4) - e.world.rand.nextInt(4);
                     int targetZ = (int)player.posZ + e.world.rand.nextInt(4) - e.world.rand.nextInt(4);
-                    if (e.world.isAirBlock(targetX, targetY, targetZ) && e.world.isAirBlock(targetX, targetY+1, targetZ))
+                    if (e.world.isAirBlock(targetX, targetY, targetZ) && e.world.isAirBlock(targetX, targetY + 1, targetZ))
                     {
                         EntityPassiveCreeper creeper = new EntityPassiveCreeper(e.world);
-                        try { creeper.setCustomNameTag(WarpTheory.normalNames.compose(e.world.rand.nextInt(3)+2)); }
+                        try { creeper.setCustomNameTag(WarpTheory.normalNames.compose(e.world.rand.nextInt(3) + 2)); }
                         catch (Exception x) { x.printStackTrace(); }
                         creeper.playLivingSound();
                         creeper.setLocationAndAngles((double)targetX + e.world.rand.nextDouble(), (double)targetY + e.world.rand.nextDouble(), (double)targetZ + e.world.rand.nextDouble(), e.world.rand.nextFloat(), e.world.rand.nextFloat());
