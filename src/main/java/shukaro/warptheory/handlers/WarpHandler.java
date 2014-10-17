@@ -4,24 +4,18 @@ import gnu.trove.map.hash.THashMap;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.world.World;
 import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.warpevents.*;
-import shukaro.warptheory.util.MiscHelper;
 import shukaro.warptheory.util.NameMetaPair;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Set;
 
 public class WarpHandler
 {
-    public static final int WARPMULT = 4;
-
     public static Map<String, Integer> warp;
     public static Map<String, Integer> warpTemp;
     public static Map<String, Integer> warpSticky;
@@ -51,10 +45,10 @@ public class WarpHandler
     {
         warpEvents.add(new WarpBats());
         warpEvents.add(new WarpBlink());
-        warpEvents.add(new WarpBuff("poison", 5, new PotionEffect(Potion.poison.id, 20*20)));
-        warpEvents.add(new WarpBuff("nausea", 6, new PotionEffect(Potion.confusion.id, 20*20)));
+        warpEvents.add(new WarpBuff("poison", 4, new PotionEffect(Potion.poison.id, 20 * 20)));
+        warpEvents.add(new WarpBuff("nausea", 8, new PotionEffect(Potion.confusion.id, 20 * 20)));
         warpEvents.add(new WarpBuff("jump", 6, new PotionEffect(Potion.jump.id, 20*20, 40)));
-        warpEvents.add(new WarpBuff("blind", 6, new PotionEffect(Potion.blindness.id, 20*20)));
+        warpEvents.add(new WarpBuff("blind", 8, new PotionEffect(Potion.blindness.id, 20 * 20)));
         warpEvents.add(new WarpDecay());
         warpEvents.add(new WarpEars());
         warpEvents.add(new WarpSwamp());
@@ -150,31 +144,29 @@ public class WarpHandler
             int wt = warpTemp.get(name);
             if (amount <= wt)
                 warpTemp.put(name, wt - amount);
-            else if (amount <= (w + wt))
-            {
-                warpTemp.put(name, 0);
-                warp.put(name, w - (amount - wt));
-            }
-            else if (warpSticky != null && amount <= (ws + w + wt))
-            {
-                warpTemp.put(name, 0);
-                warp.put(name, 0);
-                warpSticky.put(name, ws - (amount - wt - w));
-            }
             else
             {
                 warpTemp.put(name, 0);
-                warp.put(name, 0);
-                if (warpSticky != null)
-                    warpSticky.put(name, 0);
+                amount -= wt;
             }
+            if (amount <= w * 2)
+                warp.put(name, w - amount / 2);
+            else
+            {
+                warp.put(name, 0);
+                amount -= w * 2;
+            }
+            if (warpSticky != null && amount <= ws * 4)
+                warpSticky.put(name, ws - amount / 4);
+            else if (warpSticky != null)
+                warpSticky.put(name, 0);
         }
     }
 
     public static int getWarp(EntityPlayer player)
     {
         if ((warp != null && warpTemp != null) || tcReflect())
-            return  (warpSticky != null ? warpSticky.get(player.getDisplayName()) : 0) + warp.get(player.getDisplayName()) + warpTemp.get(player.getDisplayName());
+            return (warpSticky != null ? warpSticky.get(player.getDisplayName()) : 0) * 4 + warp.get(player.getDisplayName()) * 2 + warpTemp.get(player.getDisplayName());
         return 0;
     }
 
@@ -205,21 +197,19 @@ public class WarpHandler
 
     public static IWarpEvent doOneWarp(EntityPlayer player, int playerWarp)
     {
-        IWarpEvent event = getAppropriateEvent(playerWarp, true);
+        IWarpEvent event = getAppropriateEvent(playerWarp);
         if (event != null)
             event.doEvent(player.worldObj, player);
         return event;
     }
 
-    private static IWarpEvent getAppropriateEvent(int maxCost, boolean mult)
+    private static IWarpEvent getAppropriateEvent(int maxCost)
     {
         ArrayList<IWarpEvent> shuffled = (ArrayList<IWarpEvent>)warpEvents.clone();
         Collections.shuffle(shuffled);
         for (IWarpEvent e : shuffled)
         {
-            if (!mult && e.getCost() <= maxCost)
-                return e;
-            else if (mult && e.getCost()*WARPMULT <= maxCost)
+            if (e.getCost() <= maxCost)
                 return e;
         }
         return null;

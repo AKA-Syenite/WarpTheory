@@ -7,21 +7,15 @@ import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.FakePlayer;
-import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.IWarpEvent;
-import shukaro.warptheory.util.BlockCoord;
 import shukaro.warptheory.util.ChatHelper;
 import shukaro.warptheory.util.FormatCodes;
 import shukaro.warptheory.util.MiscHelper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class WarpChests implements IWarpEvent
@@ -40,7 +34,7 @@ public class WarpChests implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 11;
+        return 20;
     }
 
     @Override

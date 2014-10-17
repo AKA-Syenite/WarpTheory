@@ -15,7 +15,7 @@ public class WarpRain implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 8;
+        return 10;
     }
 
     @Override

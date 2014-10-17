@@ -5,12 +5,14 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.passive.*;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import shukaro.warptheory.handlers.IWarpEvent;
-import shukaro.warptheory.handlers.WarpHandler;
 import shukaro.warptheory.util.ChatHelper;
 import shukaro.warptheory.util.FormatCodes;
 import shukaro.warptheory.util.MiscHelper;
@@ -30,7 +32,7 @@ public class WarpLivestockRain implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 9;
+        return 13;
     }
 
     @Override
@@ -58,7 +60,7 @@ public class WarpLivestockRain implements IWarpEvent
                     int targetY = (int)player.posY + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
                     int targetZ = (int)player.posZ + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
                     boolean canDrop = true;
-                    for (int y = targetY; y < targetY+25; y++)
+                    for (int y = targetY; y < targetY + 25; y++)
                     {
                         if (!e.world.isAirBlock(targetX, y, targetZ))
                         {

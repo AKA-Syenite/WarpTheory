@@ -1,7 +1,6 @@
 package shukaro.warptheory.handlers.warpevents;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -9,9 +8,7 @@ import shukaro.warptheory.handlers.IWarpEvent;
 import shukaro.warptheory.util.ChatHelper;
 import shukaro.warptheory.util.FormatCodes;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 
 public class WarpBuff implements IWarpEvent
 {
@@ -63,6 +60,7 @@ public class WarpBuff implements IWarpEvent
             effect = new PotionEffect(id, duration, level);
         if (effect != null)
         {
+            effect.getCurativeItems().clear();
             player.addPotionEffect(effect);
             ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory." + getName()));
         }

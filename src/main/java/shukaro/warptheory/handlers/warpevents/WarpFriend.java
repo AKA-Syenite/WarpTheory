@@ -4,9 +4,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -35,7 +32,7 @@ public class WarpFriend implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 9;
+        return 20;
     }
 
     @Override

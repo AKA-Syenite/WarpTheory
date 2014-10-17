@@ -29,7 +29,7 @@ public class WarpBlink implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 10;
+        return 22;
     }
 
     @Override

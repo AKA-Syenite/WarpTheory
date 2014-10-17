@@ -27,7 +27,7 @@ public class WarpAcceleration implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 11;
+        return 14;
     }
 
     @Override

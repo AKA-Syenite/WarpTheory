@@ -3,7 +3,6 @@ package shukaro.warptheory.handlers.warpevents;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
@@ -29,7 +28,7 @@ public class WarpEars implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 8;
+        return 10;
     }
 
     @Override

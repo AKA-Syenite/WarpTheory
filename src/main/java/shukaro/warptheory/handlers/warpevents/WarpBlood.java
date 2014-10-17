@@ -7,10 +7,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.IWarpEvent;
 import shukaro.warptheory.net.PacketDispatcher;
 import shukaro.warptheory.util.BlockCoord;
@@ -38,7 +36,7 @@ public class WarpBlood implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 8;
+        return 12;
     }
 
     @Override

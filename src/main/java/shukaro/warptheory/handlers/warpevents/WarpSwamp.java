@@ -7,7 +7,6 @@ import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Direction;
@@ -35,7 +34,7 @@ public class WarpSwamp implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 13;
+        return 35;
     }
 
     @Override

@@ -9,8 +9,6 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import shukaro.warptheory.WarpTheory;
-import shukaro.warptheory.entity.EntityPassiveCreeper;
 import shukaro.warptheory.handlers.IWarpEvent;
 import shukaro.warptheory.util.ChatHelper;
 import shukaro.warptheory.util.FormatCodes;
@@ -34,7 +32,7 @@ public class WarpWither implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 18;
+        return 45;
     }
 
     @Override
@@ -61,7 +59,7 @@ public class WarpWither implements IWarpEvent
                     int targetY = (int)player.posY + e.world.rand.nextInt(4) - e.world.rand.nextInt(4);
                     int targetZ = (int)player.posZ + e.world.rand.nextInt(4) - e.world.rand.nextInt(4);
 
-                    if (!e.world.getBlock(targetX, targetY-1, targetZ).getMaterial().blocksMovement())
+                    if (!e.world.getBlock(targetX, targetY - 1, targetZ).getMaterial().blocksMovement())
                         return;
                     for (int xb = targetX - 1; xb < targetX + 1; xb++)
                     {

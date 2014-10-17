@@ -2,26 +2,23 @@ package shukaro.warptheory.handlers.warpevents;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import shukaro.warptheory.block.WarpBlocks;
 import shukaro.warptheory.handlers.IWarpEvent;
 import shukaro.warptheory.net.PacketDispatcher;
 import shukaro.warptheory.tile.TileEntityVanish;
-import shukaro.warptheory.util.*;
+import shukaro.warptheory.util.BlockCoord;
+import shukaro.warptheory.util.ChatHelper;
+import shukaro.warptheory.util.FormatCodes;
+import shukaro.warptheory.util.MiscHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class WarpFall implements IWarpEvent
 {
@@ -42,7 +39,7 @@ public class WarpFall implements IWarpEvent
     @Override
     public int getCost()
     {
-        return 11;
+        return 15;
     }
 
     @Override
