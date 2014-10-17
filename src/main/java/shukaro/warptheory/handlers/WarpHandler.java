@@ -248,14 +248,14 @@ public class WarpHandler
     public static int getWarpFromGear(EntityPlayer player)
     {
         int w = 0;
-        if (player.getCurrentEquippedItem().getItem() instanceof IWarpingGear)
+        if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IWarpingGear)
             w += ((IWarpingGear)player.getCurrentEquippedItem().getItem()).getWarp(player.getCurrentEquippedItem(), player);
         IInventory baubles = BaublesApi.getBaubles(player);
         for (int i = 0; i < 4l; i++)
         {
-            if (player.inventory.getStackInSlot(i).getItem() instanceof IWarpingGear)
+            if (player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() instanceof IWarpingGear)
                 w += ((IWarpingGear)player.inventory.getStackInSlot(i).getItem()).getWarp(player.inventory.getStackInSlot(i), player);
-            if (baubles.getStackInSlot(i).getItem() instanceof IWarpingGear)
+            if (baubles != null && baubles.getStackInSlot(i) != null && baubles.getStackInSlot(i).getItem() instanceof IWarpingGear)
                 w += ((IWarpingGear)baubles.getStackInSlot(i).getItem()).getWarp(baubles.getStackInSlot(i), player);
         }
         return w;
