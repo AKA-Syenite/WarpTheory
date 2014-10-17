@@ -18,7 +18,7 @@ public class WarpHandler
 {
     public static Map<String, Integer> warp;
     public static Map<String, Integer> warpTemp;
-    public static Map<String, Integer> warpSticky;
+    public static Map<String, Integer> warpPermanent;
     public static boolean wuss = false;
     public static int potionWarpWardID = -1;
 
@@ -108,20 +108,41 @@ public class WarpHandler
     {
         try
         {
-            Class tc = Class.forName("thaumcraft.common.Thaumcraft");
-            Object proxy = tc.getField("proxy").get(null);
-            Object pK = proxy.getClass().getField("playerKnowledge").get(proxy);
-            warp = (Map<String, Integer>)pK.getClass().getDeclaredField("warp").get(pK);
-            warpTemp = (Map<String, Integer>)pK.getClass().getField("warpTemp").get(pK);
-            warpSticky = (Map<String, Integer>)pK.getClass().getField("warpTemp").get(pK);
             wuss = Class.forName("thaumcraft.common.config.Config").getField("wuss").getBoolean(null);
             potionWarpWardID = Class.forName("thaumcraft.common.config.Config").getField("potionWarpWardID").getInt(null);
         }
         catch (Exception e)
         {
-            WarpTheory.logger.warn("Could not reflect into Thaumcraft");
+            WarpTheory.logger.warn("Could not reflect into thaumcraft.common.Config to get config settings");
             e.printStackTrace();
-            return false;
+        }
+        try
+        {
+            Class tc = Class.forName("thaumcraft.common.Thaumcraft");
+            Object proxy = tc.getField("proxy").get(null);
+            Object pK = proxy.getClass().getField("playerKnowledge").get(proxy);
+            warp = (Map<String, Integer>)pK.getClass().getDeclaredField("warpSticky").get(pK);
+            warpTemp = (Map<String, Integer>)pK.getClass().getField("warpTemp").get(pK);
+            warpPermanent = (Map<String, Integer>)pK.getClass().getField("warp").get(pK);
+        }
+        catch (Exception e)
+        {
+            WarpTheory.logger.warn("Could not reflect into thaumcraft.common.Thaumcraft to get warp mappings, attempting older reflection");
+            e.printStackTrace();
+            try
+            {
+                Class tc = Class.forName("thaumcraft.common.Thaumcraft");
+                Object proxy = tc.getField("proxy").get(null);
+                Object pK = proxy.getClass().getField("playerKnowledge").get(proxy);
+                warp = (Map<String, Integer>)pK.getClass().getDeclaredField("warp").get(pK);
+                warpTemp = (Map<String, Integer>)pK.getClass().getField("warpTemp").get(pK);
+            }
+            catch (Exception x)
+            {
+                WarpTheory.logger.warn("Failed to reflect into thaumcraft.common.Thaumcraft to get warp mapping");
+                e.printStackTrace();
+                return false;
+            }
         }
         return true;
     }
@@ -139,7 +160,7 @@ public class WarpHandler
         if ((warp != null && warpTemp != null) || tcReflect())
         {
             String name = player.getDisplayName();
-            int ws = warpSticky != null ? warpSticky.get(name) : 0;
+            int ws = warpPermanent != null ? warpPermanent.get(name) : 0;
             int w = warp.get(name);
             int wt = warpTemp.get(name);
             if (amount <= wt)
@@ -156,17 +177,17 @@ public class WarpHandler
                 warp.put(name, 0);
                 amount -= w * 2;
             }
-            if (warpSticky != null && amount <= ws * 4)
-                warpSticky.put(name, ws - amount / 4);
-            else if (warpSticky != null)
-                warpSticky.put(name, 0);
+            if (warpPermanent != null && amount <= ws * 4)
+                warpPermanent.put(name, ws - amount / 4);
+            else if (warpPermanent != null)
+                warpPermanent.put(name, 0);
         }
     }
 
     public static int getWarp(EntityPlayer player)
     {
         if ((warp != null && warpTemp != null) || tcReflect())
-            return (warpSticky != null ? warpSticky.get(player.getDisplayName()) : 0) * 4 + warp.get(player.getDisplayName()) * 2 + warpTemp.get(player.getDisplayName());
+            return (warpPermanent != null ? warpPermanent.get(player.getDisplayName()) : 0) * 4 + warp.get(player.getDisplayName()) * 2 + warpTemp.get(player.getDisplayName());
         return 0;
     }
 
@@ -175,7 +196,7 @@ public class WarpHandler
         int[] totals = new int[3];
         if ((warp != null && warpTemp != null) || tcReflect())
         {
-            totals[0] = warpSticky != null ? warpSticky.get(player.getDisplayName()) : 0;
+            totals[0] = warpPermanent != null ? warpPermanent.get(player.getDisplayName()) : 0;
             totals[1] = warp.get(player.getDisplayName());
             totals[2] = warpTemp.get(player.getDisplayName());
         }
