@@ -78,6 +78,7 @@ public class WarpBlood extends IWarpEvent
     }
 
     @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public void onClientTick(TickEvent.ClientTickEvent e)
     {
         if (e.phase != TickEvent.Phase.END)
