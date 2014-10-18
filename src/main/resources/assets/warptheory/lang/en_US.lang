@@ -1,5 +1,8 @@
 itemGroup.warptheory.tab=Warp Theory
 
+chat.warptheory.purge=You've got a bad feeling about this...
+chat.warptheory.purgefail=Nothing in particular happens
+
 chat.warptheory.addwarp=It feels as if something strange has slithered into you...
 chat.warptheory.minorwarp=There's no reaction
 chat.warptheory.averagewarp=The paper turns a sickly color

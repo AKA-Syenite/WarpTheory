@@ -43,10 +43,18 @@ public class WarpFall extends IWarpEvent
     }
 
     @Override
+    public boolean canDo(EntityPlayer player)
+    {
+        if (originalPositions.get(player.getCommandSenderName()) != null)
+            return false;
+        return true;
+    }
+
+    @Override
     public boolean doEvent(World world, EntityPlayer player)
     {
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.fall"));
-        MiscHelper.modTag(player, "fall", 4);
+        MiscHelper.modEventInt(player, "fall", 4);
         return true;
     }
 
@@ -57,11 +65,11 @@ public class WarpFall extends IWarpEvent
             return;
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
-            if (MiscHelper.getTag(player, "fall") > 0)
+            if (MiscHelper.getWarpTag(player).hasKey("fall"))
             {
                 if (!originalPositions.containsKey(player.getCommandSenderName()))
                 {
-                    int fall = MiscHelper.getTag(player, "fall");
+                    int fall = MiscHelper.getWarpTag(player).getInteger("fall");
                     originalPositions.put(player.getCommandSenderName(), new BlockCoord((int)player.posX, (int)player.posY, (int)player.posZ));
                     returnTimes.put(player.getCommandSenderName(), e.world.getTotalWorldTime() + fall * 20);
                     e.world.playSoundEffect(player.posX, player.posY, player.posZ, "mob.endermen.portal", 1.0F, 1.0F);
@@ -90,7 +98,7 @@ public class WarpFall extends IWarpEvent
                     player.setPositionAndUpdate(dx, o.y, dz);
                     PacketDispatcher.sendBlinkEvent(e.world, dx, o.y, dz);
                     e.world.playSoundEffect(dx, o.y, dz, "mob.endermen.portal", 1.0F, 1.0F);
-                    MiscHelper.removeTag(player, "fall");
+                    MiscHelper.getWarpTag(player).removeTag("fall");
                     originalPositions.remove(player.getCommandSenderName());
                     returnTimes.remove(player.getCommandSenderName());
                 }

@@ -12,16 +12,24 @@ public class WarpEventHandler
         if (e.entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer)e.entity;
-            if (player.ticksExisted % 2000 != 0 || WarpHandler.wuss || player.isPotionActive(WarpHandler.potionWarpWardID) || WarpHandler.getTotalWarp(player) <= 0)
-                return;
-            if (!player.capabilities.isCreativeMode && !player.worldObj.isRemote && player.worldObj.rand.nextInt(100) <= Math.sqrt(WarpHandler.getTotalWarp(player)))
+            if (player.ticksExisted % 2000 == 0 && !WarpHandler.wuss && !player.isPotionActive(WarpHandler.potionWarpWardID) && WarpHandler.getTotalWarp(player) > 0 &&
+                    !player.capabilities.isCreativeMode && !player.worldObj.isRemote && player.worldObj.rand.nextInt(100) <= Math.sqrt(WarpHandler.getTotalWarp(player)))
             {
-                IWarpEvent event = WarpHandler.doOneEvent(player, WarpHandler.getTotalWarp(player));
-                int warpTemp = WarpHandler.getIndividualWarps(player)[2];
-                if (warpTemp > 0 && event.getCost() <= warpTemp)
-                    WarpHandler.removeWarp(player, event.getCost());
-                else if (warpTemp > 0)
-                    WarpHandler.removeWarp(player, warpTemp);
+                IWarpEvent event = WarpHandler.queueOneEvent(player, WarpHandler.getTotalWarp(player));
+                if (event != null)
+                {
+                    int warpTemp = WarpHandler.getIndividualWarps(player)[2];
+                    if (warpTemp > 0 && event.getCost() <= warpTemp)
+                        WarpHandler.removeWarp(player, event.getCost());
+                    else if (warpTemp > 0)
+                        WarpHandler.removeWarp(player, warpTemp);
+                }
+            }
+            if (player.ticksExisted % 20 == 0 && player.worldObj.rand.nextBoolean())
+            {
+                IWarpEvent event = WarpHandler.dequeueEvent(player);
+                if (event != null && event.canDo(player))
+                    event.doEvent(player.worldObj, player);
             }
         }
     }

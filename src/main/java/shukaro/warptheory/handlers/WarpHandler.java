@@ -10,6 +10,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.warpevents.*;
+import shukaro.warptheory.util.MiscHelper;
 import shukaro.warptheory.util.NameMetaPair;
 import thaumcraft.api.IWarpingGear;
 
@@ -154,7 +155,7 @@ public class WarpHandler
 
     public static void purgeWarp(EntityPlayer player)
     {
-        doMultipleEvents(player, getTotalWarp(player));
+        queueMultipleEvents(player, getTotalWarp(player));
         removeWarp(player, getTotalWarp(player));
     }
 
@@ -214,12 +215,12 @@ public class WarpHandler
         return totals;
     }
 
-    public static int doMultipleEvents(EntityPlayer player, int amount)
+    public static int queueMultipleEvents(EntityPlayer player, int amount)
     {
         int w = amount;
         while (w > 0)
         {
-            IWarpEvent event = doOneEvent(player, w);
+            IWarpEvent event = queueOneEvent(player, w);
             if (event == null)
                 return w;
             w -= event.getCost();
@@ -227,15 +228,15 @@ public class WarpHandler
         return w;
     }
 
-    public static IWarpEvent doOneEvent(EntityPlayer player, int maxSeverity)
+    public static IWarpEvent queueOneEvent(EntityPlayer player, int maxSeverity)
     {
-        IWarpEvent event = getAppropriateEvent(maxSeverity);
+        IWarpEvent event = getAppropriateEvent(player, maxSeverity);
         if (event != null)
-            event.doEvent(player.worldObj, player);
+            queueEvent(player, event);
         return event;
     }
 
-    public static IWarpEvent getAppropriateEvent(int maxSeverity)
+    public static IWarpEvent getAppropriateEvent(EntityPlayer player, int maxSeverity)
     {
         ArrayList<IWarpEvent> shuffled = (ArrayList<IWarpEvent>)warpEvents.clone();
         Collections.shuffle(shuffled);
@@ -261,5 +262,49 @@ public class WarpHandler
                 w += ((IWarpingGear)baubles.getStackInSlot(i).getItem()).getWarp(baubles.getStackInSlot(i), player);
         }
         return w;
+    }
+
+    public static IWarpEvent getEventFromName(String name)
+    {
+        for (IWarpEvent event : warpEvents)
+        {
+            if (event.getName().equals(name))
+                return event;
+        }
+        return null;
+    }
+
+    public static void queueEvent(EntityPlayer player, IWarpEvent event)
+    {
+        String queue;
+        if (!MiscHelper.getWarpTag(player).hasKey("queuedEvents"))
+            queue = "";
+        else
+            queue = MiscHelper.getWarpTag(player).getString("queuedEvents");
+        queue += event.getName() + " ";
+        MiscHelper.getWarpTag(player).setString("queuedEvents", queue);
+    }
+
+    public static IWarpEvent dequeueEvent(EntityPlayer player)
+    {
+        String queue;
+        if (!MiscHelper.getWarpTag(player).hasKey("queuedEvents"))
+            queue = "";
+        else
+            queue = MiscHelper.getWarpTag(player).getString("queuedEvents");
+        if (queue.length() > 0)
+        {
+            ArrayList<String> names = new ArrayList<String>();
+            for (String n : queue.split(" "))
+                names.add(n);
+            Collections.shuffle(names);
+            String todo = names.remove(player.worldObj.rand.nextInt(names.size()));
+            queue = "";
+            for (String n : names)
+                queue += n + " ";
+            MiscHelper.getWarpTag(player).setString("queuedEvents", queue);
+            return getEventFromName(todo);
+        }
+        return null;
     }
 }

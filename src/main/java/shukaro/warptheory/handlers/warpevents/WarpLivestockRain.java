@@ -39,7 +39,7 @@ public class WarpLivestockRain extends IWarpEvent
     public boolean doEvent(World world, EntityPlayer player)
     {
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.livestock"));
-        MiscHelper.modTag(player, getName(), 5 + world.rand.nextInt(10));
+        MiscHelper.modEventInt(player, getName(), 5 + world.rand.nextInt(10));
         return true;
     }
 
@@ -51,9 +51,9 @@ public class WarpLivestockRain extends IWarpEvent
         // Spawning livestock
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
-            if (MiscHelper.getTag(player, "livestock") > 0)
+            if (MiscHelper.getWarpTag(player).hasKey("livestock"))
             {
-                int livestock = MiscHelper.getTag(player, "livestock");
+                int livestock = MiscHelper.getWarpTag(player).getInteger("livestock");
                 for (int i = 0; i < 6; i++)
                 {
                     int targetX = (int)player.posX + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
@@ -93,9 +93,9 @@ public class WarpLivestockRain extends IWarpEvent
                         victim.setLocationAndAngles((double)targetX + e.world.rand.nextDouble(), (double)targetY + e.world.rand.nextDouble(), (double)targetZ + e.world.rand.nextDouble(), e.world.rand.nextFloat(), e.world.rand.nextFloat());
                         if (e.world.spawnEntityInWorld(victim))
                         {
-                            MiscHelper.setTag(player, "livestock", --livestock);
+                            MiscHelper.getWarpTag(player).setInteger("livestock", --livestock);
                             if (livestock <= 0)
-                                MiscHelper.removeTag(player, "livestock");
+                                MiscHelper.getWarpTag(player).removeTag("livestock");
                             break;
                         }
                     }

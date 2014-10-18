@@ -35,7 +35,7 @@ public class WarpWind extends IWarpEvent
     public boolean doEvent(World world, EntityPlayer player)
     {
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.wind"));
-        MiscHelper.modTag(player, "wind", 5 + world.rand.nextInt(10));
+        MiscHelper.modEventInt(player, "wind", 5 + world.rand.nextInt(10));
         return true;
     }
 
@@ -46,13 +46,13 @@ public class WarpWind extends IWarpEvent
             return;
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
-            if (MiscHelper.getTag(player, "wind") > 0 && e.world.rand.nextBoolean() && e.world.getTotalWorldTime() % 20 == 0)
+            if (MiscHelper.getWarpTag(player).hasKey("wind") && e.world.rand.nextBoolean() && e.world.getTotalWorldTime() % 20 == 0)
             {
-                int wind = MiscHelper.getTag(player, "wind");
+                int wind = MiscHelper.getWarpTag(player).getInteger("wind");
                 PacketDispatcher.sendWindEvent(player, e.world.rand.nextDouble() - e.world.rand.nextDouble(), e.world.rand.nextDouble(), e.world.rand.nextDouble() - e.world.rand.nextDouble());
-                MiscHelper.setTag(player, "wind", --wind);
+                MiscHelper.getWarpTag(player).setInteger("wind", --wind);
                 if (wind <= 0)
-                    MiscHelper.removeTag(player, "wind");
+                    MiscHelper.getWarpTag(player).removeTag("wind");
             }
         }
     }

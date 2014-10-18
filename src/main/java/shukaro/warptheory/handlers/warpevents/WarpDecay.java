@@ -16,6 +16,7 @@ import shukaro.warptheory.handlers.WarpHandler;
 import shukaro.warptheory.util.*;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class WarpDecay extends IWarpEvent
 {
@@ -34,12 +35,21 @@ public class WarpDecay extends IWarpEvent
     }
 
     @Override
+    public boolean canDo(EntityPlayer player)
+    {
+        for (String n : (Set<String>)MiscHelper.getWarpTag(player).func_150296_c())
+        {
+            if (n.startsWith("biome") && !n.equals(getName()))
+                return false;
+        }
+        return true;
+    }
+
+    @Override
     public boolean doEvent(World world, EntityPlayer player)
     {
-        if (!MiscHelper.canDoBiomeEvent(player, getName()))
-            return false;
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.decay"));
-        MiscHelper.modTag(player, getName(), 256 * 2 + world.rand.nextInt(256));
+        MiscHelper.modEventInt(player, getName(), 256 * 2 + world.rand.nextInt(256));
         return true;
     }
 
@@ -51,9 +61,9 @@ public class WarpDecay extends IWarpEvent
         // Decay terrain
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
-            if (MiscHelper.getTag(player, "biomeDecay") > 0)
+            if (MiscHelper.getWarpTag(player).hasKey("biomeDecay"))
             {
-                int decay = MiscHelper.getTag(player, "biomeDecay");
+                int decay = MiscHelper.getWarpTag(player).getInteger("biomeDecay");
                 int targetX = (int)player.posX + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
                 int targetY = (int)player.posY + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
                 int targetZ = (int)player.posZ + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
@@ -70,9 +80,9 @@ public class WarpDecay extends IWarpEvent
                     {
                         if (target.isAir(e.world))
                             e.world.playAuxSFXAtEntity(null, 2001, target.x, target.y, target.z, Block.getIdFromBlock(pair.getBlock()) + (pair.getMetadata() << 12));
-                        MiscHelper.setTag(player, "biomeDecay", --decay);
+                        MiscHelper.getWarpTag(player).setInteger("biomeDecay", --decay);
                         if (decay <= 0)
-                            MiscHelper.removeTag(player, "biomeDecay");
+                            MiscHelper.getWarpTag(player).removeTag("biomeDecay");
                     }
                 }
             }

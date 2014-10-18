@@ -20,6 +20,7 @@ import shukaro.warptheory.handlers.WarpHandler;
 import shukaro.warptheory.util.*;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class WarpSwamp extends IWarpEvent
 {
@@ -38,12 +39,21 @@ public class WarpSwamp extends IWarpEvent
     }
 
     @Override
+    public boolean canDo(EntityPlayer player)
+    {
+        for (String n : (Set<String>)MiscHelper.getWarpTag(player).func_150296_c())
+        {
+            if (n.startsWith("biome") && !n.equals(getName()))
+                return false;
+        }
+        return true;
+    }
+
+    @Override
     public boolean doEvent(World world, EntityPlayer player)
     {
-        if (!MiscHelper.canDoBiomeEvent(player, getName()))
-            return false;
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.swamp"));
-        MiscHelper.modTag(player, "biomeSwamp", 256 + world.rand.nextInt(256));
+        MiscHelper.modEventInt(player, "biomeSwamp", 256 + world.rand.nextInt(256));
         return true;
     }
 
@@ -55,9 +65,9 @@ public class WarpSwamp extends IWarpEvent
         // Growing swamp
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
-            if (MiscHelper.getTag(player, "biomeSwamp") > 0)
+            if (MiscHelper.getWarpTag(player).hasKey("biomeSwamp"))
             {
-                int biomeSwamp = MiscHelper.getTag(player, "biomeSwamp");
+                int biomeSwamp = MiscHelper.getWarpTag(player).getInteger("biomeSwamp");
                 int targetX = (int)player.posX + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
                 int targetY = (int)player.posY + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
                 int targetZ = (int)player.posZ + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
@@ -134,9 +144,9 @@ public class WarpSwamp extends IWarpEvent
                 }
                 if (grown)
                 {
-                    MiscHelper.setTag(player, "biomeSwamp", --biomeSwamp);
+                    MiscHelper.getWarpTag(player).setInteger("biomeSwamp", --biomeSwamp);
                     if (biomeSwamp <= 0)
-                        MiscHelper.removeTag(player, "biomeSwamp");
+                        MiscHelper.getWarpTag(player).removeTag("biomeSwamp");
                 }
             }
         }

@@ -39,7 +39,7 @@ public class WarpFriend extends IWarpEvent
     public boolean doEvent(World world, EntityPlayer player)
     {
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.friend"));
-        MiscHelper.modTag(player, "friend", 1);
+        MiscHelper.modEventInt(player, "friend", 1);
         return true;
     }
 
@@ -51,9 +51,9 @@ public class WarpFriend extends IWarpEvent
         // Spawning friend
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
-            if (MiscHelper.getTag(player, "friend") > 0)
+            if (MiscHelper.getWarpTag(player).hasKey("friend"))
             {
-                int friend = MiscHelper.getTag(player, "friend");
+                int friend = MiscHelper.getWarpTag(player).getInteger("friend");
                 for (int i = 0; i < 6; i++)
                 {
                     int targetX = (int)player.posX + e.world.rand.nextInt(4) - e.world.rand.nextInt(4);
@@ -68,9 +68,9 @@ public class WarpFriend extends IWarpEvent
                         creeper.setLocationAndAngles((double)targetX + e.world.rand.nextDouble(), (double)targetY + e.world.rand.nextDouble(), (double)targetZ + e.world.rand.nextDouble(), e.world.rand.nextFloat(), e.world.rand.nextFloat());
                         if (e.world.spawnEntityInWorld(creeper))
                         {
-                            MiscHelper.setTag(player, "friend", --friend);
+                            MiscHelper.getWarpTag(player).setInteger("friend", --friend);
                             if (friend <= 0)
-                                MiscHelper.removeTag(player, "friend");
+                                MiscHelper.getWarpTag(player).removeTag("friend");
                             break;
                         }
                     }

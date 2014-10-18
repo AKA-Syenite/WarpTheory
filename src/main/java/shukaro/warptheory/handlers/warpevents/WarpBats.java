@@ -38,7 +38,7 @@ public class WarpBats extends IWarpEvent
     public boolean doEvent(World world, EntityPlayer player)
     {
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.bats"));
-        MiscHelper.modTag(player, "bats", 15 + world.rand.nextInt(30));
+        MiscHelper.modEventInt(player, "bats", 15 + world.rand.nextInt(30));
         return true;
     }
 
@@ -50,9 +50,9 @@ public class WarpBats extends IWarpEvent
         // Spawning bats
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
-            if (MiscHelper.getTag(player, "bats") > 0)
+            if (MiscHelper.getWarpTag(player).hasKey("bats"))
             {
-                int bats = MiscHelper.getTag(player, "bats");
+                int bats = MiscHelper.getWarpTag(player).getInteger("bats");
                 for (int i = 0; i < 6; i++)
                 {
                     int targetX = (int)player.posX + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
@@ -65,9 +65,9 @@ public class WarpBats extends IWarpEvent
                         bat.setLocationAndAngles((double)targetX + e.world.rand.nextDouble(), (double)targetY + e.world.rand.nextDouble(), (double)targetZ + e.world.rand.nextDouble(), e.world.rand.nextFloat(), e.world.rand.nextFloat());
                         if (e.world.spawnEntityInWorld(bat))
                         {
-                            MiscHelper.setTag(player, "bats", --bats);
+                            MiscHelper.getWarpTag(player).setInteger("bats", --bats);
                             if (bats <= 0)
-                                MiscHelper.removeTag(player, "bats");
+                                MiscHelper.getWarpTag(player).removeTag("bats");
                             break;
                         }
                     }

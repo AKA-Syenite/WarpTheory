@@ -35,7 +35,7 @@ public class WarpEars extends IWarpEvent
     public boolean doEvent(World world, EntityPlayer player)
     {
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.ears"));
-        MiscHelper.modTag(player, "ears", 10 + world.rand.nextInt(30));
+        MiscHelper.modEventInt(player, "ears", 10 + world.rand.nextInt(30));
         return true;
     }
 
@@ -50,13 +50,13 @@ public class WarpEars extends IWarpEvent
             return;
 
         // Warp ears
-        if (MiscHelper.getTag(player, "ears") > 0)
+        if (MiscHelper.getWarpTag(player).hasKey("ears"))
         {
-            int ears = MiscHelper.getTag(player, "ears");
+            int ears = MiscHelper.getWarpTag(player).getInteger("ears");
             e.message = new ChatComponentText(ChatHelper.getFormattedUsername(e.message) + " " + ChatHelper.garbleMessage(e.message));
-            MiscHelper.setTag(player, "ears", --ears);
+            MiscHelper.getWarpTag(player).setInteger("ears", --ears);
             if (ears <= 0)
-                MiscHelper.removeTag(player, "ears");
+                MiscHelper.getWarpTag(player).removeTag("ears");
         }
     }
 }

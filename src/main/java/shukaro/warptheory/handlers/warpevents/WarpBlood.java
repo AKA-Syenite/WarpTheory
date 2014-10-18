@@ -22,7 +22,6 @@ import java.util.Map;
 
 public class WarpBlood extends IWarpEvent
 {
-    @SideOnly(Side.CLIENT)
     public static Map<Integer, ArrayList<BlockCoord>> bloody = new HashMap<Integer, ArrayList<BlockCoord>>();
 
     public WarpBlood() { FMLCommonHandler.instance().bus().register(this); }
@@ -43,7 +42,7 @@ public class WarpBlood extends IWarpEvent
     public boolean doEvent(World world, EntityPlayer player)
     {
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.blood"));
-        MiscHelper.modTag(player, "blood", 64 + world.rand.nextInt(128));
+        MiscHelper.modEventInt(player, "blood", 64 + world.rand.nextInt(128));
         return true;
     }
 
@@ -54,9 +53,9 @@ public class WarpBlood extends IWarpEvent
             return;
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
-            if (MiscHelper.getTag(player, "blood") > 0)
+            if (MiscHelper.getWarpTag(player).hasKey("blood"))
             {
-                int blood = MiscHelper.getTag(player, "blood");
+                int blood = MiscHelper.getWarpTag(player).getInteger("blood");
                 for (int i = 0; i < 6; i++)
                 {
                     int targetX = (int)player.posX + e.world.rand.nextInt(8) - e.world.rand.nextInt(8);
@@ -65,10 +64,10 @@ public class WarpBlood extends IWarpEvent
                     if (e.world.isAirBlock(targetX, targetY - 1, targetZ) && !e.world.isAirBlock(targetX, targetY, targetZ) && e.world.getBlock(targetX, targetY, targetZ).getMaterial().blocksMovement())
                     {
                         PacketDispatcher.sendBloodEvent(player, targetX, targetY + 1, targetZ);
-                        MiscHelper.setTag(player, "blood", --blood);
+                        MiscHelper.getWarpTag(player).setInteger("blood", --blood);
                         if (blood <= 0)
                         {
-                            MiscHelper.removeTag(player, "blood");
+                            MiscHelper.getWarpTag(player).removeTag("blood");
                             PacketDispatcher.sendBloodClearEvent(player);
                         }
                     }

@@ -32,7 +32,7 @@ public class WarpTongue extends IWarpEvent
     public boolean doEvent(World world, EntityPlayer player)
     {
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.tongue"));
-        MiscHelper.modTag(player, "toungues", 10 + world.rand.nextInt(15));
+        MiscHelper.modEventInt(player, "toungues", 10 + world.rand.nextInt(15));
         return true;
     }
 
@@ -40,13 +40,13 @@ public class WarpTongue extends IWarpEvent
     public void onMessageReceived(ServerChatEvent e)
     {
         // Warp tongue
-        if (MiscHelper.getTag(e.player, "tongues") > 0)
+        if (MiscHelper.getWarpTag(e.player).hasKey("tongues"))
         {
-            int tongues = MiscHelper.getTag(e.player, "tongues");
+            int tongues = MiscHelper.getWarpTag(e.player).getInteger("tongues");
             e.component = new ChatComponentTranslation(ChatHelper.getFormattedUsername(e.component) + " " + ChatHelper.garbleMessage(e.component));
-            MiscHelper.setTag(e.player, "tongues", --tongues);
+            MiscHelper.getWarpTag(e.player).setInteger("tongues", --tongues);
             if (tongues <= 0)
-                MiscHelper.removeTag(e.player, "tongues");
+                MiscHelper.getWarpTag(e.player).removeTag("tongues");
         }
     }
 }

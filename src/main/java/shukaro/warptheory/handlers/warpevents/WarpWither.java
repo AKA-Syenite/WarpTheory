@@ -39,7 +39,7 @@ public class WarpWither extends IWarpEvent
     public boolean doEvent(World world, EntityPlayer player)
     {
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.wither"));
-        MiscHelper.modTag(player, "wither", 1);
+        MiscHelper.modEventInt(player, "wither", 1);
         return true;
     }
 
@@ -50,9 +50,9 @@ public class WarpWither extends IWarpEvent
             return;
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
-            if (MiscHelper.getTag(player, "wither") > 0)
+            if (MiscHelper.getWarpTag(player).hasKey("wither"))
             {
-                int wither = MiscHelper.getTag(player, "wither");
+                int wither = MiscHelper.getWarpTag(player).getInteger("wither");
                 for (int i = 0; i < 6; i++)
                 {
                     int targetX = (int)player.posX + e.world.rand.nextInt(4) - e.world.rand.nextInt(4);
@@ -82,9 +82,9 @@ public class WarpWither extends IWarpEvent
                     ew.func_82206_m();
                     if (e.world.spawnEntityInWorld(ew))
                     {
-                        MiscHelper.setTag(player, "wither", --wither);
+                        MiscHelper.getWarpTag(player).setInteger("wither", --wither);
                         if (wither <= 0)
-                            MiscHelper.removeTag(player, "wither");
+                            MiscHelper.getWarpTag(player).removeTag("wither");
                         break;
                     }
                 }

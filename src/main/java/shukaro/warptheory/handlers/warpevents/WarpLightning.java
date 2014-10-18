@@ -38,7 +38,7 @@ public class WarpLightning extends IWarpEvent
     public boolean doEvent(World world, EntityPlayer player)
     {
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.lightning"));
-        MiscHelper.modTag(player, "lightning", 5 + world.rand.nextInt(10));
+        MiscHelper.modEventInt(player, "lightning", 5 + world.rand.nextInt(10));
         return true;
     }
 
@@ -49,9 +49,9 @@ public class WarpLightning extends IWarpEvent
             return;
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
-            if (MiscHelper.getTag(player, "lightning") > 0)
+            if (MiscHelper.getWarpTag(player).hasKey("lightning"))
             {
-                int lightning = MiscHelper.getTag(player, "lightning");
+                int lightning = MiscHelper.getWarpTag(player).getInteger("lightning");
                 int x = (int)player.posX + e.world.rand.nextInt(3) - e.world.rand.nextInt(3);
                 int y = (int)player.posY;
                 int z = (int)player.posZ + e.world.rand.nextInt(3) - e.world.rand.nextInt(3);
@@ -59,9 +59,9 @@ public class WarpLightning extends IWarpEvent
                 {
                     EntityLightningBolt bolt = new EntityLightningBolt(e.world, x, y, z);
                     e.world.addWeatherEffect(bolt);
-                    MiscHelper.setTag(player, "lightning", --lightning);
+                    MiscHelper.getWarpTag(player).setInteger("lightning", --lightning);
                     if (lightning <= 0)
-                        MiscHelper.removeTag(player, "lightning");
+                        MiscHelper.getWarpTag(player).removeTag("lightning");
                 }
             }
         }

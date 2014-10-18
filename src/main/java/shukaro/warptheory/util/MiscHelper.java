@@ -13,13 +13,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.util.ForgeDirection;
 import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.entity.EntityDropParticleFX;
 import shukaro.warptheory.handlers.WarpHandler;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public class MiscHelper
 {
@@ -54,38 +52,22 @@ public class MiscHelper
         return false;
     }
 
-    public static boolean hasTag(EntityPlayer player, String tagName)
+    public static NBTTagCompound getWarpTag(EntityPlayer player)
     {
         if (!player.getEntityData().hasKey(WarpTheory.modID))
         {
-            player.getEntityData().setTag(WarpTheory.modID, new NBTTagCompound());
-            return false;
+            NBTTagCompound tag = new NBTTagCompound();
+            player.getEntityData().setTag(WarpTheory.modID, tag);
+            return tag;
         }
-        return player.getEntityData().getCompoundTag(WarpTheory.modID).hasKey(tagName);
+        return player.getEntityData().getCompoundTag(WarpTheory.modID);
     }
 
-    public static int getTag(EntityPlayer player, String tagName)
+    public static NBTTagCompound modEventInt(EntityPlayer player, String tagName, int amount)
     {
-        if (!(hasTag(player, tagName))) { return 0; }
-        return player.getEntityData().getCompoundTag(WarpTheory.modID).getInteger(tagName);
-    }
-
-    public static void setTag(EntityPlayer player, String tagName, int value)
-    {
-        if (!player.getEntityData().hasKey(WarpTheory.modID))
-            player.getEntityData().setTag(WarpTheory.modID, new NBTTagCompound());
-        player.getEntityData().getCompoundTag(WarpTheory.modID).setInteger(tagName, value);
-    }
-
-    public static void modTag(EntityPlayer player, String tagName, int value)
-    {
-        setTag(player, tagName, getTag(player, tagName) + value);
-    }
-
-    public static void removeTag(EntityPlayer player, String tagName)
-    {
-        if (hasTag(player, tagName))
-            player.getEntityData().getCompoundTag(WarpTheory.modID).removeTag(tagName);
+        NBTTagCompound tag = getWarpTag(player);
+        tag.setInteger(tagName, tag.getInteger(tagName) + amount);
+        return tag;
     }
 
     public static boolean hasNonSolidNeighbor(World world, BlockCoord coord)
@@ -127,7 +109,7 @@ public class MiscHelper
     @SideOnly(Side.CLIENT)
     public static void spawnDripParticle(World world, int x, int y, int z, float r, float g, float b)
     {
-        if (world.isAirBlock(x, y-2, z) && !world.isAirBlock(x, y-1, z) && world.getBlock(x, y-1, z).getMaterial().blocksMovement())
+        if (world.isAirBlock(x, y - 2, z) && !world.isAirBlock(x, y - 1, z) && world.getBlock(x, y - 1, z).getMaterial().blocksMovement())
         {
             double px = x + world.rand.nextFloat();
             double py = y - 1.05D;
@@ -135,21 +117,5 @@ public class MiscHelper
             EntityFX fx = new EntityDropParticleFX(world, px, py, pz, r, g, b);
             FMLClientHandler.instance().getClient().effectRenderer.addEffect(fx);
         }
-    }
-
-    public static boolean canDoBiomeEvent(EntityPlayer player, String biomeEvent)
-    {
-        NBTTagCompound tag = player.getEntityData().getCompoundTag(WarpTheory.modID);
-        String currentBiome = "";
-        for (String key : (Set<String>)tag.func_150296_c())
-        {
-            if (key.contains("biome"))
-                currentBiome = key;
-        }
-        if (currentBiome.length() == 0)
-            return true;
-        if (!currentBiome.equals(biomeEvent))
-            return false;
-        return true;
     }
 }

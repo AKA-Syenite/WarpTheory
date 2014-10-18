@@ -75,6 +75,11 @@ public class NameMetaPair
         return this.name.equals(imp.name) && this.meta == imp.meta;
     }
 
+    public boolean equals(NameMetaPair o)
+    {
+        return this.name.equals(o.name) && this.meta == o.meta;
+    }
+
     public String toString()
     {
         return this.name + "@" + this.meta;

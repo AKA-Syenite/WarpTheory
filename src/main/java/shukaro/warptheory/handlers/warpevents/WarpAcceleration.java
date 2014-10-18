@@ -34,7 +34,7 @@ public class WarpAcceleration extends IWarpEvent
     public boolean doEvent(World world, EntityPlayer player)
     {
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.acceleration"));
-        MiscHelper.modTag(player, "acceleration", 6000 + world.rand.nextInt(12000));
+        MiscHelper.modEventInt(player, "acceleration", 6000 + world.rand.nextInt(12000));
         return true;
     }
 
@@ -45,13 +45,13 @@ public class WarpAcceleration extends IWarpEvent
             return;
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
-            if (MiscHelper.getTag(player, "acceleration") > 0)
+            if (MiscHelper.getWarpTag(player).hasKey("acceleration"))
             {
-                int acceleration = MiscHelper.getTag(player, "acceleration");
+                int acceleration = MiscHelper.getWarpTag(player).getInteger("acceleration");
                 e.world.setWorldTime(e.world.getWorldTime() + 2);
-                MiscHelper.setTag(player, "acceleration", --acceleration);
+                MiscHelper.getWarpTag(player).setInteger("acceleration", --acceleration);
                 if (acceleration <= 0)
-                    MiscHelper.removeTag(player, "acceleration");
+                    MiscHelper.getWarpTag(player).removeTag("acceleration");
             }
         }
     }

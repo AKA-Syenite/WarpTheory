@@ -36,7 +36,7 @@ public class WarpBlink extends IWarpEvent
     public boolean doEvent(World world, EntityPlayer player)
     {
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.blink"));
-        MiscHelper.modTag(player, "blink", 10 + world.rand.nextInt(20));
+        MiscHelper.modEventInt(player, "blink", 10 + world.rand.nextInt(20));
         return true;
     }
 
@@ -47,9 +47,9 @@ public class WarpBlink extends IWarpEvent
             return;
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
         {
-            if (MiscHelper.getTag(player, "blink") > 0 && e.world.getTotalWorldTime() % 20 == 0)
+            if (MiscHelper.getWarpTag(player).hasKey("blink") && e.world.getTotalWorldTime() % 20 == 0)
             {
-                int blink = MiscHelper.getTag(player, "blink");
+                int blink = MiscHelper.getWarpTag(player).getInteger("blink");
                 for (int i = 0; i < 8; i++)
                 {
                     int targetX = (int)player.posX + e.world.rand.nextInt(16) - e.world.rand.nextInt(16);
@@ -66,9 +66,9 @@ public class WarpBlink extends IWarpEvent
                         player.setPositionAndUpdate(dX, dY, dZ);
                         PacketDispatcher.sendBlinkEvent(e.world, dX, dY, dZ);
                         e.world.playSoundEffect(dX, dY, dZ, "mob.endermen.portal", 1.0F, 1.0F);
-                        MiscHelper.setTag(player, "blink", --blink);
+                        MiscHelper.getWarpTag(player).setInteger("blink", --blink);
                         if (blink <= 0)
-                            MiscHelper.removeTag(player, "blink");
+                            MiscHelper.getWarpTag(player).removeTag("blink");
                         break;
                     }
                 }

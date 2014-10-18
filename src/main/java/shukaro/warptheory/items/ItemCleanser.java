@@ -14,6 +14,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.WarpHandler;
+import shukaro.warptheory.util.ChatHelper;
 import shukaro.warptheory.util.FormatCodes;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class ItemCleanser extends Item
     {
         super();
         this.setHasSubtypes(true);
-        this.setMaxStackSize(1);
+        this.setMaxStackSize(16);
         this.setMaxDamage(0);
         this.setCreativeTab(WarpTheory.mainTab);
         this.setUnlocalizedName("warptheory.cleanser");
@@ -85,6 +86,10 @@ public class ItemCleanser extends Item
     {
         if (!world.isRemote)
         {
+            if (WarpHandler.getTotalWarp(player) > 0)
+                ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purge"));
+            else
+                ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgefail"));
             world.playSoundAtEntity(player, "game.potion.smash", 1.0f, 1.0f);
             WarpHandler.purgeWarp(player);
         }

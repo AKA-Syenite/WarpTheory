@@ -24,6 +24,10 @@ import shukaro.warptheory.recipe.WarpRecipes;
 import shukaro.warptheory.research.WarpResearch;
 import shukaro.warptheory.util.NameGenerator;
 
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+
 @Mod(modid = WarpTheory.modID, name = WarpTheory.modName, version = WarpTheory.modVersion,
         dependencies = "required-after:Thaumcraft")
 public class WarpTheory
@@ -58,7 +62,16 @@ public class WarpTheory
         logger = evt.getModLog();
         try
         {
-            normalNames = new NameGenerator(WarpTheory.class.getResource("/assets/warptheory/names/normal.txt").getPath());
+            File folder = new File(evt.getModConfigurationDirectory() + "/warptheory/");
+            if (!folder.exists())
+                folder.mkdirs();
+            File normalFile = new File(evt.getModConfigurationDirectory() + "/warptheory/normal.txt");
+            if (!normalFile.exists())
+            {
+                InputStream in = WarpTheory.class.getResourceAsStream("/assets/warptheory/names/normal.txt");
+                Files.copy(in, normalFile.getAbsoluteFile().toPath());
+            }
+            normalNames = new NameGenerator(normalFile.getAbsolutePath());
         }
         catch (Exception e)
         {
