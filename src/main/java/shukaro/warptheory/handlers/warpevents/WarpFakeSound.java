@@ -16,21 +16,24 @@ import java.util.ArrayList;
 
 public class WarpFakeSound extends IWarpEvent {
 
+    private final String name;
     private final String sound;
     private int distance = 16; //radius in blocks about player in which it can occur
 
-    public WarpFakeSound(String sound) {
+    public WarpFakeSound(String name, String sound) {
+        this.name = name;
         this.sound = sound;
         FMLCommonHandler.instance().bus().register(this);
     }
-    public WarpFakeSound(String sound, int distance) {
+    public WarpFakeSound(String name, String sound, int distance) {
+        this.name = name;
         this.sound = sound;
         this.distance = distance;
         FMLCommonHandler.instance().bus().register(this);
     }
 
     @Override
-    public String getName() { return "fakesound"; }
+    public String getName() { return name; }
 
     @Override
     public int getSeverity() { return 10; }

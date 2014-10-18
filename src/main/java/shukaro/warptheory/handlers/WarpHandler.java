@@ -66,8 +66,8 @@ public class WarpHandler
         warpEvents.add(new WarpFall());
         warpEvents.add(new WarpRain());
         warpEvents.add(new WarpWither());
-        warpEvents.add(new WarpFakeSound("random.explode", 8));
-        warpEvents.add(new WarpFakeSoundBehind("creeper.primed", 2));
+        warpEvents.add(new WarpFakeSound("fakeexplosion", "random.explode", 8));
+        warpEvents.add(new WarpFakeSoundBehind("fakecreeper", "creeper.primed", 2));
 
         addDecayMapping(Blocks.grass, Blocks.dirt);
         addDecayMapping(Blocks.dirt, 0, Blocks.sand);
