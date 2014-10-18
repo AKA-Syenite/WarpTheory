@@ -14,6 +14,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import shukaro.warptheory.WarpTheory;
+import shukaro.warptheory.handlers.WarpHandler;
 import shukaro.warptheory.util.FormatCodes;
 import thaumcraft.api.ThaumcraftApiHelper;
 
@@ -28,7 +29,7 @@ public class ItemSomething extends Item
     {
         super();
         this.setHasSubtypes(true);
-        this.setMaxStackSize(1);
+        this.setMaxStackSize(64);
         this.setMaxDamage(0);
         this.setCreativeTab(WarpTheory.mainTab);
         this.setUnlocalizedName("warptheory.something");
@@ -87,7 +88,18 @@ public class ItemSomething extends Item
         if (!world.isRemote)
         {
             player.addChatMessage(new ChatComponentText(FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.addwarp")));
-            ThaumcraftApiHelper.addWarpToPlayer(player, 10 + world.rand.nextInt(11), false);
+            if (WarpHandler.warpPermanent != null)
+            {
+                ThaumcraftApiHelper.addWarpToPlayer(player, 4 + world.rand.nextInt(4), false);
+                ThaumcraftApiHelper.addWarpToPlayer(player, 5 + world.rand.nextInt(5), true);
+                ThaumcraftApiHelper.addStickyWarpToPlayer(player, 5 + world.rand.nextInt(5));
+            }
+            else
+            {
+                ThaumcraftApiHelper.addWarpToPlayer(player, 7 + world.rand.nextInt(7), false);
+                ThaumcraftApiHelper.addWarpToPlayer(player, 7 + world.rand.nextInt(7), true);
+            }
+
         }
 
         if (!player.capabilities.isCreativeMode)

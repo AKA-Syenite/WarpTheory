@@ -28,7 +28,7 @@ public class WarpEars extends IWarpEvent
     @Override
     public int getSeverity()
     {
-        return 16;
+        return 12;
     }
 
     @Override

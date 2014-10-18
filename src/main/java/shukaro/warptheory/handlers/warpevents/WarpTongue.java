@@ -25,7 +25,7 @@ public class WarpTongue extends IWarpEvent
     @Override
     public int getSeverity()
     {
-        return 8;
+        return 11;
     }
 
     @Override

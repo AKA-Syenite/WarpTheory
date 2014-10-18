@@ -99,7 +99,8 @@ public class ItemPaper extends Item
         if (!player.capabilities.isCreativeMode && WarpHandler.getTotalWarp(player) <= 10)
             stack.stackSize--;
 
-        return stack.stackSize <= 0 ? null : stack;
+        //return stack.stackSize <= 0 ? null : stack;
+        return stack;
     }
 
     @Override
