@@ -4,12 +4,13 @@ import io.netty.buffer.ByteBuf;
 
 public class BloodPacket implements WarpPacket
 {
-    public int x, y, z;
+    public int dim, x, y, z;
 
     public BloodPacket() {}
 
-    public BloodPacket(int x, int y, int z)
+    public BloodPacket(int dim, int x, int y, int z)
     {
+        this.dim = dim;
         this.x = x;
         this.y = y;
         this.z = z;

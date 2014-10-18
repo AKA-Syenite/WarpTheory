@@ -40,7 +40,7 @@ public class PacketDispatcher
     {
         try
         {
-            sendToPlayer(new BloodPacket(x, y, z), player);
+            sendToPlayer(new BloodPacket(player.worldObj.provider.dimensionId, x, y, z), player);
         }
         catch (Exception e)
         {

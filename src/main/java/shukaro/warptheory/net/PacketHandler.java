@@ -43,11 +43,10 @@ public class PacketHandler extends SimpleChannelInboundHandler<WarpPacket>
             }
             else if (msg instanceof BloodPacket)
             {
-                World world = Minecraft.getMinecraft().theWorld;
                 BloodPacket blood = (BloodPacket)msg;
-                if (WarpBlood.bloody.get(world.provider.dimensionId) == null)
-                    WarpBlood.bloody.put(world.provider.dimensionId, new ArrayList<BlockCoord>());
-                WarpBlood.bloody.get(world.provider.dimensionId).add(new BlockCoord(blood.x, blood.y, blood.z));
+                if (WarpBlood.bloody.get(blood.dim) == null)
+                    WarpBlood.bloody.put(blood.dim, new ArrayList<BlockCoord>());
+                WarpBlood.bloody.get(blood.dim).add(new BlockCoord(blood.x, blood.y, blood.z));
             }
             else if (msg instanceof ClearPacket)
             {
