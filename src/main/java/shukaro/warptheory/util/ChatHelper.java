@@ -1,5 +1,7 @@
 package shukaro.warptheory.util;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
@@ -36,6 +38,7 @@ public class ChatHelper
         return message.getUnformattedText().split(" ")[0].replace("<", "").replace(">", "");
     }
 
+    @SideOnly(Side.CLIENT)
     public static String getFormattedUsername(IChatComponent message)
     {
         if (!message.getFormattedText().contains("<") || !message.getFormattedText().contains(">"))
@@ -48,6 +51,7 @@ public class ChatHelper
         return message.getUnformattedText().replaceFirst("<.*> ", "");
     }
 
+    @SideOnly(Side.CLIENT)
     public static String getFormattedText(IChatComponent message)
     {
         return message.getFormattedText().replaceFirst("<.*> ", "");
@@ -55,7 +59,7 @@ public class ChatHelper
 
     public static String garbleMessage(IChatComponent message)
     {
-        String text = getFormattedText(message).replace(FormatCodes.Reset.code, "");
+        String text = getText(message);
         String newText = "";
         for (String word : text.split("\\s+"))
         {

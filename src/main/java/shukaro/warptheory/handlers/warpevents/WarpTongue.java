@@ -43,7 +43,7 @@ public class WarpTongue extends IWarpEvent
         if (MiscHelper.getWarpTag(e.player).hasKey("tongues"))
         {
             int tongues = MiscHelper.getWarpTag(e.player).getInteger("tongues");
-            e.component = new ChatComponentTranslation(ChatHelper.getFormattedUsername(e.component) + " " + ChatHelper.garbleMessage(e.component));
+            e.component = new ChatComponentTranslation("<" + ChatHelper.getUsername(e.component) + "> " + ChatHelper.garbleMessage(e.component));
             MiscHelper.getWarpTag(e.player).setInteger("tongues", --tongues);
             if (tongues <= 0)
                 MiscHelper.getWarpTag(e.player).removeTag("tongues");
