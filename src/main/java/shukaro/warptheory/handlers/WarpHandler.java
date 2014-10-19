@@ -198,8 +198,15 @@ public class WarpHandler
 
     public static int getTotalWarp(EntityPlayer player)
     {
+        if (player == null)
+            return 0;
         if ((warpNormal != null && warpTemp != null) || tcReflect())
-            return (warpPermanent != null ? warpPermanent.get(player.getDisplayName()) : 0) * 2 + warpNormal.get(player.getDisplayName()) + warpTemp.get(player.getDisplayName()) + getWarpFromGear(player);
+        {
+            return ((warpPermanent != null && warpPermanent.get(player.getDisplayName()) != null) ? warpPermanent.get(player.getDisplayName()) : 0) * 2 +
+                    (warpNormal.get(player.getDisplayName()) != null ? warpNormal.get(player.getDisplayName()) : 0) +
+                    (warpTemp.get(player.getDisplayName()) != null ? warpTemp.get(player.getDisplayName()) : 0) +
+                    getWarpFromGear(player);
+        }
         return 0;
     }
 
