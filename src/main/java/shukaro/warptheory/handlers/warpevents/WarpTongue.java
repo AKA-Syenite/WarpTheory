@@ -32,7 +32,7 @@ public class WarpTongue extends IWarpEvent
     public boolean doEvent(World world, EntityPlayer player)
     {
         ChatHelper.sendToPlayer(player, FormatCodes.Purple.code + FormatCodes.Italic.code + StatCollector.translateToLocal("chat.warptheory.tongue"));
-        MiscHelper.modEventInt(player, "toungues", 10 + world.rand.nextInt(15));
+        MiscHelper.modEventInt(player, "tongues", 10 + world.rand.nextInt(15));
         return true;
     }
 
