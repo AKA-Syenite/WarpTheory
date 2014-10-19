@@ -60,6 +60,30 @@ public class PacketDispatcher
         }
     }
 
+    public static void sendEarDecrementEvent(EntityPlayer player)
+    {
+        try
+        {
+            sendToServer(new DecrementPacket(0, player.getEntityId()));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static void sendEarStartEvent(EntityPlayer player, int amount)
+    {
+        try
+        {
+            sendToPlayer(new ClientEventPacket(0, amount), player);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     private static FMLEmbeddedChannel getClientOutboundChannel()
     {
         return ClientProxy.warpChannel.get(Side.CLIENT);
@@ -70,13 +94,13 @@ public class PacketDispatcher
         return CommonProxy.warpChannel.get(Side.SERVER);
     }
 
-    private static void sendToServer(WarpPacket packet)
+    private static void sendToServer(IWarpPacket packet)
     {
         getClientOutboundChannel().attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TOSERVER);
         getClientOutboundChannel().writeOutbound(packet);
     }
 
-    private static void sendToPlayer(WarpPacket packet, EntityPlayer player)
+    private static void sendToPlayer(IWarpPacket packet, EntityPlayer player)
     {
         if (FMLCommonHandler.instance().getEffectiveSide().isServer())
         {
@@ -86,7 +110,7 @@ public class PacketDispatcher
         }
     }
 
-    private static void sendToAll(WarpPacket packet)
+    private static void sendToAll(IWarpPacket packet)
     {
         if (FMLCommonHandler.instance().getEffectiveSide().isServer())
         {
@@ -95,7 +119,7 @@ public class PacketDispatcher
         }
     }
 
-    private static void sendToAllAround(WarpPacket packet, int dim, int x, int y, int z, int range)
+    private static void sendToAllAround(IWarpPacket packet, int dim, int x, int y, int z, int range)
     {
         if (FMLCommonHandler.instance().getEffectiveSide().isServer())
         {
@@ -106,7 +130,7 @@ public class PacketDispatcher
         }
     }
 
-    private static void sendToAllInDim(WarpPacket packet, int dim)
+    private static void sendToAllInDim(IWarpPacket packet, int dim)
     {
         if (FMLCommonHandler.instance().getEffectiveSide().isServer())
         {

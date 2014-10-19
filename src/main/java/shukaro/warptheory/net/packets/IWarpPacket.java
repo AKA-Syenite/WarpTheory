@@ -2,7 +2,7 @@ package shukaro.warptheory.net.packets;
 
 import io.netty.buffer.ByteBuf;
 
-public interface WarpPacket
+public interface IWarpPacket
 {
     public void readBytes(ByteBuf bytes);
 

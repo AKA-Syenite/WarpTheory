@@ -3,7 +3,6 @@ package shukaro.warptheory.util;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -21,22 +20,21 @@ import java.util.ArrayList;
 
 public class MiscHelper
 {
-    public static EntityPlayer getServerSidePlayer()
-    {
-        int id = Minecraft.getMinecraft().thePlayer.getEntityId();
-        for (EntityPlayer serverPlayer : (ArrayList<EntityPlayer>)MinecraftServer.getServer().getConfigurationManager().playerEntityList)
-        {
-            if (serverPlayer.getEntityId() == id)
-                return serverPlayer;
-        }
-        return null;
-    }
-
     public static EntityPlayer getPlayerByName(String name)
     {
         for (EntityPlayer serverPlayer : (ArrayList<EntityPlayer>)MinecraftServer.getServer().getConfigurationManager().playerEntityList)
         {
             if (serverPlayer.getCommandSenderName().equals(name))
+                return serverPlayer;
+        }
+        return null;
+    }
+
+    public static EntityPlayer getPlayerByEntityID(int id)
+    {
+        for (EntityPlayer serverPlayer : (ArrayList<EntityPlayer>)MinecraftServer.getServer().getConfigurationManager().playerEntityList)
+        {
+            if (serverPlayer.getEntityId() == id)
                 return serverPlayer;
         }
         return null;
