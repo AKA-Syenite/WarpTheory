@@ -105,7 +105,7 @@ public class ItemSomething extends Item
         if (!player.capabilities.isCreativeMode)
             stack.stackSize--;
 
-        return stack.stackSize <= 0 ? null : stack;
+        return stack;
     }
 
     @Override
