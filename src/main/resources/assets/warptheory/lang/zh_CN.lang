@@ -1,5 +1,8 @@
 itemGroup.warptheory.tab=Warp Theory
 
+chat.warptheory.purge=对此你有一种糟糕的预感...
+chat.warptheory.purgefail=没什么特别的事情发生
+
 chat.warptheory.addwarp=你恍觉什么奇怪的东西朝你蠕动而来...
 chat.warptheory.minorwarp=没什么反应.
 chat.warptheory.averagewarp=试纸呈现出一种病态的颜色.
