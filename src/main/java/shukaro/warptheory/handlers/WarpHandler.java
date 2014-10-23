@@ -189,10 +189,13 @@ public class WarpHandler
                 warpNormal.put(name, 0);
                 amount -= wn;
             }
-            if ((int)Math.ceil(amount / 2) <= wp)
-                warpPermanent.put(name, wp - (int)Math.ceil(amount / 2));
-            else
-                warpPermanent.put(name, 0);
+            if (WarpTheory.allowPermWarpRemoval)
+            {
+                if ((int)Math.ceil(amount / WarpTheory.permWarpMult) <= wp)
+                    warpPermanent.put(name, wp - (int)Math.ceil(amount / WarpTheory.permWarpMult));
+                else
+                    warpPermanent.put(name, 0);
+            }
         }
     }
 
@@ -202,7 +205,7 @@ public class WarpHandler
             return 0;
         if ((warpNormal != null && warpTemp != null) || tcReflect())
         {
-            return ((warpPermanent != null && warpPermanent.get(player.getDisplayName()) != null) ? warpPermanent.get(player.getDisplayName()) : 0) * 2 +
+            return ((warpPermanent != null && warpPermanent.get(player.getDisplayName()) != null) ? warpPermanent.get(player.getDisplayName()) : 0) * WarpTheory.permWarpMult +
                     (warpNormal.get(player.getDisplayName()) != null ? warpNormal.get(player.getDisplayName()) : 0) +
                     (warpTemp.get(player.getDisplayName()) != null ? warpTemp.get(player.getDisplayName()) : 0) +
                     getWarpFromGear(player);
@@ -261,7 +264,7 @@ public class WarpHandler
         if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IWarpingGear)
             w += ((IWarpingGear)player.getCurrentEquippedItem().getItem()).getWarp(player.getCurrentEquippedItem(), player);
         IInventory baubles = BaublesApi.getBaubles(player);
-        for (int i = 0; i < 4l; i++)
+        for (int i = 0; i < 4; i++)
         {
             if (player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() instanceof IWarpingGear)
                 w += ((IWarpingGear)player.inventory.getStackInSlot(i).getItem()).getWarp(player.inventory.getStackInSlot(i), player);

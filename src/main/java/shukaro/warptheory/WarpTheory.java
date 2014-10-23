@@ -40,6 +40,8 @@ public class WarpTheory
     public static final String modVersion = "1.7.10R1.0";
 
     public static boolean wussMode = false;
+    public static int permWarpMult = 2;
+    public static boolean allowPermWarpRemoval = true;
 
     public static Logger logger;
 
@@ -83,6 +85,8 @@ public class WarpTheory
         Configuration c = new Configuration(evt.getSuggestedConfigurationFile());
         c.load();
         wussMode = c.getBoolean("wussMode", "general", false, "enables less expensive recipes");
+        permWarpMult = c.getInt("permWarpMult", "general", 2, 0, Integer.MAX_VALUE, "how much more 'expensive' permanent warp is compared to normal warp");
+        allowPermWarpRemoval = c.getBoolean("allowPermWarpRemoval", "general", true, "whether items can remove permanent warp or not");
         c.save();
     }
 
