@@ -42,7 +42,8 @@ public class WarpTheory
     public static boolean wussMode = false;
     public static int permWarpMult = 2;
     public static boolean allowPermWarpRemoval = true;
-
+    public static boolean allowGlobalWarpEffects = false;
+    
     public static Logger logger;
 
     public static CreativeTabs mainTab = new WarpTab(StatCollector.translateToLocal("warptheory.tab"));
@@ -87,6 +88,7 @@ public class WarpTheory
         wussMode = c.getBoolean("wussMode", "general", false, "enables less expensive recipes");
         permWarpMult = c.getInt("permWarpMult", "general", 2, 0, Integer.MAX_VALUE, "how much more 'expensive' permanent warp is compared to normal warp");
         allowPermWarpRemoval = c.getBoolean("allowPermWarpRemoval", "general", true, "whether items can remove permanent warp or not");
+        allowGlobalWarpEffects = c.getBoolean("allowGlobalWarpEffects", "general", true, "whether warp effects that envolve the environment are triggered");
         c.save();
     }
 
