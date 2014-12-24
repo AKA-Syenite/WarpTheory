@@ -9,6 +9,7 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.IWarpEvent;
 import shukaro.warptheory.util.ChatHelper;
 import shukaro.warptheory.util.FormatCodes;
@@ -46,6 +47,8 @@ public class WarpWither extends IWarpEvent
     @SubscribeEvent
     public void onTick(TickEvent.WorldTickEvent e)
     {
+    	if(WarpTheory.allowGlobalWarpEffects == false)
+    		return;
         if (e.phase != TickEvent.Phase.END || e.side != Side.SERVER)
             return;
         for (EntityPlayer player : (ArrayList<EntityPlayer>)e.world.playerEntities)
